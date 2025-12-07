@@ -289,5 +289,31 @@
     "actions": {
       "delete": "Xóa"
     }
+  },
+  "contract": {
+    "validation": {
+      "minTenant": "Phải chọn ít nhất 1 người thuê",
+      "required": "Trường này là bắt buộc"
+    },
+    "form": {
+      "houseInfo": "Thông tin nhà",
+      "houseAddress": "Địa chỉ nhà",
+      "houseAddressPlaceholder": "Nhập địa chỉ nhà",
+      "houseOwner": "Chủ nhà",
+      "houseOwnerPlaceholder": "Nhập tên chủ nhà",
+      "houseOwnerPhoneNumber": "Số điện thoại chủ nhà",
+      "houseOwnerPhoneNumberPlaceholder": "Nhập số điện thoại chủ nhà",
+      "houseOwnerBackupPhoneNumber": "Số điện thoại dự phòng",
+      "houseOwnerBackupPhoneNumberPlaceholder": "Nhập số điện thoại dự phòng",
+      "overRentalFee": "Phí thuê quá hạn",
+      "overRentalFeePlaceholder": "Nhập phí thuê quá hạn",
+      "bankInfo": "Thông tin ngân hàng",
+      "bankAccountName": "Tên tài khoản ngân hàng",
+      "bankAccountNamePlaceholder": "Nhập tên tài khoản ngân hàng",
+      "bankAccountNumber": "Số tài khoản ngân hàng",
+      "bankAccountNumberPlaceholder": "Nhập số tài khoản ngân hàng",
+      "bankName": "Tên ngân hàng",
+      "bankNamePlaceholder": "Nhập tên ngân hàng"
+    }
   }
 }

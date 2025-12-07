@@ -289,5 +289,31 @@
     "actions": {
       "delete": "Delete"
     }
+  },
+  "contract": {
+    "validation": {
+      "minTenant": "Must select at least 1 tenant",
+      "required": "This field is required"
+    },
+    "form": {
+      "houseInfo": "House Info",
+      "houseAddress": "House Address",
+      "houseAddressPlaceholder": "Enter house address",
+      "houseOwner": "House Owner",
+      "houseOwnerPlaceholder": "Enter house owner name",
+      "houseOwnerPhoneNumber": "Owner Phone Number",
+      "houseOwnerPhoneNumberPlaceholder": "Enter owner phone number",
+      "houseOwnerBackupPhoneNumber": "Backup Phone Number",
+      "houseOwnerBackupPhoneNumberPlaceholder": "Enter backup phone number",
+      "overRentalFee": "Over Rental Fee",
+      "overRentalFeePlaceholder": "Enter over rental fee",
+      "bankInfo": "Bank Info",
+      "bankAccountName": "Bank Account Name",
+      "bankAccountNamePlaceholder": "Enter bank account name",
+      "bankAccountNumber": "Bank Account Number",
+      "bankAccountNumberPlaceholder": "Enter bank account number",
+      "bankName": "Bank Name",
+      "bankNamePlaceholder": "Enter bank name"
+    }
   }
 }

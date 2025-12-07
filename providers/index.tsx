@@ -38,7 +38,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                   <div className="absolute top-2/4 -translate-y-2/4 left-4">
                     {icon ? icon : t.type === "error" ? <X /> : <Check />}
                   </div>
-                  <p className="truncate">{message}</p>
+                  <div className="truncate">{message}</div>
                 </div>
               );
             }}

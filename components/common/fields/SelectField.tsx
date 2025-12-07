@@ -22,7 +22,7 @@ import {
 
 interface SelectFieldProps<
   TFieldValue extends FieldValues,
-  TName extends Path<TFieldValue>,
+  TName extends Path<TFieldValue>
 > extends ComponentPropsWithoutRef<"select"> {
   label?: React.ReactNode;
   field: ControllerRenderProps<TFieldValue, TName>;
@@ -39,7 +39,7 @@ interface SelectFieldProps<
 
 const SelectField = <
   TFieldValue extends FieldValues,
-  TName extends Path<TFieldValue>,
+  TName extends Path<TFieldValue>
 >({
   label,
   field,
@@ -79,7 +79,7 @@ const SelectField = <
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
         </FormControl>
-        <SelectContent className="relative z-[10000] max-h-[300px] border-neutral-90 overflow-y-auto">
+        <SelectContent className="relative z-10000 max-h-[300px] border-neutral-90 overflow-y-auto">
           {options?.length === 0 && <p>No data found</p>}
           {options?.map((opt) => {
             return (

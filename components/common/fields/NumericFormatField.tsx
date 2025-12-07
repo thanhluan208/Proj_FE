@@ -8,7 +8,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn, numberToVietnameseText, trimTrailingZeros } from "@/lib/utils";
-import React, { Fragment, ReactNode, useCallback, useMemo } from "react";
+import BigNumber from "bignumber.js";
+import { capitalize, isNil } from "lodash";
+import { Fragment, ReactNode, useCallback, useMemo } from "react";
 import {
   Control,
   FieldValues,
@@ -19,16 +21,13 @@ import {
 import {
   NumberFormatBase,
   NumberFormatValues,
-  NumericFormat,
   NumericFormatProps,
   useNumericFormat,
 } from "react-number-format";
-import BigNumber from "bignumber.js";
-import { capitalize, isNil } from "lodash";
 
 interface NumericFormatFieldProps<
   FormValues extends FieldValues,
-  TName extends Path<FormValues>,
+  TName extends Path<FormValues>
 > extends Omit<NumericFormatProps, "name" | "value" | "onChange"> {
   control: Control<FormValues, any>;
   name: TName;
@@ -45,11 +44,12 @@ interface NumericFormatFieldProps<
   max?: string;
 
   enabledNumberToText?: boolean;
+  thousandSeparator?: string;
 }
 
 const NumericFormatField = <
   FormValues extends FieldValues,
-  TName extends Path<FormValues>,
+  TName extends Path<FormValues>
 >({
   control,
   name,
@@ -63,6 +63,7 @@ const NumericFormatField = <
   suffix,
   max = "1000000000000",
   enabledNumberToText = true,
+  thousandSeparator,
   ...otherNumericFormatProps
 }: NumericFormatFieldProps<FormValues, TName>) => {
   const form = useFormContext<FormValues>();
@@ -70,7 +71,6 @@ const NumericFormatField = <
   const value = form.watch(name);
 
   const numberToText = useMemo(() => {
-
     if (!enabledNumberToText) return null;
 
     if (!value) return null;
@@ -78,9 +78,7 @@ const NumericFormatField = <
     return capitalize(numberToVietnameseText(value));
   }, [enabledNumberToText, value]);
 
-
   const handleValueChange = (values: any, sourceInfo: any) => {
-
     if (onChangeCustomize) {
       onChangeCustomize(values, sourceInfo);
       return;
@@ -89,19 +87,13 @@ const NumericFormatField = <
     const { formattedValue, value, floatValue } = values;
     // Use the raw value for form state, you can adjust this based on your needs
 
-    let newValue = ''
+    let newValue = "";
 
     if (!isNil(floatValue)) {
       newValue = BigNumber.minimum(floatValue, max).toString();
     }
 
-    form.setValue(
-      name,
-      newValue as PathValue<
-        FormValues,
-        TName
-      >
-    );
+    form.setValue(name, newValue as PathValue<FormValues, TName>);
 
     if (afterOnChange) {
       afterOnChange(floatValue || value || "");
@@ -120,7 +112,7 @@ const NumericFormatField = <
         (suffix ? ` ${suffix}` : "")
       );
     },
-    [scale, suffix]
+    [scale, suffix, thousandSeparator]
   );
 
   const renderRightIcon = useCallback(() => {
@@ -151,8 +143,8 @@ const NumericFormatField = <
         return (
           <FormItem className="flex flex-col gap-1">
             {label && <FormLabel>{label}</FormLabel>}
-            <FormControl className="mb-0">
-              <Fragment>
+            <FormControl>
+              <div>
                 <div
                   className={cn(
                     "relative flex items-center gap-1.5 overflow-hidden",
@@ -185,7 +177,7 @@ const NumericFormatField = <
                 {enabledNumberToText && numberToText && (
                   <p className="text-xs text-neutral-400 ">{numberToText}</p>
                 )}
-              </Fragment>
+              </div>
             </FormControl>
             <FormMessage />
           </FormItem>

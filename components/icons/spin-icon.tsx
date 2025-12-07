@@ -1,14 +1,19 @@
-// Simple spinner icon component
+import { cn } from "@/lib/utils";
 
-export function SpinIcon() {
+export const SpinIcon = ({ className }: { className?: string }) => {
   return (
-    <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+    <svg
+      viewBox="0 0 36 36"
+      className={cn("animate-spin", "w-6 h-6", className)}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        d="M34 18C34 21.1645 33.0616 24.2579 31.3035 26.8891C29.5454 29.5203 27.0466 31.5711 24.1229 32.7821C21.1993 33.9931 17.9823 34.3099 14.8786 33.6926C11.7749 33.0752 8.92393 31.5513 6.68629 29.3137C4.44865 27.0761 2.9248 24.2251 2.30744 21.1214C1.69007 18.0177 2.00693 14.8007 3.21793 11.8771C4.42893 8.95345 6.47969 6.45459 9.11088 4.69649C11.7421 2.93838 14.8355 2 18 2"
+        stroke="#D0D5DD"
+        strokeWidth="4"
+        strokeLinecap="round"
       />
     </svg>
-  )
-}
+  );
+};

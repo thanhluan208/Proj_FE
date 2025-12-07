@@ -49,18 +49,25 @@ const InputField = <
   rightIcon,
   type,
   inputContainerClassName,
+  maxLength,
   ...otherInputProps
 }: InputFieldProps<FormValues, TName>) => {
   const [showPass, setShowPass] = useState(false);
   const form = useFormContext<FormValues>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (maxLength && e.target.value.length > maxLength) return;
+
     if (onChangeCustomize) {
       onChangeCustomize(e);
       return;
     }
 
-    form.setValue(name, e.target.value as PathValue<FormValues, TName>);
+    form.setValue(name, e.target.value as PathValue<FormValues, TName>, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
 
     if (afterOnChange) {
       afterOnChange(e.target.value);
