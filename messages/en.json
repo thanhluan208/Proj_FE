@@ -1,0 +1,293 @@
+{
+  "common": {
+    "error": "An error occurred, please try again later",
+    "success": "Success",
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "confirm": "Confirm",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search",
+    "noResults": "No results found",
+    "loadingMore": "Loading more...",
+    "retry": "Retry",
+    "viewDetails": "View Details",
+    "actions": "Actions"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to continue",
+      "subtitle": "Please sign in to your rental application",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "resetPassword": "Reset it here",
+      "signInButton": "Sign In",
+      "orContinueWith": "Or continue with",
+      "google": "Google",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "placeholders": {
+        "email": "Enter your email address",
+        "password": "Enter your password"
+      }
+    },
+    "verifyOtp": {
+      "title": "Verify your email",
+      "subtitle": "We've sent a verification code to your email address",
+      "enterCode": "Enter verification code",
+      "codeLength": "Please enter all 6 digits",
+      "verifyButton": "Verify Code",
+      "resendCode": "Didn't receive the code?",
+      "resendLink": "Resend code",
+      "backToLogin": "Back to login",
+      "noEmail": "No email provided for verification"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Join our property management platform",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "phoneNumber": "Phone Number",
+      "registerButton": "Create Account",
+      "orContinueWith": "Or continue with",
+      "google": "Google",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "placeholders": {
+        "firstName": "Enter your first name",
+        "lastName": "Enter your last name",
+        "email": "Enter your email address",
+        "password": "Create a strong password",
+        "confirmPassword": "Confirm your password",
+        "phoneNumber": "Enter your phone number (optional)"
+      }
+    },
+    "validation": {
+      "invalidEmail": "Invalid email address",
+      "emailRequired": "Email is required",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "passwordMaxLength": "Password must not exceed 128 characters",
+      "passwordPattern": "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+      "passwordRequired": "Password is required",
+      "confirmPasswordRequired": "Confirm password is required",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "firstNameRequired": "First name is required",
+      "firstNameLength": "First name must be between 1 and 50 characters",
+      "firstNamePattern": "First name can only contain letters, spaces, hyphens and apostrophes",
+      "lastNameRequired": "Last name is required",
+      "lastNameLength": "Last name must be between 1 and 50 characters",
+      "lastNamePattern": "Last name can only contain letters, spaces, hyphens and apostrophes",
+      "phoneNumberPattern": "Please provide a valid phone number",
+      "loginFailed": "Login failed",
+      "registrationFailed": "Registration failed",
+      "otpRequired": "Verification code is required",
+      "otpInvalid": "Please enter a valid 6-digit code",
+      "verificationFailed": "Verification failed"
+    }
+  },
+  "property": {
+    "validation": {
+      "nameRequired": "House name is required",
+      "nameMaxLength": "House name must not exceed 64 characters",
+      "descriptionMaxLength": "Description must not exceed 512 characters",
+      "addHouseFailed": "Failed to add house. Please try again."
+    },
+    "addHouse": {
+      "title": "Add New House",
+      "subtitle": "Create a new property listing",
+      "name": "House Name",
+      "namePlaceholder": "Enter house name (e.g., Sunset Villa, Downtown Apartment)",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe the house features, location, amenities, etc. (optional)",
+      "characters": "characters",
+      "cancel": "Cancel",
+      "addButton": "Add House"
+    },
+    "messages": {
+      "houseAddedSuccess": "House has been added successfully!",
+      "houseAddedError": "An error occurred while adding the house. Please try again."
+    }
+  },
+  "room": {
+    "validation": {
+      "nameRequired": "Room name is required",
+      "nameMaxLength": "Room name must not exceed 50 characters",
+      "descriptionMaxLength": "Description must not exceed 512 characters",
+      "sizeRequired": "Size is required",
+      "baseRentRequired": "Base rent is required",
+      "priceRequired": "Price is required",
+      "priceMinimum": "Price must be greater than or equal to 0",
+      "priceMaximum": "Price must not exceed 999,999,999 VND",
+      "electronicFeeRequired": "Electronic fee is required",
+      "electronicFeeMinimum": "Electronic fee must be greater than or equal to 0",
+      "electronicFeeMaximum": "Electronic fee must not exceed 999,999,999 VND",
+      "waterFeeRequired": "Water fee is required",
+      "waterFeeMinimum": "Water fee must be greater than or equal to 0",
+      "waterFeeMaximum": "Water fee must not exceed 999,999,999 VND",
+      "livingFeeRequired": "Living fee is required",
+      "livingFeeMinimum": "Living fee must be greater than or equal to 0",
+      "livingFeeMaximum": "Living fee must not exceed 999,999,999 VND",
+      "otherFeeInvalid": "Other fee must be a valid number",
+      "otherFeeMinimum": "Other fee must be greater than or equal to 0",
+      "otherFeeMaximum": "Other fee must not exceed 999,999,999 VND",
+      "addRoomFailed": "Failed to add room. Please try again."
+    },
+    "addRoom": {
+      "buttonText": "Add Room",
+      "title": "Add New Room",
+      "name": "Room Name",
+      "namePlaceholder": "Enter room name (e.g., 101, A1, Master Bedroom)",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe the room features, size, amenities, etc. (optional)",
+      "size": "Size (m²)",
+      "sizePlaceholder": "Enter room size",
+      "baseRent": "Base Rent (VND)",
+      "baseRentPlaceholder": "Enter base rent",
+      "pricePerElectricityUnit": "Electricity Price (per unit)",
+      "pricePerElectricityUnitPlaceholder": "Enter electricity price per unit",
+      "fixedElectricityFee": "Fixed Electricity Fee",
+      "fixedElectricityFeePlaceholder": "Enter fixed electricity fee",
+      "pricePerWaterUnit": "Water Price (per unit)",
+      "pricePerWaterUnitPlaceholder": "Enter water price per unit",
+      "fixedWaterFee": "Fixed Water Fee",
+      "fixedWaterFeePlaceholder": "Enter fixed water fee",
+      "livingFee": "Living Fee (VND)",
+      "livingFeePlaceholder": "Enter living fee",
+      "parkingFee": "Parking Fee",
+      "parkingFeePlaceholder": "Enter parking fee",
+      "cleaningFee": "Cleaning Fee",
+      "cleaningFeePlaceholder": "Enter cleaning fee",
+      "price": "Monthly Rent Price (VND)",
+      "pricePlaceholder": "Enter monthly rent price",
+      "electronicFee": "Electric Fee (VND)",
+      "electronicFeePlaceholder": "Enter electric fee",
+      "waterFee": "Water Fee (VND)",
+      "waterFeePlaceholder": "Enter water fee",
+      "otherFee": "Other Fee (VND)",
+      "otherFeePlaceholder": "Enter other fee (optional)",
+      "cancel": "Cancel",
+      "addButton": "Add Room"
+    },
+    "messages": {
+      "roomAddedSuccess": "Room has been added successfully!"
+    }
+  },
+  "tenant": {
+    "validation": {
+      "nameRequired": "Tenant name is required"
+    },
+    "form": {
+      "name": "Full Name",
+      "namePlaceholder": "Enter tenant's full name",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "Enter phone number",
+      "dob": "Date of Birth",
+      "sex": "Gender",
+      "sexPlaceholder": "Select gender",
+      "address": "Address",
+      "addressPlaceholder": "Enter full address",
+      "citizenId": "Citizen ID",
+      "citizenIdPlaceholder": "Enter citizen ID number",
+      "nationality": "Nationality",
+      "nationalityPlaceholder": "Enter nationality",
+      "home": "Hometown",
+      "homePlaceholder": "Enter hometown",
+      "issueDate": "ID Issue Date",
+      "issueLoc": "ID Issue Location",
+      "issueLocPlaceholder": "Enter ID issue location",
+      "tenantJob": "Occupation",
+      "tenantJobPlaceholder": "Enter occupation",
+      "tenantWorkAt": "Workplace",
+      "tenantWorkAtPlaceholder": "Enter workplace",
+      "cancel": "Cancel",
+      "submit": "Add Tenant",
+      "save": "Save"
+    },
+    "card": {
+      "notAvailable": "N/A",
+      "dateOfBirth": "Date of Birth",
+      "gender": "Gender",
+      "nationality": "Nationality",
+      "hometown": "Hometown",
+      "joined": "Joined",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "editLabel": "Edit tenant"
+    },
+    "editDialog": {
+      "title": "Edit {name} info",
+      "description": "Make changes to {name}'s profile here. Click submit when you're done."
+    },
+    "filter": {
+      "button": "Filter",
+      "title": "Filter Tenants",
+      "status": "Status",
+      "allStatuses": "All Statuses",
+      "active": "Active",
+      "inactive": "Inactive",
+      "dateRange": "Joined Date Range",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply Filters",
+      "clear": "Clear All"
+    },
+    "table": {
+      "name": "Name",
+      "contact": "Contact",
+      "citizenId": "Citizen ID",
+      "job": "Job",
+      "status": "Status",
+      "joinedDate": "Joined Date"
+    },
+    "management": {
+      "title": "Tenant Management",
+      "count": "{count} tenant",
+      "countPlural": "{count} tenants",
+      "filtered": " (filtered)",
+      "noTenantsFound": "No tenants found",
+      "clearFilters": "Clear filters",
+      "all": "All",
+      "active": "Active",
+      "inactive": "Inactive",
+      "cardView": "Card View",
+      "tableView": "Table View"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "messages": {
+      "createSuccess": "Tenant has been added successfully!",
+      "createError": "Failed to add tenant. Please try again.",
+      "updateSuccess": "Tenant information has been updated successfully!",
+      "updateError": "Failed to update tenant information. Please try again.",
+      "toggleStatusSuccess": "Tenant status has been changed successfully!",
+      "toggleStatusError": "Failed to change tenant status. Please try again.",
+      "deleteSuccess": "Tenant has been deleted successfully!",
+      "deleteError": "Failed to delete tenant. Please try again."
+    },
+    "deleteConfirmation": {
+      "title": "Delete Tenant",
+      "description": "Are you sure you want to delete this tenant? This action cannot be undone.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    },
+    "actions": {
+      "delete": "Delete"
+    }
+  }
+}

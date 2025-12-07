@@ -1,0 +1,293 @@
+{
+  "common": {
+    "error": "Đã xảy ra lỗi, vui lòng thử lại sau",
+    "success": "Thành công",
+    "loading": "Đang tải...",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "confirm": "Xác nhận",
+    "close": "Đóng",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "submit": "Gửi",
+    "search": "Tìm kiếm",
+    "noResults": "Không có kết quả",
+    "loadingMore": "Đang tải thêm...",
+    "retry": "Thử lại",
+    "viewDetails": "Xem chi tiết",
+    "actions": "Hành động"
+  },
+  "auth": {
+    "login": {
+      "title": "Đăng nhập để tiếp tục",
+      "subtitle": "Vui lòng đăng nhập vào ứng dụng cho thuê của bạn",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "forgotPassword": "Quên mật khẩu?",
+      "resetPassword": "Đặt lại tại đây",
+      "signInButton": "Đăng nhập",
+      "orContinueWith": "Hoặc tiếp tục với",
+      "google": "Google",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "noAccount": "Chưa có tài khoản?",
+      "signUp": "Đăng ký",
+      "placeholders": {
+        "email": "Nhập địa chỉ email của bạn",
+        "password": "Nhập mật khẩu của bạn"
+      }
+    },
+    "register": {
+      "title": "Tạo tài khoản của bạn",
+      "subtitle": "Tham gia nền tảng quản lý bất động sản của chúng tôi",
+      "firstName": "Tên",
+      "lastName": "Họ",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "phoneNumber": "Số điện thoại",
+      "registerButton": "Tạo tài khoản",
+      "orContinueWith": "Hoặc tiếp tục với",
+      "google": "Google",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "haveAccount": "Đã có tài khoản?",
+      "signIn": "Đăng nhập",
+      "placeholders": {
+        "firstName": "Nhập tên của bạn",
+        "lastName": "Nhập họ của bạn",
+        "email": "Nhập địa chỉ email của bạn",
+        "password": "Tạo mật khẩu mạnh",
+        "confirmPassword": "Xác nhận mật khẩu của bạn",
+        "phoneNumber": "Nhập số điện thoại của bạn (tùy chọn)"
+      }
+    },
+    "verifyOtp": {
+      "title": "Xác thực email của bạn",
+      "subtitle": "Chúng tôi đã gửi mã xác thực đến địa chỉ email của bạn",
+      "enterCode": "Nhập mã xác thực",
+      "codeLength": "Vui lòng nhập đủ 6 chữ số",
+      "verifyButton": "Xác thực",
+      "resendCode": "Chưa nhận được mã?",
+      "resendLink": "Gửi lại mã",
+      "backToLogin": "Quay lại đăng nhập",
+      "noEmail": "Không có email nào được cung cấp để xác thực"
+    },
+    "validation": {
+      "invalidEmail": "Địa chỉ email không hợp lệ",
+      "emailRequired": "Email là bắt buộc",
+      "passwordMinLength": "Mật khẩu phải có ít nhất 8 ký tự",
+      "passwordMaxLength": "Mật khẩu không được vượt quá 128 ký tự",
+      "passwordPattern": "Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt",
+      "passwordRequired": "Mật khẩu là bắt buộc",
+      "confirmPasswordRequired": "Xác nhận mật khẩu là bắt buộc",
+      "passwordsDoNotMatch": "Mật khẩu không khớp",
+      "firstNameRequired": "Tên là bắt buộc",
+      "firstNameLength": "Tên phải có từ 1 đến 50 ký tự",
+      "firstNamePattern": "Tên chỉ có thể chứa chữ cái, khoảng trắng, dấu gạch ngang và dấu nháy",
+      "lastNameRequired": "Họ là bắt buộc",
+      "lastNameLength": "Họ phải có từ 1 đến 50 ký tự",
+      "lastNamePattern": "Họ chỉ có thể chứa chữ cái, khoảng trắng, dấu gạch ngang và dấu nháy",
+      "phoneNumberPattern": "Vui lòng cung cấp số điện thoại hợp lệ",
+      "loginFailed": "Đăng nhập thất bại",
+      "registrationFailed": "Đăng ký thất bại",
+      "otpRequired": "Mã xác thực là bắt buộc",
+      "otpInvalid": "Vui lòng nhập mã 6 chữ số hợp lệ",
+      "verificationFailed": "Xác thực thất bại"
+    }
+  },
+  "property": {
+    "validation": {
+      "nameRequired": "Tên nhà là bắt buộc",
+      "nameMaxLength": "Tên nhà không được vượt quá 64 ký tự",
+      "descriptionMaxLength": "Mô tả không được vượt quá 512 ký tự",
+      "addHouseFailed": "Thêm nhà thất bại. Vui lòng thử lại."
+    },
+    "addHouse": {
+      "title": "Thêm Nhà Mới",
+      "subtitle": "Tạo danh sách bất động sản mới",
+      "name": "Tên Nhà",
+      "namePlaceholder": "Nhập tên nhà (ví dụ: Villa Hoàng Hôn, Căn Hộ Trung Tâm)",
+      "description": "Mô Tả",
+      "descriptionPlaceholder": "Mô tả các tính năng, vị trí, tiện nghi của ngôi nhà, v.v. (tùy chọn)",
+      "characters": "ký tự",
+      "cancel": "Hủy",
+      "addButton": "Thêm Nhà"
+    },
+    "messages": {
+      "houseAddedSuccess": "Nhà đã được thêm thành công!",
+      "houseAddedError": "Đã xảy ra lỗi khi thêm nhà. Vui lòng thử lại."
+    }
+  },
+  "room": {
+    "validation": {
+      "nameRequired": "Tên phòng là bắt buộc",
+      "nameMaxLength": "Tên phòng không được vượt quá 50 ký tự",
+      "descriptionMaxLength": "Mô tả không được vượt quá 512 ký tự",
+      "sizeRequired": "Diện tích là bắt buộc",
+      "baseRentRequired": "Giá thuê cơ bản là bắt buộc",
+      "priceRequired": "Giá thuê là bắt buộc",
+      "priceMinimum": "Giá thuê phải lớn hơn hoặc bằng 0",
+      "priceMaximum": "Giá thuê không được vượt quá 999.999.999 VND",
+      "electronicFeeRequired": "Phí điện là bắt buộc",
+      "electronicFeeMinimum": "Phí điện phải lớn hơn hoặc bằng 0",
+      "electronicFeeMaximum": "Phí điện không được vượt quá 999.999.999 VND",
+      "waterFeeRequired": "Phí nước là bắt buộc",
+      "waterFeeMinimum": "Phí nước phải lớn hơn hoặc bằng 0",
+      "waterFeeMaximum": "Phí nước không được vượt quá 999.999.999 VND",
+      "livingFeeRequired": "Phí sinh hoạt là bắt buộc",
+      "livingFeeMinimum": "Phí sinh hoạt phải lớn hơn hoặc bằng 0",
+      "livingFeeMaximum": "Phí sinh hoạt không được vượt quá 999.999.999 VND",
+      "otherFeeInvalid": "Phí khác phải là số hợp lệ",
+      "otherFeeMinimum": "Phí khác phải lớn hơn hoặc bằng 0",
+      "otherFeeMaximum": "Phí khác không được vượt quá 999.999.999 VND",
+      "addRoomFailed": "Thêm phòng thất bại. Vui lòng thử lại."
+    },
+    "addRoom": {
+      "buttonText": "Thêm Phòng",
+      "title": "Thêm Phòng Mới",
+      "name": "Tên Phòng",
+      "namePlaceholder": "Nhập tên phòng (ví dụ: 101, A1, Phòng Master)",
+      "description": "Mô Tả",
+      "descriptionPlaceholder": "Mô tả đặc điểm, kích thước, tiện nghi của phòng, v.v. (tùy chọn)",
+      "size": "Diện tích (m²)",
+      "sizePlaceholder": "Nhập diện tích phòng",
+      "baseRent": "Giá thuê cơ bản (VND)",
+      "baseRentPlaceholder": "Nhập giá thuê cơ bản",
+      "pricePerElectricityUnit": "Giá điện (theo số)",
+      "pricePerElectricityUnitPlaceholder": "Nhập giá điện mỗi số",
+      "fixedElectricityFee": "Phí điện cố định",
+      "fixedElectricityFeePlaceholder": "Nhập phí điện cố định",
+      "pricePerWaterUnit": "Giá nước (theo khối)",
+      "pricePerWaterUnitPlaceholder": "Nhập giá nước mỗi khối",
+      "fixedWaterFee": "Phí nước cố định",
+      "fixedWaterFeePlaceholder": "Nhập phí nước cố định",
+      "livingFee": "Phí Sinh Hoạt (VND)",
+      "livingFeePlaceholder": "Nhập phí sinh hoạt",
+      "parkingFee": "Phí gửi xe",
+      "parkingFeePlaceholder": "Nhập phí gửi xe",
+      "cleaningFee": "Phí vệ sinh",
+      "cleaningFeePlaceholder": "Nhập phí vệ sinh",
+      "price": "Giá Thuê Hàng Tháng (VND)",
+      "pricePlaceholder": "Nhập giá thuê hàng tháng",
+      "electronicFee": "Phí Điện (VND)",
+      "electronicFeePlaceholder": "Nhập phí điện",
+      "waterFee": "Phí Nước (VND)",
+      "waterFeePlaceholder": "Nhập phí nước",
+      "otherFee": "Phí Khác (VND)",
+      "otherFeePlaceholder": "Nhập phí khác (tùy chọn)",
+      "cancel": "Hủy",
+      "addButton": "Thêm Phòng"
+    },
+    "messages": {
+      "roomAddedSuccess": "Phòng đã được thêm thành công!"
+    }
+  },
+  "tenant": {
+    "validation": {
+      "nameRequired": "Tên người thuê là bắt buộc"
+    },
+    "form": {
+      "name": "Họ và Tên",
+      "namePlaceholder": "Nhập họ và tên người thuê",
+      "phoneNumber": "Số Điện Thoại",
+      "phoneNumberPlaceholder": "Nhập số điện thoại",
+      "dob": "Ngày Sinh",
+      "sex": "Giới Tính",
+      "sexPlaceholder": "Chọn giới tính",
+      "address": "Địa Chỉ",
+      "addressPlaceholder": "Nhập địa chỉ đầy đủ",
+      "citizenId": "CMND/CCCD",
+      "citizenIdPlaceholder": "Nhập số CMND/CCCD",
+      "nationality": "Quốc Tịch",
+      "nationalityPlaceholder": "Nhập quốc tịch",
+      "home": "Quê Quán",
+      "homePlaceholder": "Nhập quê quán",
+      "issueDate": "Ngày Cấp CMND/CCCD",
+      "issueLoc": "Nơi Cấp CMND/CCCD",
+      "issueLocPlaceholder": "Nhập nơi cấp CMND/CCCD",
+      "tenantJob": "Nghề Nghiệp",
+      "tenantJobPlaceholder": "Nhập nghề nghiệp",
+      "tenantWorkAt": "Nơi Làm Việc",
+      "tenantWorkAtPlaceholder": "Nhập nơi làm việc",
+      "cancel": "Hủy",
+      "submit": "Thêm Người Thuê",
+      "save": "Lưu"
+    },
+    "card": {
+      "notAvailable": "N/A",
+      "dateOfBirth": "Ngày sinh",
+      "gender": "Giới tính",
+      "nationality": "Quốc tịch",
+      "hometown": "Quê quán",
+      "joined": "Đã tham gia",
+      "activate": "Kích hoạt",
+      "deactivate": "Hủy kích hoạt",
+      "editLabel": "Chỉnh sửa người thuê"
+    },
+    "editDialog": {
+      "title": "Chỉnh sửa thông tin {name}",
+      "description": "Thay đổi thông tin hồ sơ của {name} tại đây. Nhấn gửi khi hoàn tất."
+    },
+    "filter": {
+      "button": "Bộ lọc",
+      "title": "Lọc người thuê",
+      "status": "Trạng thái",
+      "allStatuses": "Tất cả trạng thái",
+      "active": "Hoạt động",
+      "inactive": "Không hoạt động",
+      "dateRange": "Ngày tham gia",
+      "from": "Từ",
+      "to": "Đến",
+      "apply": "Áp dụng bộ lọc",
+      "clear": "Xóa tất cả"
+    },
+    "table": {
+      "name": "Tên",
+      "contact": "Liên hệ",
+      "citizenId": "CMND/CCCD",
+      "job": "Nghề nghiệp",
+      "status": "Trạng thái",
+      "joinedDate": "Ngày tham gia"
+    },
+    "management": {
+      "title": "Quản lý người thuê",
+      "count": "{count} người thuê",
+      "countPlural": "{count} người thuê",
+      "filtered": " (đã lọc)",
+      "noTenantsFound": "Không tìm thấy người thuê nào",
+      "clearFilters": "Xóa bộ lọc",
+      "all": "Tất cả",
+      "active": "Hoạt động",
+      "inactive": "Không hoạt động",
+      "cardView": "Xem dạng thẻ",
+      "tableView": "Xem dạng bảng"
+    },
+    "gender": {
+      "male": "Nam",
+      "female": "Nữ",
+      "other": "Khác"
+    },
+    "messages": {
+      "createSuccess": "Người thuê đã được thêm thành công!",
+      "createError": "Thêm người thuê thất bại. Vui lòng thử lại.",
+      "updateSuccess": "Thông tin người thuê đã được cập nhật thành công!",
+      "updateError": "Cập nhật thông tin người thuê thất bại. Vui lòng thử lại.",
+      "toggleStatusSuccess": "Trạng thái người thuê đã được thay đổi thành công!",
+      "toggleStatusError": "Thay đổi trạng thái người thuê thất bại. Vui lòng thử lại.",
+      "deleteSuccess": "Người thuê đã được xóa thành công!",
+      "deleteError": "Xóa người thuê thất bại. Vui lòng thử lại."
+    },
+    "deleteConfirmation": {
+      "title": "Xóa người thuê",
+      "description": "Bạn có chắc chắn muốn xóa người thuê này? Hành động này không thể hoàn tác.",
+      "confirm": "Xóa",
+      "cancel": "Hủy"
+    },
+    "actions": {
+      "delete": "Xóa"
+    }
+  }
+}

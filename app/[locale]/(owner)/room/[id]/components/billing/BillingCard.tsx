@@ -1,0 +1,250 @@
+"use client";
+
+import React, { useState } from "react";
+import { Billing, BillingStatusEnum } from "@/types/billing.type";
+import { format, isPast, addDays } from "date-fns";
+import {
+  User,
+  Zap,
+  Droplets,
+  Home,
+  Car,
+  Sparkles,
+  DollarSign,
+  Clock,
+  ChevronDown,
+  Check,
+  ListChecks,
+  AlertTriangle,
+} from "lucide-react";
+
+interface BillingCardProps {
+  billing: Billing;
+}
+
+const BillingCard: React.FC<BillingCardProps> = ({ billing }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value);
+  };
+
+  const getStatusConfig = (status: BillingStatusEnum, billing: Billing) => {
+    // Check if payment is overdue (more than 5 days past month)
+    const dueDate = addDays(new Date(billing.month), 5);
+    const isOverdue = isPast(dueDate) && status !== BillingStatusEnum.PAID;
+
+    if (isOverdue) {
+      return {
+        icon: AlertTriangle,
+        label: "Overdue",
+        bgColor: "bg-red-50 dark:bg-red-900/20",
+        iconColor: "text-red-600 dark:text-red-400",
+        borderColor: "border-red-200 dark:border-red-800",
+      };
+    }
+
+    switch (status) {
+      case BillingStatusEnum.PAID:
+        return {
+          icon: Check,
+          label: "Paid",
+          bgColor: "bg-green-50 dark:bg-green-900/20",
+          iconColor: "text-green-600 dark:text-green-400",
+          borderColor: "border-green-200 dark:border-green-800",
+        };
+      case BillingStatusEnum.PENDING_TENANT_PAYMENT:
+        return {
+          icon: Clock,
+          label: "Pending Payment",
+          bgColor: "bg-yellow-50 dark:bg-yellow-900/20",
+          iconColor: "text-yellow-600 dark:text-yellow-400",
+          borderColor: "border-yellow-200 dark:border-yellow-800",
+        };
+      case BillingStatusEnum.PENDING_OWNER_REVIEW:
+        return {
+          icon: ListChecks,
+          label: "Pending Review",
+          bgColor: "bg-blue-50 dark:bg-blue-900/20",
+          iconColor: "text-blue-600 dark:text-blue-400",
+          borderColor: "border-blue-200 dark:border-blue-800",
+        };
+      default:
+        return {
+          icon: Clock,
+          label: "Unknown",
+          bgColor: "bg-gray-50 dark:bg-gray-900/20",
+          iconColor: "text-gray-600 dark:text-gray-400",
+          borderColor: "border-gray-200 dark:border-gray-800",
+        };
+    }
+  };
+
+  const statusConfig = getStatusConfig(billing.status, billing);
+  const StatusIcon = statusConfig.icon;
+
+  return (
+    <div
+      className={`bg-card rounded-xl p-4 border-2 ${statusConfig.borderColor} hover:shadow-md transition-all duration-300`}
+    >
+      {/* Collapsed View - Always Visible */}
+      <div className="space-y-3">
+        {/* Header with Icon and Date */}
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-3">
+            <div className={`p-2 ${statusConfig.bgColor} rounded-lg`}>
+              <StatusIcon className={`w-5 h-5 ${statusConfig.iconColor}`} />
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground">
+                {format(new Date(billing.month), "MMMM yyyy")}
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                {statusConfig.label}
+              </p>
+            </div>
+          </div>
+
+          {/* Expand/Collapse Button */}
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="p-2 hover:bg-accent rounded-lg transition-colors"
+            aria-label={isExpanded ? "Collapse" : "Expand"}
+          >
+            <ChevronDown
+              className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${
+                isExpanded ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+        </div>
+
+        {/* Tenant Info */}
+        <div className="flex items-center gap-2 p-2 bg-accent/30 dark:bg-accent/20 rounded-lg">
+          <User className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-foreground truncate">
+              {billing.tenant.name}
+            </p>
+            {billing.tenant.email && (
+              <p className="text-xs text-muted-foreground truncate">
+                {billing.tenant.email}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Total Amount - Always Visible */}
+        <div className="flex items-center justify-between pt-2 border-t border-border">
+          <p className="text-sm font-medium text-muted-foreground">Total</p>
+          <p className="text-lg font-bold text-primary">
+            {formatCurrency(billing.total_amount)}
+          </p>
+        </div>
+      </div>
+
+      {/* Expanded View - Details */}
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${
+          isExpanded ? "grid-rows-[1fr] mt-4" : "grid-rows-[0fr]"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="space-y-3 pt-3 border-t border-border">
+            {/* Utility Usage */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between p-2 bg-background/50 dark:bg-background/30 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <Zap className="w-4 h-4 text-yellow-500" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">Electricity</p>
+                    <p className="text-sm font-medium text-foreground">
+                      {billing.electricity_start_index} →{" "}
+                      {billing.electricity_end_index} kWh
+                    </p>
+                  </div>
+                </div>
+                <p className="font-semibold text-foreground text-sm">
+                  {formatCurrency(billing.total_electricity_cost)}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between p-2 bg-background/50 dark:bg-background/30 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <Droplets className="w-4 h-4 text-blue-500" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">Water</p>
+                    <p className="text-sm font-medium text-foreground">
+                      {billing.water_start_index} → {billing.water_end_index} m³
+                    </p>
+                  </div>
+                </div>
+                <p className="font-semibold text-foreground text-sm">
+                  {formatCurrency(billing.total_water_cost)}
+                </p>
+              </div>
+            </div>
+
+            {/* Other Costs */}
+            <div className="grid grid-cols-2 gap-2">
+              <div className="p-2 bg-background/50 dark:bg-background/30 rounded-lg">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <Home className="w-3.5 h-3.5 text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground">Living</p>
+                </div>
+                <p className="text-sm font-medium text-foreground">
+                  {formatCurrency(billing.total_living_cost)}
+                </p>
+              </div>
+
+              <div className="p-2 bg-background/50 dark:bg-background/30 rounded-lg">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <Car className="w-3.5 h-3.5 text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground">Parking</p>
+                </div>
+                <p className="text-sm font-medium text-foreground">
+                  {formatCurrency(billing.total_parking_cost)}
+                </p>
+              </div>
+
+              <div className="p-2 bg-background/50 dark:bg-background/30 rounded-lg">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <Sparkles className="w-3.5 h-3.5 text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground">Cleaning</p>
+                </div>
+                <p className="text-sm font-medium text-foreground">
+                  {formatCurrency(billing.total_cleaning_cost)}
+                </p>
+              </div>
+
+              <div className="p-2 bg-background/50 dark:bg-background/30 rounded-lg">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <DollarSign className="w-3.5 h-3.5 text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground">Base Rent</p>
+                </div>
+                <p className="text-sm font-medium text-foreground">
+                  {formatCurrency(billing.base_rent)}
+                </p>
+              </div>
+            </div>
+
+            {/* Payment Date */}
+            {billing.payment_date && (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2">
+                <Clock className="w-3.5 h-3.5" />
+                <span>
+                  Paid on {format(new Date(billing.payment_date), "dd/MM/yyyy")}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BillingCard;
