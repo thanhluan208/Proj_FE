@@ -28,6 +28,7 @@ interface ComboBoxTenantProps {
   defaultValue?: SelectedTenant | SelectedTenant[];
   value?: string | string[];
   isMultiple?: boolean;
+  disabled?: boolean;
 
   roomId: string;
 
@@ -43,6 +44,7 @@ const ComboBoxTenant: FC<ComboBoxTenantProps> = ({
   value,
   isMultiple,
   roomId,
+  disabled,
 
   handleSelect,
   handleRemove,
@@ -89,7 +91,8 @@ const ComboBoxTenant: FC<ComboBoxTenantProps> = ({
   const handleChangeSearch = (value: string) => setSearch(value);
 
   const renderButtonContent = useCallback(() => {
-    if (!selected || isEmpty(selected)) return placeholder;
+    if (!selected || isEmpty(selected))
+      return <span className="text-muted-foreground ">{placeholder}</span>;
     if (isMultiple && isArray(selected)) {
       return (
         <div className="flex gap-1 flex-wrap">
@@ -129,7 +132,7 @@ const ComboBoxTenant: FC<ComboBoxTenantProps> = ({
       );
     }
 
-    return placeholder;
+    return <span className="text-muted-foreground ">{placeholder}</span>;
   }, [selected, isMultiple, placeholder, handleRemove]);
 
   const renderComboBoxValue = useCallback(
@@ -164,10 +167,10 @@ const ComboBoxTenant: FC<ComboBoxTenantProps> = ({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger ref={triggerRef}>
+      <PopoverTrigger ref={triggerRef} disabled={disabled}>
         <div
           className={cn(
-            "w-full flex border border-border rounded-lg px-4 py-2 justify-between bg-transparent",
+            "w-full flex border border-border text-sm items-center hover:border-primary focus-within:border-primary rounded-lg px-4 py-2 justify-between bg-transparent",
             isError && "border-destructive text-destructive"
           )}
         >

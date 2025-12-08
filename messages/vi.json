@@ -313,7 +313,10 @@
       "bankAccountNumber": "Số tài khoản ngân hàng",
       "bankAccountNumberPlaceholder": "Nhập số tài khoản ngân hàng",
       "bankName": "Tên ngân hàng",
-      "bankNamePlaceholder": "Nhập tên ngân hàng"
+      "bankNamePlaceholder": "Nhập tên ngân hàng",
+      "tenants": "Người thuê nhà",
+      "tenantsPlaceholder": "Chọn người thuê nhà"
+
     }
   }
 }

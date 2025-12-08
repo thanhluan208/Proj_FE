@@ -20,7 +20,7 @@ const RoomDetailPage = async ({
 
   return (
     <div className="flex-1 mx-auto pb-8 px-4 space-y-8">
-      <div className="max-w-[calc(100vw-364px)] mx-auto space-y-6">
+      <div className="max-w-[calc(100vw-336px)] mx-auto space-y-6">
         <RoomInfoSection />
 
         <TenantManagementSection tenants={tenants} roomId={id} />

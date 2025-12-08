@@ -19,6 +19,11 @@ import {
 import Image from "next/image";
 import React from "react";
 import SidebarHouseList from "./components/houses";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const OwnerLayout = async ({
   children,
@@ -57,10 +62,25 @@ const OwnerLayout = async ({
   ];
 
   return (
-    <div className="bg-neutral-90 p-3 pt-5 flex min-h-screen w-screen">
-      <div className="max-h-[cacl(100vh-32px)] w-[308px] no-scrollbar overflow-y-auto">
-        <div className="flex flex-col gap-5 ">
-          <div className="rounded-xl p-3 items-center flex gap-2 justify-between bg-neutral-100">
+    <div
+      className={cn(
+        "pt-2 p-3",
+        "bg-neutral-90  lg:pt-5 flex min-h-screen w-screen"
+      )}
+    >
+      <div
+        className={cn(
+          "w-[56px]",
+          "max-h-[cacl(100vh-32px)] lg:w-[280px] no-scrollbar overflow-y-auto"
+        )}
+      >
+        <div
+          className={cn(
+            "bg-neutral-100 rounded-xl",
+            "lg:bg-transparent flex flex-col lg:gap-5 "
+          )}
+        >
+          <div className="rounded-xl p-3 items-center flex-col lg:flex-row flex gap-2 justify-between bg-neutral-100">
             <div className="items-center flex gap-2">
               <Image
                 src="/images/mascot/avatar.png"
@@ -69,8 +89,10 @@ const OwnerLayout = async ({
                 width={32}
                 height={32}
               />
-              <div>
-                <p className="text-sm font-semibold">{`${userProfile?.firstName || ""} ${userProfile?.lastName || ""}`}</p>
+              <div className="hidden lg:block">
+                <p className="text-sm font-semibold">{`${
+                  userProfile?.firstName || ""
+                } ${userProfile?.lastName || ""}`}</p>
                 <p className="text-xs text-neutral-400 max-w-[180px] truncate">
                   {userProfile?.email || ""}
                 </p>
@@ -86,16 +108,24 @@ const OwnerLayout = async ({
                   href={route.href}
                   key={route.href}
                   className={cn(
-                    "flex items-center relative justify-between group gap-2.5 w-full text-sm py-3.5 px-3 pl-6 hover:bg-neutral-90/60 hover:text-primary-60",
+                    "p-3 justify-center",
+                    "flex items-center relative lg:justify-between group gap-2.5 w-full text-sm lg:py-3.5 lg:px-3 lg:pl-6 hover:bg-neutral-90/60 hover:text-primary-60",
                     index !== 0 && "border-t border-neutral-90/20"
                   )}
                 >
                   <div className="flex items-center gap-2.5">
-                    {<route.icon className="w-4 h-4" />}
-                    <p>{route.label}</p>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <route.icon className="w-4 h-4 lg:w-4 lg:h-4" />
+                      </TooltipTrigger>
+                      <TooltipContent side="right" className="lg:hidden">
+                        <p>{route.label}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <p className="hidden lg:inline">{route.label}</p>
                   </div>
 
-                  <p className="text-neutral-400 group-hover:text-primary-60 text-xs">
+                  <p className="hidden lg:inline text-neutral-400 group-hover:text-primary-60 text-xs">
                     {Math.floor(Math.random() * 100)}
                   </p>
                 </Link>

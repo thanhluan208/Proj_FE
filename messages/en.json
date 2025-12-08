@@ -293,7 +293,11 @@
   "contract": {
     "validation": {
       "minTenant": "Must select at least 1 tenant",
-      "required": "This field is required"
+      "required": "This field is required",
+      "startAfterCreated": "Start date must be after created date",
+      "endAfterCreated": "End date must be after created date",
+      "endAfterStart": "End date must be after start date",
+      "startBeforeEnd": "Start date must be before end date"
     },
     "form": {
       "houseInfo": "House Info",
@@ -313,7 +317,15 @@
       "bankAccountNumber": "Bank Account Number",
       "bankAccountNumberPlaceholder": "Enter bank account number",
       "bankName": "Bank Name",
-      "bankNamePlaceholder": "Enter bank name"
+      "bankNamePlaceholder": "Enter bank name",
+      "tenants": "Tenants",
+      "tenantsPlaceholder": "Select tenants",
+      "createdDate": "Effective Date",
+      "createdDatePlaceholder": "Select effective date",
+      "startDate": "Start Date",
+      "startDatePlaceholder": "Select Start date",
+      "endDate": "End Date",
+      "endDatePlaceholder": "Select end date"
     }
   }
 }

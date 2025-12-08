@@ -48,7 +48,6 @@ const ComboBoxTenantField = <
 >({
   label,
   control,
-  description,
   placeholder,
   afterOnChange,
   onChangeCustomize,
@@ -125,8 +124,10 @@ const ComboBoxTenantField = <
                 roomId={roomId}
                 handleRemove={handleRemove}
                 handleSelect={handleSelect}
+                placeholder={placeholder}
                 value={value}
-                isMultiple
+                isMultiple={isMultiple}
+                disabled={disabled}
                 isError={isError}
               />
             </FormControl>

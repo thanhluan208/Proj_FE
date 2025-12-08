@@ -100,7 +100,7 @@ const InputField = <
               <div
                 className={cn(
                   "relative flex items-center gap-1.5 overflow-hidden",
-                  "border border-neutral-90 transition-colors duration-200",
+                  "border border-border transition-colors duration-200",
                   "hover:border-primary focus-within:border-primary",
                   "disabled:cursor-not-allowed disabled:opacity-50",
                   "rounded-[10px]",

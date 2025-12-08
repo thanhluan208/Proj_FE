@@ -12,7 +12,7 @@ const RoomList = () => {
   const { data } = useGetListRoom({ house: String(id) || "" });
   const rooms = data?.data || [];
 
-  const columns = useMasonry(data?.data || [], { 0: 1, 1024: 2, 1440: 3 });
+  const columns = useMasonry(data?.data || [], { 0: 1, 740: 2, 1440: 3 });
 
   return (
     <div className="bg-card text-card-foreground rounded-2xl shadow-md p-4">
