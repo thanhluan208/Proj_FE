@@ -2,6 +2,12 @@ import ComboBoxTenantField from "@/components/common/fields/ComboBoxTenantField"
 import DatePickerField from "@/components/common/fields/DatePickerField";
 import InputField from "@/components/common/fields/InputField";
 import NumericFormatField from "@/components/common/fields/NumericFormatField";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import ButtonCancel from "@/components/ui/button-cancel";
 import ButtonSubmit from "@/components/ui/button-submit";
 import { Form } from "@/components/ui/form";
@@ -23,6 +29,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
   setIsDialogOpen,
 }) => {
   const t = useTranslations("contract");
+  const roomTrans = useTranslations("room");
   const { createContract } = useContractMutation();
 
   const isPending = createContract.isPending;
@@ -31,18 +38,32 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
 
   const contractSchema = z
     .object({
+      // General
       createdDate: z.date(),
       startDate: z.date(),
       endDate: z.date(),
       tenants: z.array(z.string()).min(1, t("validation.minTenant")),
+      // House Info
       houseAddress: z.string().optional(),
       houseOwner: z.string().optional(),
       houseOwnerPhoneNumber: z.string().optional(),
       houseOwnerBackupPhoneNumber: z.string().optional(),
       overRentalFee: z.string().optional(),
+      // Bank Info
       bankAccountName: z.string().optional(),
       bankAccountNumber: z.string().optional(),
       bankName: z.string().optional(),
+      // Fee Info
+      base_rent: z.string().refine((value) => value !== "", {
+        message: t("validation.baseRentRequired"),
+      }),
+      price_per_electricity_unit: z.string().optional(),
+      price_per_water_unit: z.string().optional(),
+      fixed_water_fee: z.string().optional(),
+      fixed_electricity_fee: z.string().optional(),
+      living_fee: z.string().optional(),
+      parking_fee: z.string().optional(),
+      cleaning_fee: z.string().optional(),
     })
     .superRefine((data, ctx) => {
       const { createdDate, startDate, endDate } = data;
@@ -99,6 +120,14 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
       bankAccountName: "",
       bankAccountNumber: "",
       bankName: "",
+      base_rent: "",
+      cleaning_fee: "",
+      fixed_electricity_fee: "",
+      fixed_water_fee: "",
+      living_fee: "",
+      parking_fee: "",
+      price_per_electricity_unit: "",
+      price_per_water_unit: "",
     },
   });
 
@@ -128,121 +157,232 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-8 mt-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormEffect />
 
-        <div className="grid grid-cols-2 gap-3 px-2">
-          <ComboBoxTenantField
-            control={form.control}
-            name="tenants"
-            roomId={roomId}
-            placeholder={t("form.tenantsPlaceholder")}
-            label={t("form.tenants")}
-            isMultiple
-          />
+        <Accordion
+          type="multiple"
+          className="w-full"
+          defaultValue={["general", "houseInfo", "bankInfo", "feeInfo"]}
+        >
+          <AccordionItem value="general">
+            <AccordionTrigger className="text-lg hover:no-underline cursor-pointer mt-0 pt-0">
+              General
+            </AccordionTrigger>
+            <AccordionContent className="px-4 pt-2">
+              <div className="grid lg:grid-cols-2 gap-3 px-2">
+                <ComboBoxTenantField
+                  control={form.control}
+                  name="tenants"
+                  roomId={roomId}
+                  placeholder={t("form.tenantsPlaceholder")}
+                  label={t("form.tenants")}
+                  isMultiple
+                />
 
-          <DatePickerField
-            startMonth={dayjs().subtract(1, "year").startOf("year").toDate()}
-            endMonth={dayjs().add(1, "year").endOf("year").toDate()}
-            control={form.control}
-            name="createdDate"
-            placeholder={t("form.createdDatePlaceholder")}
-            label={t("form.createdDate")}
-          />
+                <DatePickerField
+                  startMonth={dayjs()
+                    .subtract(1, "year")
+                    .startOf("year")
+                    .toDate()}
+                  endMonth={dayjs().add(1, "year").endOf("year").toDate()}
+                  control={form.control}
+                  name="createdDate"
+                  placeholder={t("form.createdDatePlaceholder")}
+                  label={t("form.createdDate")}
+                />
 
-          <DatePickerField
-            startMonth={dayjs().subtract(1, "year").startOf("year").toDate()}
-            endMonth={dayjs().add(1, "year").endOf("year").toDate()}
-            control={form.control}
-            name="startDate"
-            placeholder={t("form.startDatePlaceholder")}
-            label={t("form.startDate")}
-          />
+                <DatePickerField
+                  startMonth={dayjs()
+                    .subtract(1, "year")
+                    .startOf("year")
+                    .toDate()}
+                  endMonth={dayjs().add(1, "year").endOf("year").toDate()}
+                  control={form.control}
+                  name="startDate"
+                  placeholder={t("form.startDatePlaceholder")}
+                  label={t("form.startDate")}
+                />
 
-          <DatePickerField
-            startMonth={dayjs().subtract(1, "year").startOf("year").toDate()}
-            endMonth={dayjs().add(1, "year").endOf("year").toDate()}
-            control={form.control}
-            name="endDate"
-            placeholder={t("form.endDatePlaceholder")}
-            label={t("form.endDate")}
-          />
-        </div>
+                <DatePickerField
+                  startMonth={dayjs()
+                    .subtract(1, "year")
+                    .startOf("year")
+                    .toDate()}
+                  endMonth={dayjs().add(1, "year").endOf("year").toDate()}
+                  control={form.control}
+                  name="endDate"
+                  placeholder={t("form.endDatePlaceholder")}
+                  label={t("form.endDate")}
+                />
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="houseInfo">
+            <AccordionTrigger className="text-lg hover:no-underline cursor-pointer mt-0 ">
+              House Info
+            </AccordionTrigger>
 
-        <div className="grid grid-cols-2 gap-3 px-2">
-          <InputField
-            control={form.control}
-            name="houseAddress"
-            label={t("form.houseAddress")}
-            placeholder={t("form.houseAddressPlaceholder")}
-          />
-          <InputField
-            control={form.control}
-            name="houseOwner"
-            label={t("form.houseOwner")}
-            placeholder={t("form.houseOwnerPlaceholder")}
-          />
+            <AccordionContent className="px-4 pt-2">
+              <div className="grid lg:grid-cols-2 gap-3 px-2">
+                <InputField
+                  control={form.control}
+                  name="houseAddress"
+                  label={t("form.houseAddress")}
+                  placeholder={t("form.houseAddressPlaceholder")}
+                />
+                <InputField
+                  control={form.control}
+                  name="houseOwner"
+                  label={t("form.houseOwner")}
+                  placeholder={t("form.houseOwnerPlaceholder")}
+                />
 
-          <InputField
-            control={form.control}
-            name="houseOwnerPhoneNumber"
-            label={t("form.houseOwnerPhoneNumber")}
-            placeholder={t("form.houseOwnerPhoneNumberPlaceholder")}
-            type="number"
-            maxLength={10}
-          />
+                <InputField
+                  control={form.control}
+                  name="houseOwnerPhoneNumber"
+                  label={t("form.houseOwnerPhoneNumber")}
+                  placeholder={t("form.houseOwnerPhoneNumberPlaceholder")}
+                  type="number"
+                  maxLength={10}
+                />
 
-          <InputField
-            control={form.control}
-            name="houseOwnerBackupPhoneNumber"
-            label={t("form.houseOwnerBackupPhoneNumber")}
-            placeholder={t("form.houseOwnerBackupPhoneNumberPlaceholder")}
-            type="number"
-            maxLength={10}
-          />
+                <InputField
+                  control={form.control}
+                  name="houseOwnerBackupPhoneNumber"
+                  label={t("form.houseOwnerBackupPhoneNumber")}
+                  placeholder={t("form.houseOwnerBackupPhoneNumberPlaceholder")}
+                  type="number"
+                  maxLength={10}
+                />
 
-          <div className="col-span-2">
-            <NumericFormatField
-              control={form.control}
-              name="overRentalFee"
-              label={t("form.overRentalFee")}
-              placeholder={t("form.overRentalFeePlaceholder")}
-              rightIcon={<span className="text-muted-foreground">₫</span>}
-            />
-          </div>
-        </div>
+                <div className="col-span-2">
+                  <NumericFormatField
+                    control={form.control}
+                    name="overRentalFee"
+                    label={t("form.overRentalFee")}
+                    placeholder={t("form.overRentalFeePlaceholder")}
+                    rightIcon={<span className="text-muted-foreground">₫</span>}
+                  />
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="bankInfo">
+            <AccordionTrigger className="text-lg hover:no-underline cursor-pointer mt-0 ">
+              Bank Info
+            </AccordionTrigger>
 
-        <div className="grid grid-cols-2 gap-3 px-2">
-          <InputField
-            control={form.control}
-            name="bankAccountName"
-            label={t("form.bankAccountName")}
-            placeholder={t("form.bankAccountNamePlaceholder")}
-          />
+            <AccordionContent className="px-4 pt-2">
+              <div className="grid lg:grid-cols-2 gap-3 px-2">
+                <InputField
+                  control={form.control}
+                  name="bankAccountName"
+                  label={t("form.bankAccountName")}
+                  placeholder={t("form.bankAccountNamePlaceholder")}
+                />
 
-          <InputField
-            control={form.control}
-            name="bankAccountNumber"
-            label={t("form.bankAccountNumber")}
-            placeholder={t("form.bankAccountNumberPlaceholder")}
-            type="number"
-            maxLength={10}
-          />
+                <InputField
+                  control={form.control}
+                  name="bankAccountNumber"
+                  label={t("form.bankAccountNumber")}
+                  placeholder={t("form.bankAccountNumberPlaceholder")}
+                  type="number"
+                  maxLength={10}
+                />
 
-          <div className="col-span-2">
-            <InputField
-              control={form.control}
-              name="bankName"
-              label={t("form.bankName")}
-              placeholder={t("form.bankNamePlaceholder")}
-            />
-          </div>
-        </div>
+                <div className="col-span-2">
+                  <InputField
+                    control={form.control}
+                    name="bankName"
+                    label={t("form.bankName")}
+                    placeholder={t("form.bankNamePlaceholder")}
+                  />
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="feeInfo">
+            <AccordionTrigger className="text-lg hover:no-underline cursor-pointer mt-0 ">
+              Fee Info
+            </AccordionTrigger>
 
-        <div className="flex gap-3 mt-6 sticky bottom-0 bg-neutral-100 ">
+            <AccordionContent className="px-4 pt-2">
+              <div className="grid lg:grid-cols-2 gap-3 px-2">
+                <NumericFormatField
+                  control={form.control}
+                  name="base_rent"
+                  label={roomTrans("addRoom.baseRent")}
+                  placeholder={roomTrans("addRoom.baseRentPlaceholder")}
+                  rightIcon={<span className="text-muted-foreground">₫</span>}
+                />
+                <NumericFormatField
+                  rightIcon={<span className="text-muted-foreground">₫</span>}
+                  control={form.control}
+                  name="price_per_electricity_unit"
+                  label={roomTrans("addRoom.pricePerElectricityUnit")}
+                  placeholder={roomTrans(
+                    "addRoom.pricePerElectricityUnitPlaceholder"
+                  )}
+                />
+
+                <NumericFormatField
+                  rightIcon={<span className="text-muted-foreground">₫</span>}
+                  control={form.control}
+                  name="fixed_electricity_fee"
+                  label={roomTrans("addRoom.fixedElectricityFee")}
+                  placeholder={roomTrans(
+                    "addRoom.fixedElectricityFeePlaceholder"
+                  )}
+                />
+
+                <NumericFormatField
+                  rightIcon={<span className="text-muted-foreground">₫</span>}
+                  control={form.control}
+                  name="price_per_water_unit"
+                  label={roomTrans("addRoom.pricePerWaterUnit")}
+                  placeholder={roomTrans(
+                    "addRoom.pricePerWaterUnitPlaceholder"
+                  )}
+                />
+
+                <NumericFormatField
+                  rightIcon={<span className="text-muted-foreground">₫</span>}
+                  control={form.control}
+                  name="fixed_water_fee"
+                  label={roomTrans("addRoom.fixedWaterFee")}
+                  placeholder={roomTrans("addRoom.fixedWaterFeePlaceholder")}
+                />
+
+                <NumericFormatField
+                  rightIcon={<span className="text-muted-foreground">₫</span>}
+                  control={form.control}
+                  name="living_fee"
+                  label={roomTrans("addRoom.livingFee")}
+                  placeholder={roomTrans("addRoom.livingFeePlaceholder")}
+                />
+
+                <NumericFormatField
+                  rightIcon={<span className="text-muted-foreground">₫</span>}
+                  control={form.control}
+                  name="parking_fee"
+                  label={roomTrans("addRoom.parkingFee")}
+                  placeholder={roomTrans("addRoom.parkingFeePlaceholder")}
+                />
+
+                <NumericFormatField
+                  rightIcon={<span className="text-muted-foreground">₫</span>}
+                  control={form.control}
+                  name="cleaning_fee"
+                  label={roomTrans("addRoom.cleaningFee")}
+                  placeholder={roomTrans("addRoom.cleaningFeePlaceholder")}
+                />
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
+        <div className="flex gap-3 pb-6 mt-6 sticky bottom-0 bg-neutral-100 ">
           <ButtonCancel onClick={handleCancel} />
 
           <ButtonSubmit className="flex-1" isPending={isPending} />

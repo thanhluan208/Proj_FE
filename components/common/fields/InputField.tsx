@@ -32,6 +32,7 @@ interface InputFieldProps<
 
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  isLabelInside?: boolean;
 
   inputContainerClassName?: string;
 }
@@ -50,6 +51,7 @@ const InputField = <
   type,
   inputContainerClassName,
   maxLength,
+  isLabelInside,
   ...otherInputProps
 }: InputFieldProps<FormValues, TName>) => {
   const [showPass, setShowPass] = useState(false);
@@ -95,7 +97,7 @@ const InputField = <
         const { onChange, ...otherProps } = field;
         return (
           <FormItem id={id} className="flex flex-col gap-1">
-            {label && <FormLabel>{label}</FormLabel>}
+            {label && !isLabelInside && <FormLabel>{label}</FormLabel>}
             <FormControl>
               <div
                 className={cn(
@@ -104,11 +106,14 @@ const InputField = <
                   "hover:border-primary focus-within:border-primary",
                   "disabled:cursor-not-allowed disabled:opacity-50",
                   "rounded-[10px]",
-                  leftIcon && "pl-2",
+                  (leftIcon || isLabelInside) && "pl-2",
                   (rightIcon || type === "password") && "pr-2",
                   inputContainerClassName
                 )}
               >
+                {label && isLabelInside && (
+                  <FormLabel className="text-nowrap">{label}</FormLabel>
+                )}
                 {leftIcon}
                 <Input
                   onChange={handleChange}

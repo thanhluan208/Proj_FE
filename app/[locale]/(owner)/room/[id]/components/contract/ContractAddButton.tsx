@@ -28,7 +28,7 @@ const ContractAddButton = () => {
         Create Contract
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-[850px]! max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-[1150px]! max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add new contract</DialogTitle>
             <DialogDescription>
