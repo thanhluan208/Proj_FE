@@ -3,6 +3,7 @@ import RoomInfoSection from "./components/room-info/RoomInfoSection";
 import { mockTenants } from "./mockData";
 import BillingHistorySection from "./components/billing/BillingHistorySection";
 import TenantManagementSection from "./components/tenant/TenantManagementSection";
+import ContractManagementSection from "./components/contract/ContractManagementSection";
 
 interface RoomDetailPageProps {
   params: {
@@ -26,6 +27,8 @@ const RoomDetailPage = async ({
         <TenantManagementSection tenants={tenants} roomId={id} />
 
         <BillingHistorySection billings={[]} tenants={tenants} />
+
+        <ContractManagementSection roomId={id} />
       </div>
     </div>
   );

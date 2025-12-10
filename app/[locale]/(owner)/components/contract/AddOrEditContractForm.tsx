@@ -64,6 +64,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
       living_fee: z.string().optional(),
       parking_fee: z.string().optional(),
       cleaning_fee: z.string().optional(),
+      internet_fee: z.string().optional(),
     })
     .superRefine((data, ctx) => {
       const { createdDate, startDate, endDate } = data;
@@ -116,18 +117,19 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
       houseOwner: "",
       houseOwnerPhoneNumber: "",
       houseOwnerBackupPhoneNumber: "",
-      overRentalFee: "",
+      overRentalFee: "0",
       bankAccountName: "",
       bankAccountNumber: "",
       bankName: "",
-      base_rent: "",
-      cleaning_fee: "",
-      fixed_electricity_fee: "",
-      fixed_water_fee: "",
-      living_fee: "",
-      parking_fee: "",
-      price_per_electricity_unit: "",
-      price_per_water_unit: "",
+      base_rent: "0",
+      cleaning_fee: "0",
+      fixed_electricity_fee: "0",
+      fixed_water_fee: "0",
+      living_fee: "0",
+      parking_fee: "0",
+      price_per_electricity_unit: "0",
+      price_per_water_unit: "0",
+      internet_fee: "0",
     },
   });
 
@@ -143,12 +145,23 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
         houseOwner: value.houseOwner,
         houseOwnerPhoneNumber: value.houseOwnerPhoneNumber,
         houseOwnerBackupPhoneNumber: value.houseOwnerBackupPhoneNumber,
-        overRentalFee: value.overRentalFee,
       },
       bankInfo: {
         bankAccountName: value.bankAccountName,
         bankAccountNumber: value.bankAccountNumber,
         bankName: value.bankName,
+      },
+      feeInfo: {
+        base_rent: value.base_rent,
+        cleaning_fee: value.cleaning_fee,
+        fixed_electricity_fee: value.fixed_electricity_fee,
+        fixed_water_fee: value.fixed_water_fee,
+        living_fee: value.living_fee,
+        parking_fee: value.parking_fee,
+        price_per_electricity_unit: value.price_per_electricity_unit,
+        price_per_water_unit: value.price_per_water_unit,
+        overRentalFee: value.overRentalFee,
+        internet_fee: value.internet_fee,
       },
     };
 
@@ -170,7 +183,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
               General
             </AccordionTrigger>
             <AccordionContent className="px-4 pt-2">
-              <div className="grid lg:grid-cols-2 gap-3 px-2">
+              <div className="grid md:grid-cols-2 gap-3 px-2">
                 <ComboBoxTenantField
                   control={form.control}
                   name="tenants"
@@ -224,7 +237,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
             </AccordionTrigger>
 
             <AccordionContent className="px-4 pt-2">
-              <div className="grid lg:grid-cols-2 gap-3 px-2">
+              <div className="grid sm:grid-cols-2 gap-3 px-2">
                 <InputField
                   control={form.control}
                   name="houseAddress"
@@ -255,16 +268,6 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
                   type="number"
                   maxLength={10}
                 />
-
-                <div className="col-span-2">
-                  <NumericFormatField
-                    control={form.control}
-                    name="overRentalFee"
-                    label={t("form.overRentalFee")}
-                    placeholder={t("form.overRentalFeePlaceholder")}
-                    rightIcon={<span className="text-muted-foreground">₫</span>}
-                  />
-                </div>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -274,7 +277,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
             </AccordionTrigger>
 
             <AccordionContent className="px-4 pt-2">
-              <div className="grid lg:grid-cols-2 gap-3 px-2">
+              <div className="grid sm:grid-cols-2 gap-3 px-2">
                 <InputField
                   control={form.control}
                   name="bankAccountName"
@@ -308,7 +311,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
             </AccordionTrigger>
 
             <AccordionContent className="px-4 pt-2">
-              <div className="grid lg:grid-cols-2 gap-3 px-2">
+              <div className="grid sm:grid-cols-2 gap-3 px-2">
                 <NumericFormatField
                   control={form.control}
                   name="base_rent"
@@ -377,6 +380,16 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
                   label={roomTrans("addRoom.cleaningFee")}
                   placeholder={roomTrans("addRoom.cleaningFeePlaceholder")}
                 />
+
+                <div className="col-span-2">
+                  <NumericFormatField
+                    control={form.control}
+                    name="overRentalFee"
+                    label={t("form.overRentalFee")}
+                    placeholder={t("form.overRentalFeePlaceholder")}
+                    rightIcon={<span className="text-muted-foreground">₫</span>}
+                  />
+                </div>
               </div>
             </AccordionContent>
           </AccordionItem>

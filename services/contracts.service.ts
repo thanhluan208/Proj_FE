@@ -1,25 +1,19 @@
 import { api } from "@/lib/apiHelpers";
+import { queryStringify } from "@/lib/utils";
+import {
+  Contract,
+  CreateContractDto,
+  QueryContracts,
+} from "@/types/contract.type";
 
-type CreateContractDto = {
-  roomId: string;
-  createdDate: string;
-  startDate: string;
-  endDate: string;
-  tenants: string[];
-  houseInfo: {
-    houseAddress?: string;
-    houseOwner?: string;
-    houseOwnerPhoneNumber?: string;
-    houseOwnerBackupPhoneNumber?: string;
-    overRentalFee?: string;
-  };
-  bankInfo: {
-    bankAccountName?: string;
-    bankAccountNumber?: string;
-    bankName?: string;
-  };
+export const createContract = async (
+  data: CreateContractDto
+): Promise<Contract> => {
+  return api.post("/contracts/create", data).then((res) => res.data);
 };
 
-export const createContract = async (data: CreateContractDto): Promise<any> => {
-  return api.post("/contracts/create", data).then((res) => res.data);
+export const getContracts = async (
+  data: QueryContracts
+): Promise<Contract[]> => {
+  return api.get(`/contracts?${queryStringify(data)}`).then((res) => res.data);
 };

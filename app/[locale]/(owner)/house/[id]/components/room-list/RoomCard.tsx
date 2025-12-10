@@ -11,6 +11,7 @@ import {
   Wifi,
   Wrench,
   Calendar,
+  LucideBike,
 } from "lucide-react";
 import { format } from "date-fns";
 import { Link, useRouter } from "@/i18n/routing";
@@ -23,6 +24,10 @@ interface RoomCardProps {
 const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
   const router = useRouter();
 
+  const currentContract = room?.contracts?.[0] || {};
+
+  console.log("current", room);
+
   const formatCurrency = (value: number | string) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -31,45 +36,84 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
   };
 
   const getElectricityFee = () => {
-    if (Number(room.fixed_electricity_fee) > 0) {
-      return `${formatCurrency(room.fixed_electricity_fee || 0)}`;
+    if (Number(currentContract.fixed_electricity_fee) > 0) {
+      return `${formatCurrency(currentContract.fixed_electricity_fee || 0)}`;
     }
-    return `${formatCurrency(room.price_per_electricity_unit || 0)} / kWh`;
+    return `${formatCurrency(
+      currentContract.price_per_electricity_unit || 0
+    )} / kWh`;
   };
 
   const getWaterFee = () => {
-    if (Number(room.fixed_water_fee) > 0) {
-      return `${formatCurrency(room.fixed_water_fee || 0)}`;
+    if (Number(currentContract.fixed_water_fee) > 0) {
+      return `${formatCurrency(currentContract.fixed_water_fee || 0)}`;
     }
-    return `${formatCurrency(room.price_per_water_unit || 0)} / m³`;
+    return `${formatCurrency(currentContract.price_per_water_unit || 0)} / m³`;
   };
 
   const getStatusConfig = () => {
-    if (room.status?.id === 2) {
-      return {
-        label: "Unavailable",
-        className: "bg-red-100 text-red-700",
-      };
-    }
-    if (room.paymentDate) {
+    if (room?.contracts?.length > 0) {
       return {
         label: "Renting",
         className: "bg-green-100 text-green-700",
       };
     }
-    if (room.status?.id === 1) {
-      return {
-        label: "Available",
-        className: "bg-yellow-100 text-yellow-700",
-      };
-    }
+
     return {
-      label: "Unknown",
-      className: "bg-gray-100 text-gray-700",
+      label: "Available",
+      className: "bg-yellow-100 text-yellow-700",
     };
   };
 
   const statusConfig = getStatusConfig();
+
+  const renderMonthlyFee = () => {
+    const feeItems = [
+      {
+        icon: Zap,
+        label: "Electric",
+        value: getElectricityFee(),
+      },
+      {
+        icon: Droplets,
+        label: "Water",
+        value: getWaterFee(),
+      },
+      {
+        icon: Wrench,
+        label: "Service",
+        value: formatCurrency(currentContract.living_fee || 0),
+      },
+      {
+        icon: Wrench,
+        label: "Cleaning",
+        value: formatCurrency(currentContract.cleaning_fee || 0),
+      },
+      {
+        icon: Wifi,
+        label: "Internet",
+        value: formatCurrency(currentContract.internet_fee || 0),
+      },
+      {
+        icon: LucideBike,
+        label: "Parking",
+        value: formatCurrency(currentContract.parking_fee || 0), // <- I assume parking_fee?
+      },
+    ];
+
+    return feeItems.map(({ icon: Icon, label, value }) => (
+      <div
+        key={label}
+        className="flex items-center justify-between bg-background/50 p-2 rounded-lg"
+      >
+        <div className="flex items-center text-muted-foreground">
+          <Icon className="w-3 h-3 mr-1.5" />
+          <span>{label}</span>
+        </div>
+        <span className="font-medium">{value}</span>
+      </div>
+    ));
+  };
 
   return (
     <div className="rounded-xl p-5 cursor-pointer hover:shadow-lg transition-all shadow-sm duration-300 bg-accent/30 hover:bg-accent/50 group relative overflow-hidden">
@@ -110,20 +154,29 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
         {room.description}
       </p>
 
-      <div className="flex justify-between items-center text-sm mb-2">
+      <div className="flex justify-between items-center text-xs mb-2">
         <div className="flex items-center text-muted-foreground">
-          <Ruler className="w-4 h-4 mr-1" />
+          <Ruler className="w-3.5 h-3.5 mr-1" />
           <span>{room.size_sq_m} m²</span>
         </div>
         <div className="flex items-center font-medium text-primary">
-          <DollarSign className="w-4 h-4 mr-1" />
-          <span>{formatCurrency(room.base_rent)}</span>
+          <DollarSign className="w-3.5 h-3.5 mr-1" />
+          <span>{formatCurrency(currentContract.base_rent)}</span>
         </div>
       </div>
 
-      <div className="flex items-center text-sm text-muted-foreground mb-2">
-        <Calendar className="w-4 h-4 mr-1" />
-        <span>Created: {format(new Date(room.createdAt), "dd/MM/yyyy")}</span>
+      <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
+        <div className="flex items-center text-muted-foreground">
+          <Calendar className="w-3.5 h-3.5 mr-1" />
+          <span>Created: {format(new Date(room.createdAt), "dd/MM/yyyy")}</span>
+        </div>
+        <div className="flex items-center text-muted-foreground">
+          <Calendar className="w-3.5 h-3.5 mr-1" />
+          <span>
+            Payment date:{" "}
+            {format(new Date(currentContract.startDate), "dd/MM/yyyy")}
+          </span>
+        </div>
       </div>
 
       {/* Fees Section (Expand on Hover) */}
@@ -135,41 +188,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
             </h4>
 
             <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="flex items-center justify-between bg-background/50 p-2 rounded-lg">
-                <div className="flex items-center text-muted-foreground">
-                  <Zap className="w-3 h-3 mr-1.5" />
-                  <span>Electric</span>
-                </div>
-                <span className="font-medium">{getElectricityFee()}</span>
-              </div>
-
-              <div className="flex items-center justify-between bg-background/50 p-2 rounded-lg">
-                <div className="flex items-center text-muted-foreground">
-                  <Droplets className="w-3 h-3 mr-1.5" />
-                  <span>Water</span>
-                </div>
-                <span className="font-medium">{getWaterFee()}</span>
-              </div>
-
-              <div className="flex items-center justify-between bg-background/50 p-2 rounded-lg">
-                <div className="flex items-center text-muted-foreground">
-                  <Wrench className="w-3 h-3 mr-1.5" />
-                  <span>Service</span>
-                </div>
-                <span className="font-medium">
-                  {formatCurrency(room.living_fee || 0)}
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between bg-background/50 p-2 rounded-lg">
-                <div className="flex items-center text-muted-foreground">
-                  <Wrench className="w-3 h-3 mr-1.5" />
-                  <span>Cleaning</span>
-                </div>
-                <span className="font-medium">
-                  {formatCurrency(room.cleaning_fee || 0)}
-                </span>
-              </div>
+              {renderMonthlyFee()}
             </div>
           </div>
         </div>
