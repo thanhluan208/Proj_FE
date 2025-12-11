@@ -48,3 +48,5 @@ export interface PaginationParams {
   page?: number;
   pageSize?: number;
 }
+
+export type ViewMode = "card" | "table";

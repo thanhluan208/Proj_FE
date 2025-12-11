@@ -70,7 +70,7 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
     >
       <AccordionItem value="details" className="border-none">
         {/* Header with Status - Always Visible */}
-        <div className="bg-gradient-to-r from-primary/10 relative to-primary/5 p-4 border-b border-border">
+        <div className="bg-linear-to-r from-primary/10 relative to-primary/5 p-4 border-b border-border">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
@@ -78,7 +78,7 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-base max-w-[120px] lg:max-w-[200px] text-ellipsis font-bold text-foreground group-hover:text-primary transition-colors">
+                  <h3 className="text-base max-w-[120px] sm:max-w-[200px] text-ellipsis font-bold text-foreground group-hover:text-primary transition-colors">
                     {tenant.name}
                   </h3>
                   {/* Edit Button */}
@@ -106,9 +106,7 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
             </div>
           </div>
           <div className="absolute top-4 right-4">
-            <AccordionTrigger className="p-1 hover:bg-accent/50 rounded-full transition-all opacity-0 invisible group-hover:opacity-100 group-hover:visible data-[state=open]:rotate-180">
-              <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform duration-200" />
-            </AccordionTrigger>
+            <AccordionTrigger className="p-1 hover:bg-accent/50 rounded-full transition-all opacity-0 invisible group-hover:opacity-100 group-hover:visible data-[state=open]:rotate-180" />
           </div>
         </div>
 

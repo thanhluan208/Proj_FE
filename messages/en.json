@@ -291,6 +291,16 @@
     }
   },
   "contract": {
+    "title": "Contract Management",
+    "count": "{count} contract",
+    "countPlural": "{count} contracts",
+    "all": "All",
+    "active": "Active",
+    "inactive": "Inactive",
+    "cardView": "Card View",
+    "tableView": "Table View",
+    "noTenantsFound": "No contracts found",
+    "clearFilters": "Clear filters",
     "validation": {
       "minTenant": "Must select at least 1 tenant",
       "required": "This field is required",

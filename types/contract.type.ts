@@ -1,4 +1,5 @@
 import { PaginationParams } from ".";
+import { Tenant } from "./tenants.type";
 
 export interface Contract {
   id: string;
@@ -20,6 +21,13 @@ export interface Contract {
   createdAt: string; // ISO timestamp
   updatedAt: string; // ISO timestamp
   deletedAt: string | null;
+
+  tenantContracts?: TenantContracts[];
+}
+
+interface TenantContracts {
+  id: string;
+  tenant: Tenant;
 }
 
 export type CreateContractDto = {

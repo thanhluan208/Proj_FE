@@ -1,9 +1,12 @@
 "use client";
 
+import CardContainer from "@/components/ui/card-container";
 import Pagination from "@/components/ui/pagination";
-import { useGetListTenant } from "@/hooks/tenants/useGetListTenant";
+import {
+  useGetListTenant,
+  useGetTotalTenant,
+} from "@/hooks/tenants/useGetListTenant";
 import { useMasonry } from "@/hooks/useMasonry";
-import { Tenant } from "@/types/tenants.type";
 import { LayoutGrid, List } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -11,13 +14,22 @@ import React, { useMemo, useState } from "react";
 import TenantCard from "./TenantCard";
 import TenantFilter, { TenantFilterValues } from "./TenantFilter";
 import TenantTable from "./TenantTable";
+import { ViewMode } from "@/types";
 
 interface TenantManagementSectionProps {
-  tenants: Tenant[];
   roomId: string;
 }
 
-type ViewMode = "card" | "table";
+const filterKeys = [
+  { key: "status", defaultValue: undefined },
+  { key: "dateFrom", defaultValue: undefined },
+  { key: "dateTo", defaultValue: undefined },
+  { key: "pageSize", defaultValue: "10" },
+  { key: "page", defaultValue: "1" },
+  { key: "search", defaultValue: undefined },
+];
+
+const filterPrefix = "tenant";
 
 const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
   roomId,
@@ -31,100 +43,49 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
 
   // Get filters from URL
   const filters: TenantFilterValues = useMemo(() => {
-    return {
-      room: roomId,
-      status: searchParams.get("tenant_status") || undefined,
-      dateFrom: searchParams.get("tenant_date_from") || undefined,
-      dateTo: searchParams.get("tenant_date_to") || undefined,
-      page: Number(searchParams.get("tenant_page")) || 1,
-      pageSize: 10,
-    };
+    return filterKeys.reduce(
+      (prev: Record<string, string | undefined>, cur) => {
+        if (!cur) return prev;
+        const filterValue = searchParams.get(`${filterPrefix}_${cur.key}`);
+        return {
+          ...prev,
+          [cur.key]: filterValue || cur.defaultValue,
+        };
+      },
+      {
+        room: roomId,
+        pageSize: "10",
+      }
+    ) as unknown as TenantFilterValues;
   }, [searchParams, roomId]);
 
   const pageSize = filters.pageSize || 10;
   const currentPage = filters?.page || 1;
 
   const { data, isFetching } = useGetListTenant(filters);
-  console.log("data", data);
+  const { data: totalTenants } = useGetTotalTenant(filters);
   const tenants = data?.data || [];
 
   // Update URL with new filters
   const updateFilters = (newFilters: Partial<TenantFilterValues>) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    // Update status
-    if (newFilters.status) {
-      params.set("tenant_status", newFilters.status);
-    } else {
-      params.delete("tenant_status");
-    }
-
-    // Update dateFrom
-    if (newFilters.dateFrom) {
-      params.set("tenant_date_from", newFilters.dateFrom);
-    } else {
-      params.delete("tenant_date_from");
-    }
-
-    // Update dateTo
-    if (newFilters.dateTo) {
-      params.set("tenant_date_to", newFilters.dateTo);
-    } else {
-      params.delete("tenant_date_to");
-    }
-
-    // Update pageSize
-    if (newFilters.pageSize) {
-      params.set("tenant_page_size", newFilters.pageSize.toString());
-    } else {
-      params.delete("tenant_page_size");
-    }
-
-    // Update page
-    if (newFilters.page) {
-      params.set("tenant_page", newFilters.page.toString());
-    } else {
-      params.delete("tenant_page");
-    }
+    filterKeys.forEach((cur) => {
+      const filterValue = newFilters[cur.key as keyof TenantFilterValues];
+      if (filterValue) {
+        params.set(`tenant_${cur.key}`, String(filterValue));
+      } else {
+        params.delete(`tenant_${cur.key}`);
+      }
+    });
 
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  // Apply filters
-  const filteredTenants = useMemo(() => {
-    return tenants.filter((tenant) => {
-      // Filter by status
-      if (filters.status) {
-        const statusName = tenant.status?.name.toLowerCase();
-        if (statusName !== filters.status.toLowerCase()) {
-          return false;
-        }
-      }
-
-      // Filter by date range
-      if (filters.dateFrom) {
-        const tenantDate = new Date(tenant.createdAt);
-        const fromDate = new Date(filters.dateFrom);
-        if (tenantDate < fromDate) return false;
-      }
-
-      if (filters.dateTo) {
-        const tenantDate = new Date(tenant.createdAt);
-        const toDate = new Date(filters.dateTo);
-        if (tenantDate > toDate) return false;
-      }
-
-      return true;
-    });
-  }, [tenants, filters]);
-
   // Pagination
-  const totalPages = Math.ceil(filteredTenants.length / pageSize);
-  const paginatedTenants = useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    return filteredTenants.slice(startIndex, endIndex);
-  }, [filteredTenants, currentPage]);
+  const totalPages = totalTenants
+    ? Math.ceil(totalTenants.total / pageSize)
+    : 0;
 
   const handleFilterApply = (newFilters: Partial<TenantFilterValues>) => {
     updateFilters(newFilters);
@@ -146,27 +107,21 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
   const hasActiveFilters = Object.values(filters).some((value) => value);
 
   // Masonry layout for card view
-  const columns = useMasonry(paginatedTenants, { 0: 1, 768: 2, 1024: 3 });
+  const columns = useMasonry(tenants, { 0: 1, 768: 2, 1024: 3 });
 
   return (
-    <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm border border-border">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="h-12 w-1 bg-primary rounded-full" />
-          <div>
-            <h2 className="text-2xl font-bold text-foreground">{t("title")}</h2>
-            <p className="text-sm text-muted-foreground">
-              {filteredTenants.length === 1
-                ? t("count", { count: filteredTenants.length })
-                : t("countPlural", { count: filteredTenants.length })}
-              {hasActiveFilters && t("filtered")}
-            </p>
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="flex items-center gap-2">
+    <CardContainer
+      cardTitle={t("title")}
+      subTitle={
+        <>
+          {totalTenants?.total === 1
+            ? t("count", { count: totalTenants?.total })
+            : t("countPlural", { count: totalTenants?.total || 0 })}
+          {hasActiveFilters && t("filtered")}
+        </>
+      }
+      actions={
+        <>
           {/* Quick Status Filter */}
           <div className="hidden md:flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1 mr-2">
             <button
@@ -229,11 +184,10 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
 
           {/* Filter Button */}
           <TenantFilter />
-        </div>
-      </div>
-
-      {/* Tenant List */}
-      {paginatedTenants.length === 0 ? (
+        </>
+      }
+    >
+      {tenants.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-muted-foreground">{t("noTenantsFound")}</p>
           {hasActiveFilters && (
@@ -256,7 +210,7 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
           ))}
         </div>
       ) : (
-        <TenantTable tenants={paginatedTenants} />
+        <TenantTable tenants={tenants} />
       )}
 
       <Pagination
@@ -264,7 +218,7 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-    </div>
+    </CardContainer>
   );
 };
 

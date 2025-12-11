@@ -1,5 +1,6 @@
 import { api } from "@/lib/apiHelpers";
 import { queryStringify } from "@/lib/utils";
+import { PaginationResponse } from "@/types";
 import {
   Contract,
   CreateContractDto,
@@ -14,6 +15,14 @@ export const createContract = async (
 
 export const getContracts = async (
   data: QueryContracts
-): Promise<Contract[]> => {
+): Promise<PaginationResponse<Contract>> => {
   return api.get(`/contracts?${queryStringify(data)}`).then((res) => res.data);
+};
+
+export const getTotalContract = async (
+  data: QueryContracts
+): Promise<{ total: number }> => {
+  return api
+    .get(`/contracts/paging?${queryStringify(data)}`)
+    .then((res) => res.data);
 };

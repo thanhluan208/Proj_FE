@@ -1,6 +1,6 @@
 import { api } from "@/lib/apiHelpers";
 import { PaginationResponse } from "@/types";
-import { CreateTenantDto, Tenant } from "@/types/tenants.type";
+import { CreateTenantDto, GetTenantParams, Tenant } from "@/types/tenants.type";
 
 export const createTenant = async (data: CreateTenantDto): Promise<any> => {
   return api.post("/tenant/create", data).then((res) => res.data);
@@ -14,9 +14,15 @@ export const editTenant = async ({
 };
 
 export const getTenants = async (
-  params: any
+  params: GetTenantParams
 ): Promise<PaginationResponse<Tenant>> => {
   return api.get("/tenant", { params }).then((res) => res.data);
+};
+
+export const getTotalTenants = async (
+  params: Omit<GetTenantParams, "page" | "pageSize">
+): Promise<{ total: number }> => {
+  return api.get("/tenant/paging", { params }).then((res) => res.data);
 };
 
 export const toggleTenantStatus = async (id: string): Promise<Tenant> => {
