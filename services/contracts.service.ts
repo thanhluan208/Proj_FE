@@ -26,3 +26,7 @@ export const getTotalContract = async (
     .get(`/contracts/paging?${queryStringify(data)}`)
     .then((res) => res.data);
 };
+
+export const deleteContract = async (id: string): Promise<Contract> => {
+  return api.delete(`/contracts/${id}`).then((res) => res.data);
+};

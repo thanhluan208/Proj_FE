@@ -1,5 +1,5 @@
 import { QueryKeys } from "@/lib/constant";
-import { createContract } from "@/services/contracts.service";
+import { createContract, deleteContract } from "@/services/contracts.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import toast from "react-hot-toast";
@@ -14,6 +14,9 @@ const useContractMutation = () => {
       await queryClient.invalidateQueries({
         queryKey: [QueryKeys.CONTRACT_LIST],
       });
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.CONTRACT_PAGING],
+      });
 
       toast.success(t("messages.createSuccess"));
     },
@@ -24,8 +27,28 @@ const useContractMutation = () => {
     },
   });
 
+  const handleDelete = useMutation({
+    mutationFn: deleteContract,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.CONTRACT_LIST],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.CONTRACT_PAGING],
+      });
+
+      toast.success(t("messages.deleteSuccess"));
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message || t("messages.deleteError");
+      toast.error(message);
+    },
+  });
+
   return {
     createContract: handleCreate,
+    deleteContract: handleDelete,
   };
 };
 

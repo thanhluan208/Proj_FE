@@ -240,3 +240,20 @@ export const numberToVietnameseText = (
 
   return convertBigNumber(bn) + " đồng";
 };
+
+export const formatFullName = (name: string) => {
+  if (!name) return "";
+
+  const nameSplit = name.split(" ");
+
+  let result = "";
+  nameSplit.forEach((elm, index) => {
+    if (index < nameSplit.length - 1) {
+      result += `${elm?.[0].toUpperCase()}.`;
+    } else {
+      result += elm;
+    }
+  });
+
+  return result;
+};

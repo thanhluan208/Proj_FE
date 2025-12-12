@@ -28,6 +28,7 @@ export interface Contract {
 interface TenantContracts {
   id: string;
   tenant: Tenant;
+  isMainTenant?: boolean;
 }
 
 export type CreateContractDto = {

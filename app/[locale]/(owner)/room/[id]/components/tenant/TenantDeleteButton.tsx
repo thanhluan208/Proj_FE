@@ -45,7 +45,6 @@ const TenantDeleteButton: FC<TenantDeleteButtonProps> = ({
         description={t("deleteConfirmation.description")}
         confirmText={t("deleteConfirmation.confirm")}
         cancelText={t("deleteConfirmation.cancel")}
-        isDangerous={true}
         onConfirm={handleDelete}
         onCancel={() => setOpenConfirm(false)}
       />

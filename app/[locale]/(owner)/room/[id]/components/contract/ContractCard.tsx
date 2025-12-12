@@ -1,49 +1,51 @@
 "use client";
 
-import React from "react";
-import { Contract } from "@/types/contract.type";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import {
-  Calendar,
-  DollarSign,
-  FileText,
-  Zap,
-  Droplets,
-  Wifi,
-  Car,
-  Sparkles,
-  Armchair,
-  MoreVertical,
-  Clock,
-  AlertCircle,
-  CheckCircle2,
-  Trash2,
-  Edit2,
-  User,
-  CreditCard,
-  Phone,
-  HomeIcon,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn, formatFullName } from "@/lib/utils";
+import { Contract } from "@/types/contract.type";
+import { format } from "date-fns";
+import {
+  AlertCircle,
+  Armchair,
+  ArrowUp,
+  Calendar,
+  Car,
+  CheckCircle2,
+  Clock,
+  CreditCard,
+  Droplets,
+  Edit2,
+  FileText,
+  HomeIcon,
+  MoreVertical,
+  Phone,
+  Sparkles,
+  Star,
+  Trash2,
+  User,
+  Wifi,
+  Zap,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
+import React from "react";
+import ContractDeleteButton from "./ContractDeleteButton";
 
 interface ContractCardProps {
   contract: Contract;
@@ -193,18 +195,12 @@ const ContractCard: React.FC<ContractCardProps> = ({
                     <Edit2 className="w-4 h-4 mr-2" />
                     Edit
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => onDelete?.(contract)}
-                    className="text-destructive focus:text-destructive"
-                  >
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    Delete
-                  </DropdownMenuItem>
+                  <ContractDeleteButton contract={contract} />
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 mb-4">
+            <div className="grid grid-cols-3  mb-4">
               <div className="space-y-1">
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <Calendar className="w-3 h-3" /> Start Date
@@ -229,31 +225,69 @@ const ContractCard: React.FC<ContractCardProps> = ({
                   {contract.tenantContracts &&
                     contract.tenantContracts?.map((elm) => {
                       return (
-                        <Tooltip key={elm.id}>
-                          <TooltipTrigger className="text-xs">
-                            {elm.tenant.name}
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="grid grid-cols-2 gap-2">
-                              <div className="flex gap-1 items-center">
-                                <User className="w-3 h-3" />{" "}
-                                <p>{elm.tenant.name}</p>
+                        <div
+                          key={elm.id}
+                          className="flex items-center gap-2 justify-start"
+                        >
+                          <Tooltip>
+                            <TooltipTrigger className="text-xs">
+                              <p className="max-w-[100px] truncate">
+                                {formatFullName(elm.tenant.name)}
+                              </p>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <div className="grid grid-cols-2 gap-2">
+                                <div className="flex gap-1 items-center">
+                                  <User className="w-3 h-3" />{" "}
+                                  <p>{elm.tenant.name}</p>
+                                </div>
+                                <div className="flex gap-1 items-center">
+                                  <CreditCard className="w-3 h-3" />{" "}
+                                  <p>{elm.tenant.citizenId}</p>
+                                </div>
+                                <div className="flex gap-1 items-center">
+                                  <Phone className="w-3 h-3" />{" "}
+                                  <p>{elm.tenant.phoneNumber}</p>
+                                </div>
+                                <div className="flex gap-1 items-center">
+                                  <HomeIcon className="w-3 h-3" />{" "}
+                                  <p>{elm.tenant.home}</p>
+                                </div>
                               </div>
-                              <div className="flex gap-1 items-center">
-                                <CreditCard className="w-3 h-3" />{" "}
-                                <p>{elm.tenant.citizenId}</p>
-                              </div>
-                              <div className="flex gap-1 items-center">
-                                <Phone className="w-3 h-3" />{" "}
-                                <p>{elm.tenant.phoneNumber}</p>
-                              </div>
-                              <div className="flex gap-1 items-center">
-                                <HomeIcon className="w-3 h-3" />{" "}
-                                <p>{elm.tenant.home}</p>
-                              </div>
-                            </div>
-                          </TooltipContent>
-                        </Tooltip>
+                            </TooltipContent>
+                          </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              {elm.isMainTenant ? (
+                                <Star className="w-2.5 h-2.5 text-yellow-400" />
+                              ) : (
+                                <ArrowUp className="w-2.5 h-2.5 cursor-pointer hover:text-primary" />
+                              )}
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-52">
+                              {elm.isMainTenant ? (
+                                <p>
+                                  <strong>Main tenant</strong>
+                                  <br />
+                                  <span>
+                                    As being a main tenant, this tenant's will
+                                    appear on the official contract and all
+                                    billing records.
+                                  </span>
+                                </p>
+                              ) : (
+                                <p>
+                                  <strong>Update Main Tenant</strong>
+                                  <br />
+                                  <span>
+                                    Update this tenant to be{" "}
+                                    <strong>Main Tenant</strong>
+                                  </span>
+                                </p>
+                              )}
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
                       );
                     })}
                 </div>
@@ -275,7 +309,7 @@ const ContractCard: React.FC<ContractCardProps> = ({
                 <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                   Monthly Fees & Charges
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2">
                   {fees.map((fee, index) => (
                     <div
                       key={index}
