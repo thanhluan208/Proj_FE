@@ -291,10 +291,26 @@
     }
   },
   "contract": {
+    "title": "Quản lý hợp đồng",
+    "count": "{count} hợp đồng",
+    "countPlural": "{count} hợp đồng",
+    "all": "Tất cả",
+    "active": "Đang hiệu lực",
+    "inactive": "Không hiệu lực",
+    "cardView": "Xem dạng thẻ",
+    "tableView": "Xem dạng bảng",
+    "noTenantsFound": "Không tìm thấy hợp đồng nào",
+    "clearFilters": "Xóa bộ lọc",
+
     "validation": {
       "minTenant": "Phải chọn ít nhất 1 người thuê",
-      "required": "Trường này là bắt buộc"
+      "required": "Trường này là bắt buộc",
+      "startAfterCreated": "Ngày bắt đầu phải sau ngày hiệu lực",
+      "endAfterCreated": "Ngày kết thúc phải sau ngày hiệu lực",
+      "endAfterStart": "Ngày kết thúc phải sau ngày bắt đầu",
+      "startBeforeEnd": "Ngày bắt đầu phải trước ngày kết thúc"
     },
+
     "form": {
       "houseInfo": "Thông tin nhà",
       "houseAddress": "Địa chỉ nhà",
@@ -314,8 +330,14 @@
       "bankAccountNumberPlaceholder": "Nhập số tài khoản ngân hàng",
       "bankName": "Tên ngân hàng",
       "bankNamePlaceholder": "Nhập tên ngân hàng",
-      "tenants": "Người thuê nhà",
-      "tenantsPlaceholder": "Chọn người thuê nhà"
+      "tenants": "Người thuê",
+      "tenantsPlaceholder": "Chọn người thuê",
+      "createdDate": "Ngày hiệu lực",
+      "createdDatePlaceholder": "Chọn ngày hiệu lực",
+      "startDate": "Ngày bắt đầu",
+      "startDatePlaceholder": "Chọn ngày bắt đầu",
+      "endDate": "Ngày kết thúc",
+      "endDatePlaceholder": "Chọn ngày kết thúc"
     }
   },
   "bill": {
@@ -342,6 +364,20 @@
       "internet": "Internet",
       "baseRent": "Tiền thuê cơ bản"
     },
-    "paidOn": "Đã thanh toán vào {date}"
+    "paidOn": "Đã thanh toán vào {date}",
+    "table": {
+      "month": "Tháng",
+      "tenant": "Khách thuê",
+      "electricity": "Điện",
+      "water": "Nước",
+      "living": "Sinh hoạt",
+      "parking": "Gửi xe",
+      "cleaning": "Vệ sinh",
+      "internet": "Internet",
+      "baseRent": "Tiền thuê cơ bản",
+      "total": "Tổng cộng",
+      "status": "Trạng thái",
+      "paymentDate": "Ngày thanh toán"
+    }
   }
 }

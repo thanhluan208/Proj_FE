@@ -362,6 +362,20 @@
       "internet": "Internet",
       "baseRent": "Base Rent"
     },
-    "paidOn": "Paid on {date}"
+    "paidOn": "Paid on {date}",
+    "table": {
+      "month": "Month",
+      "tenant": "Tenant",
+      "electricity": "Electricity",
+      "water": "Water",
+      "living": "Living",
+      "parking": "Parking",
+      "cleaning": "Cleaning",
+      "internet": "Internet",
+      "baseRent": "Base Rent",
+      "total": "Total",
+      "status": "Status",
+      "paymentDate": "Payment Date"
+    }
   }
 }
