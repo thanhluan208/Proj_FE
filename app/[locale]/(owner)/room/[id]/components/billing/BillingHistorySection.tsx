@@ -1,71 +1,78 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { Billing } from "@/types/billing.type";
-import BillingCard from "./BillingCard";
-import BillingTable from "./BillingTable";
-import BillingFilter, { FilterValues } from "./BillingFilter";
-import { useMasonry } from "@/hooks/useMasonry";
-import { LayoutGrid, List, Filter } from "lucide-react";
 import Pagination from "@/components/ui/pagination";
+import {
+  useGetListBilling,
+  useGetTotalBilling,
+} from "@/hooks/bills/useGetListBill";
+import { useMasonry } from "@/hooks/useMasonry";
+import { GetBillingDto } from "@/types/billing.type";
+import { Filter, LayoutGrid, List } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
+import React, { useMemo, useState } from "react";
+import BillingCard from "./BillingCard";
+import { FilterValues } from "./BillingFilter";
+import BillingTable from "./BillingTable";
+import { useRouter } from "@/i18n/routing";
 
 interface BillingHistorySectionProps {
-  billings: Billing[];
-  tenants: Array<{ id: string; name: string }>;
+  roomId: string;
 }
 
 type ViewMode = "card" | "table";
 
+const filterKeys = [
+  { key: "status", defaultValue: undefined },
+  { key: "pageSize", defaultValue: "10" },
+  { key: "page", defaultValue: "1" },
+  { key: "from", defaultValue: undefined },
+  { key: "to", defaultValue: undefined },
+];
+
+const filterPrefix = "bills";
+
 const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
-  billings,
-  tenants,
+  roomId,
 }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [viewMode, setViewMode] = useState<ViewMode>("card");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [filters, setFilters] = useState<FilterValues>({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 20;
 
-  // Apply filters
-  const filteredBillings = useMemo(() => {
-    return billings.filter((billing) => {
-      // Filter by tenant
-      if (filters.tenantId && billing.tenant.id !== filters.tenantId) {
-        return false;
+  const filters = useMemo<GetBillingDto>(() => {
+    return filterKeys.reduce(
+      (prev: Record<string, string | undefined>, cur) => {
+        if (!cur) return prev;
+        const filterValue = searchParams.get(`${filterPrefix}_${cur.key}`);
+        return {
+          ...prev,
+          [cur.key]: filterValue || cur.defaultValue,
+        };
+      },
+      {
+        room: roomId,
+        pageSize: "10",
       }
+    ) as unknown as GetBillingDto;
+  }, [roomId, searchParams]);
 
-      // Filter by date range
-      if (filters.dateFrom) {
-        const billingDate = new Date(billing.month);
-        const fromDate = new Date(filters.dateFrom);
-        if (billingDate < fromDate) return false;
-      }
+  const { data } = useGetListBilling(filters);
+  const { data: total } = useGetTotalBilling(filters);
 
-      if (filters.dateTo) {
-        const billingDate = new Date(billing.month);
-        const toDate = new Date(filters.dateTo);
-        if (billingDate > toDate) return false;
-      }
-
-      return true;
-    });
-  }, [billings, filters]);
+  const bills = data?.data || [];
 
   // Pagination
-  const totalPages = Math.ceil(filteredBillings.length / pageSize);
-  const paginatedBillings = useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    return filteredBillings.slice(startIndex, endIndex);
-  }, [filteredBillings, currentPage]);
+  const totalPages = total ? Math.ceil(total.total / 10) : 0;
 
   const handleFilterApply = (newFilters: FilterValues) => {
-    setFilters(newFilters);
-    setCurrentPage(1); // Reset to first page when filters change
+    // setFilters(newFilters);
+    // setCurrentPage(1); // Reset to first page when filters change
   };
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    // setCurrentPage(page);
     // Scroll to top of section
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -73,7 +80,7 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
   const hasActiveFilters = Object.values(filters).some((value) => value);
 
   // Masonry layout for card view
-  const columns = useMasonry(paginatedBillings, { 0: 1, 768: 2, 1024: 3 });
+  const columns = useMasonry(bills, { 0: 1, 768: 2, 1024: 3 });
 
   return (
     <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm border border-border">
@@ -86,8 +93,8 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
               Billing History
             </h2>
             <p className="text-sm text-muted-foreground">
-              {filteredBillings.length} record
-              {filteredBillings.length !== 1 ? "s" : ""}
+              {bills.length} record
+              {bills.length !== 1 ? "s" : ""}
               {hasActiveFilters && " (filtered)"}
             </p>
           </div>
@@ -142,7 +149,7 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
       </div>
 
       {/* Billing List */}
-      {paginatedBillings.length === 0 ? (
+      {bills.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-muted-foreground">No billing records found</p>
           {hasActiveFilters && (
@@ -165,23 +172,23 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
           ))}
         </div>
       ) : (
-        <BillingTable billings={paginatedBillings} />
+        <BillingTable billings={bills} />
       )}
 
       {/* Pagination */}
       <Pagination
-        currentPage={currentPage}
+        currentPage={filters.page || 1}
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
 
       {/* Filter Panel */}
-      <BillingFilter
+      {/* <BillingFilter
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
         onApply={handleFilterApply}
         tenants={tenants}
-      />
+      /> */}
     </div>
   );
 };

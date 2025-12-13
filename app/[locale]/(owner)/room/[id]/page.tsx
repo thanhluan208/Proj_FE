@@ -12,12 +12,12 @@ const RoomDetailPage = async ({
 
   return (
     <div className="flex-1 mx-auto pb-8 px-4 space-y-8">
-      <div className="lg:max-w-[calc(100vw-336px)] mx-auto space-y-6">
+      <div className="lg:max-w-[calc(100vw-336px)] mx-auto space-y-6 max-w-[calc(100vw-112px)]">
         <RoomInfoSection />
 
         <TenantManagementSection roomId={id} />
 
-        {/* <BillingHistorySection billings={[]}  /> */}
+        <BillingHistorySection roomId={id} />
 
         <ContractManagementSection roomId={id} />
       </div>

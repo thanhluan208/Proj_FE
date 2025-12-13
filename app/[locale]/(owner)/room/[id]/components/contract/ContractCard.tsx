@@ -221,7 +221,7 @@ const ContractCard: React.FC<ContractCardProps> = ({
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <User className="w-3 h-3" /> Tenants
                 </p>
-                <div className="flex gap-1 flex-wrap">
+                <div className="flex gap-1 flex-col flex-wrap">
                   {contract.tenantContracts &&
                     contract.tenantContracts?.map((elm) => {
                       return (

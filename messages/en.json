@@ -337,5 +337,31 @@
       "endDate": "End Date",
       "endDatePlaceholder": "Select end date"
     }
+  },
+  "bill": {
+    "status": {
+      "overdue": "Overdue",
+      "paid": "Paid",
+      "pendingPayment": "Pending Payment",
+      "pendingReview": "Pending Review",
+      "unknown": "Unknown"
+    },
+    "collapse": "Collapse",
+    "expand": "Expand",
+    "total": "Total",
+    "utilities": {
+      "electricity": "Electricity",
+      "fixedElectricityPrice": "Fixed electricity price",
+      "water": "Water",
+      "fixedWaterPrice": "Fixed water price"
+    },
+    "fees": {
+      "living": "Living",
+      "parking": "Parking",
+      "cleaning": "Cleaning",
+      "internet": "Internet",
+      "baseRent": "Base Rent"
+    },
+    "paidOn": "Paid on {date}"
   }
 }

@@ -16,7 +16,15 @@ import {
   Check,
   ListChecks,
   AlertTriangle,
+  Wifi,
 } from "lucide-react";
+import { calculateTotals } from "./Billing.util";
+import { formatCurrency } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface BillingCardProps {
   billing: Billing;
@@ -25,16 +33,11 @@ interface BillingCardProps {
 const BillingCard: React.FC<BillingCardProps> = ({ billing }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(value);
-  };
+  const totalFees = calculateTotals(billing);
 
   const getStatusConfig = (status: BillingStatusEnum, billing: Billing) => {
     // Check if payment is overdue (more than 5 days past month)
-    const dueDate = addDays(new Date(billing.month), 5);
+    const dueDate = addDays(new Date(billing.to), 5);
     const isOverdue = isPast(dueDate) && status !== BillingStatusEnum.PAID;
 
     if (isOverdue) {
@@ -100,7 +103,7 @@ const BillingCard: React.FC<BillingCardProps> = ({ billing }) => {
             </div>
             <div>
               <h3 className="font-semibold text-foreground">
-                {format(new Date(billing.month), "MMMM yyyy")}
+                {format(new Date(billing.from), "MMMM yyyy")}
               </h3>
               <p className="text-xs text-muted-foreground">
                 {statusConfig.label}
@@ -123,19 +126,21 @@ const BillingCard: React.FC<BillingCardProps> = ({ billing }) => {
         </div>
 
         {/* Tenant Info */}
-        <div className="flex items-center gap-2 p-2 bg-accent/30 dark:bg-accent/20 rounded-lg">
-          <User className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-foreground truncate">
-              {billing.tenant.name}
-            </p>
-            {billing.tenant.email && (
-              <p className="text-xs text-muted-foreground truncate">
-                {billing.tenant.email}
+        {billing.tenant && (
+          <div className="flex items-center gap-2 p-2 bg-accent/30 dark:bg-accent/20 rounded-lg">
+            <User className="w-4 h-4 text-muted-foreground shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-foreground truncate">
+                {billing.tenant.name}
               </p>
-            )}
+              {billing.tenant.phoneNumber && (
+                <p className="text-xs text-muted-foreground truncate">
+                  {billing.tenant.phoneNumber}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Total Amount - Always Visible */}
         <div className="flex items-center justify-between pt-2 border-t border-border">
@@ -156,11 +161,26 @@ const BillingCard: React.FC<BillingCardProps> = ({ billing }) => {
           <div className="space-y-3 pt-3 border-t border-border">
             {/* Utility Usage */}
             <div className="space-y-2">
-              <div className="flex items-center justify-between p-2 bg-background/50 dark:bg-background/30 rounded-lg">
+              <div className="flex items-end justify-between p-2 bg-background/50 dark:bg-background/30 rounded-lg">
                 <div className="flex items-center gap-2">
                   <Zap className="w-4 h-4 text-yellow-500" />
                   <div>
-                    <p className="text-xs text-muted-foreground">Electricity</p>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <p className="text-xs text-muted-foreground">
+                          Electricity
+                        </p>
+                      </TooltipTrigger>
+
+                      {Number(
+                        billing.tenantContract.contract.fixed_electricity_fee
+                      ) > 0 && (
+                        <TooltipContent>
+                          <p>Fixed electricity price</p>
+                        </TooltipContent>
+                      )}
+                    </Tooltip>
+
                     <p className="text-sm font-medium text-foreground">
                       {billing.electricity_start_index} →{" "}
                       {billing.electricity_end_index} kWh
@@ -168,22 +188,33 @@ const BillingCard: React.FC<BillingCardProps> = ({ billing }) => {
                   </div>
                 </div>
                 <p className="font-semibold text-foreground text-sm">
-                  {formatCurrency(billing.total_electricity_cost)}
+                  {formatCurrency(totalFees.totalElectricityCost)}
                 </p>
               </div>
 
-              <div className="flex items-center justify-between p-2 bg-background/50 dark:bg-background/30 rounded-lg">
+              <div className="flex items-end justify-between p-2 bg-background/50 dark:bg-background/30 rounded-lg">
                 <div className="flex items-center gap-2">
                   <Droplets className="w-4 h-4 text-blue-500" />
                   <div>
-                    <p className="text-xs text-muted-foreground">Water</p>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <p className="text-xs text-muted-foreground">Water</p>
+                      </TooltipTrigger>
+
+                      {Number(billing.tenantContract.contract.fixed_water_fee) >
+                        0 && (
+                        <TooltipContent>
+                          <p>Fixed water price</p>
+                        </TooltipContent>
+                      )}
+                    </Tooltip>
                     <p className="text-sm font-medium text-foreground">
                       {billing.water_start_index} → {billing.water_end_index} m³
                     </p>
                   </div>
                 </div>
                 <p className="font-semibold text-foreground text-sm">
-                  {formatCurrency(billing.total_water_cost)}
+                  {formatCurrency(totalFees.totalWaterCost)}
                 </p>
               </div>
             </div>
@@ -196,7 +227,7 @@ const BillingCard: React.FC<BillingCardProps> = ({ billing }) => {
                   <p className="text-xs text-muted-foreground">Living</p>
                 </div>
                 <p className="text-sm font-medium text-foreground">
-                  {formatCurrency(billing.total_living_cost)}
+                  {formatCurrency(billing.tenantContract.contract.living_fee)}
                 </p>
               </div>
 
@@ -206,7 +237,7 @@ const BillingCard: React.FC<BillingCardProps> = ({ billing }) => {
                   <p className="text-xs text-muted-foreground">Parking</p>
                 </div>
                 <p className="text-sm font-medium text-foreground">
-                  {formatCurrency(billing.total_parking_cost)}
+                  {formatCurrency(billing.tenantContract.contract.parking_fee)}
                 </p>
               </div>
 
@@ -216,7 +247,17 @@ const BillingCard: React.FC<BillingCardProps> = ({ billing }) => {
                   <p className="text-xs text-muted-foreground">Cleaning</p>
                 </div>
                 <p className="text-sm font-medium text-foreground">
-                  {formatCurrency(billing.total_cleaning_cost)}
+                  {formatCurrency(billing.tenantContract.contract.cleaning_fee)}
+                </p>
+              </div>
+
+              <div className="p-2 bg-background/50 dark:bg-background/30 rounded-lg">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <Wifi className="w-3.5 h-3.5 text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground">Internet</p>
+                </div>
+                <p className="text-sm font-medium text-foreground">
+                  {formatCurrency(billing.tenantContract.contract.internet_fee)}
                 </p>
               </div>
 
@@ -226,7 +267,7 @@ const BillingCard: React.FC<BillingCardProps> = ({ billing }) => {
                   <p className="text-xs text-muted-foreground">Base Rent</p>
                 </div>
                 <p className="text-sm font-medium text-foreground">
-                  {formatCurrency(billing.base_rent)}
+                  {formatCurrency(billing.tenantContract.contract.base_rent)}
                 </p>
               </div>
             </div>

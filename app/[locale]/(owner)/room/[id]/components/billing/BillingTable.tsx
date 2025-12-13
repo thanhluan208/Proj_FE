@@ -1,19 +1,14 @@
-import React from "react";
 import { Billing, BillingStatusEnum } from "@/types/billing.type";
 import { format } from "date-fns";
+import React, { useCallback } from "react";
+import { calculateTotals } from "./Billing.util";
+import { formatCurrency } from "@/lib/utils";
 
 interface BillingTableProps {
   billings: Billing[];
 }
 
 const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(value);
-  };
-
   const getStatusConfig = (status: BillingStatusEnum) => {
     switch (status) {
       case BillingStatusEnum.PAID:
@@ -70,6 +65,9 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
               Cleaning
             </th>
             <th className="px-4 py-3 text-left text-xs font-semibold text-foreground uppercase tracking-wider">
+              Internet
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-semibold text-foreground uppercase tracking-wider">
               Base Rent
             </th>
             <th className="px-4 py-3 text-left text-xs font-semibold text-foreground uppercase tracking-wider">
@@ -86,6 +84,7 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
         <tbody className="bg-card divide-y divide-border">
           {billings.map((billing) => {
             const statusConfig = getStatusConfig(billing.status);
+            const totalFees = calculateTotals(billing);
             return (
               <tr
                 key={billing.id}
@@ -93,25 +92,29 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
               >
                 <td className="px-4 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-foreground">
-                    {format(new Date(billing.month), "MMM yyyy")}
+                    {format(new Date(billing.from), "MMM yyyy")}
                   </div>
                   <div className="text-xs text-muted-foreground">
                     {format(new Date(billing.createdAt), "dd/MM/yyyy")}
                   </div>
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-foreground">
-                    {billing.tenant.name}
-                  </div>
-                  {billing.tenant.email && (
-                    <div className="text-xs text-muted-foreground">
-                      {billing.tenant.email}
-                    </div>
+                  {billing.tenant && (
+                    <>
+                      <div className="text-sm font-medium text-foreground">
+                        {billing.tenant.name}
+                      </div>
+                      {billing.tenant.citizenId && (
+                        <div className="text-xs text-muted-foreground">
+                          {billing.tenant.citizenId}
+                        </div>
+                      )}
+                    </>
                   )}
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap">
                   <div className="text-sm text-foreground">
-                    {formatCurrency(billing.total_electricity_cost)}
+                    {formatCurrency(totalFees.totalElectricityCost)}
                   </div>
                   <div className="text-xs text-muted-foreground">
                     {billing.electricity_start_index} →{" "}
@@ -120,26 +123,29 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap">
                   <div className="text-sm text-foreground">
-                    {formatCurrency(billing.total_water_cost)}
+                    {formatCurrency(totalFees.totalWaterCost)}
                   </div>
                   <div className="text-xs text-muted-foreground">
                     {billing.water_start_index} → {billing.water_end_index} m³
                   </div>
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap text-sm text-foreground">
-                  {formatCurrency(billing.total_living_cost)}
+                  {formatCurrency(billing.tenantContract.contract.living_fee)}
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap text-sm text-foreground">
-                  {formatCurrency(billing.total_parking_cost)}
+                  {formatCurrency(billing.tenantContract.contract.parking_fee)}
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap text-sm text-foreground">
-                  {formatCurrency(billing.total_cleaning_cost)}
+                  {formatCurrency(billing.tenantContract.contract.cleaning_fee)}
+                </td>
+                <td className="px-4 py-4 whitespace-nowrap text-sm text-foreground">
+                  {formatCurrency(billing.tenantContract.contract.internet_fee)}
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-foreground">
-                  {formatCurrency(billing.base_rent)}
+                  {formatCurrency(billing.tenantContract.contract.base_rent)}
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap text-sm font-bold text-primary">
-                  {formatCurrency(billing.total_amount)}
+                  {formatCurrency(totalFees.totalAmount)}
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap">
                   <span

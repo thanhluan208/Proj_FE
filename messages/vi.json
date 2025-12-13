@@ -316,7 +316,32 @@
       "bankNamePlaceholder": "Nhập tên ngân hàng",
       "tenants": "Người thuê nhà",
       "tenantsPlaceholder": "Chọn người thuê nhà"
-
     }
+  },
+  "bill": {
+    "status": {
+      "overdue": "Quá hạn",
+      "paid": "Đã thanh toán",
+      "pendingPayment": "Chờ thanh toán",
+      "pendingReview": "Chờ xét duyệt",
+      "unknown": "Không xác định"
+    },
+    "collapse": "Thu gọn",
+    "expand": "Mở rộng",
+    "total": "Tổng cộng",
+    "utilities": {
+      "electricity": "Điện",
+      "fixedElectricityPrice": "Giá điện cố định",
+      "water": "Nước",
+      "fixedWaterPrice": "Giá nước cố định"
+    },
+    "fees": {
+      "living": "Sinh hoạt",
+      "parking": "Gửi xe",
+      "cleaning": "Vệ sinh",
+      "internet": "Internet",
+      "baseRent": "Tiền thuê cơ bản"
+    },
+    "paidOn": "Đã thanh toán vào {date}"
   }
 }

@@ -1,4 +1,6 @@
 import { PaginationParams } from ".";
+import { Contract } from "./contract.type";
+import { Tenant } from "./tenants.type";
 
 export enum BillingStatusEnum {
   PENDING_OWNER_REVIEW = "PENDING_OWNER_REVIEW",
@@ -6,40 +8,75 @@ export enum BillingStatusEnum {
   PAID = "PAID",
 }
 
-export interface Tenant {
-  id: string;
-  name: string;
-  email?: string;
-  phone?: string;
+export interface HouseInfo {
+  houseAddress?: string;
+  houseOwner?: string;
+  houseOwnerPhoneNumber?: string;
+  houseOwnerBackupPhoneNumber?: string;
+}
+export interface BankInfo {
+  bankAccountName?: string;
+  bankAccountNumber?: string;
+  bankName?: string;
+}
+
+export interface CreateBillingDto {
+  roomId: string;
+
+  from: string; // ISO date string (e.g. "2023-10-01")
+  to: string; // ISO date string
+
+  notes?: string;
+
+  electricity_start_index: number;
+  electricity_end_index: number;
+
+  water_start_index: number;
+  water_end_index: number;
+
+  houseInfo: HouseInfo;
+  bankInfo: BankInfo;
+}
+
+export interface GetBillingDto extends PaginationParams {
+  room: string;
+
+  status?: BillingStatusEnum;
+
+  from?: string; // ISO date string (e.g. "2023-10-01")
+  to?: string; // ISO date string
 }
 
 export interface Billing {
   id: string;
-  tenant: Tenant;
-  room: {
-    id: string;
-    name: string;
-  };
-  month: Date;
+
+  from: string; // ISO date string (YYYY-MM-DD)
+  to: string; // ISO date string (YYYY-MM-DD)
+
   electricity_start_index: number;
   electricity_end_index: number;
+
   water_start_index: number;
   water_end_index: number;
-  total_electricity_cost: number;
-  total_water_cost: number;
-  total_living_cost: number;
-  total_parking_cost: number;
-  total_cleaning_cost: number;
-  base_rent: number;
+
   total_amount: number;
+
   status: BillingStatusEnum;
-  payment_date?: Date;
-  createdAt: Date;
-  updatedAt: Date;
+
+  payment_date: string | null;
+
+  createdAt: string; // ISO datetime
+  updatedAt: string; // ISO datetime
+  deletedAt: string | null;
+
+  tenant: Tenant;
+
+  tenantContract: TenantContracts;
 }
 
-export interface BillingFilterParams extends PaginationParams {
-  tenantId?: string;
-  dateFrom?: string;
-  dateTo?: string;
+interface TenantContracts {
+  id: string;
+  tenant: Tenant;
+  isMainTenant?: boolean;
+  contract: Contract;
 }
