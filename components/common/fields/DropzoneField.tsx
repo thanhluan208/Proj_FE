@@ -18,6 +18,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { useDropzone, type DropzoneOptions } from "react-dropzone";
+import { FileMetadata } from "@/types";
 
 interface DropzoneFieldProps<
   FormValues extends FieldValues,
@@ -162,7 +163,8 @@ const DropzoneField = <
       control={control}
       name={name}
       render={({ field }) => {
-        const files = (field.value as File[] | undefined) || [];
+        const files =
+          (field.value as (File | FileMetadata)[] | undefined) || [];
         const fileArray = Array.isArray(files) ? files : [];
 
         return (
@@ -209,43 +211,47 @@ const DropzoneField = <
                 {/* File list */}
                 {showFileList && fileArray.length > 0 && (
                   <div className="flex flex-col gap-2">
-                    {fileArray.map((file, index) => (
-                      <div
-                        key={`${file.name}-${index}`}
-                        className={cn(
-                          "flex items-center justify-between gap-3 p-3",
-                          "border border-border rounded-[10px]",
-                          "bg-card hover:bg-accent transition-colors duration-200"
-                        )}
-                      >
-                        <div className="flex items-center gap-3 flex-1 min-w-0">
-                          <FileIcon className="h-5 w-5 text-primary shrink-0" />
-                          <div className="flex flex-col min-w-0 flex-1">
-                            <p className="text-sm font-medium truncate">
-                              {file.name}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {formatFileSize(file.size)}
-                            </p>
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            removeFile(index);
-                          }}
+                    {fileArray.map((file, index) => {
+                      const fileName =
+                        file instanceof File ? file.name : file.originalName;
+                      return (
+                        <div
+                          key={`${fileName}-${index}`}
                           className={cn(
-                            "p-1 rounded-md shrink-0",
-                            "hover:bg-destructive/10 text-muted-foreground hover:text-destructive",
-                            "transition-colors duration-200"
+                            "flex items-center justify-between gap-3 p-3",
+                            "border border-border rounded-[10px]",
+                            "bg-card hover:bg-accent transition-colors duration-200"
                           )}
-                          aria-label="Remove file"
                         >
-                          <X className="h-4 w-4" />
-                        </button>
-                      </div>
-                    ))}
+                          <div className="flex items-center gap-3 flex-1 min-w-0">
+                            <FileIcon className="h-5 w-5 text-primary shrink-0" />
+                            <div className="flex flex-col min-w-0 flex-1">
+                              <p className="text-sm font-medium truncate">
+                                {fileName}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {formatFileSize(file.size)}
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeFile(index);
+                            }}
+                            className={cn(
+                              "p-1 rounded-md shrink-0",
+                              "hover:bg-destructive/10 text-muted-foreground hover:text-destructive",
+                              "transition-colors duration-200"
+                            )}
+                            aria-label="Remove file"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>

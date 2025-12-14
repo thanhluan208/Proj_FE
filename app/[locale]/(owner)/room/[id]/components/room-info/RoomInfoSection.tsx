@@ -1,29 +1,27 @@
 "use client";
 
-import { useGetRoomDetail } from "@/hooks/rooms/useGetRoomDetail";
-import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useGetRoomDetail } from "@/hooks/rooms/useGetRoomDetail";
+import { format } from "date-fns";
 import {
   Building2,
   CreditCard,
   DollarSign,
-  FilePlus,
-  FileText,
   MoreVertical,
   Receipt,
   Ruler,
   TrendingUp,
-  UserPlus,
   Users,
 } from "lucide-react";
 import { useParams } from "next/navigation";
-import AddTenantButton from "./AddTenantButton";
 import ContractAddButton from "../contract/ContractAddButton";
+import ExpenseAddOrEditButton from "../room-expense/ExpenseAddOrEditButton";
+import AddTenantButton from "./AddTenantButton";
 
 const RoomInfoSection = () => {
   const params = useParams();
@@ -41,7 +39,7 @@ const RoomInfoSection = () => {
 
         {/* Main Info Skeleton */}
         <div className="flex flex-col md:flex-row gap-6 mb-6">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-muted" />
           </div>
           <div className="flex-1 space-y-4">
@@ -134,14 +132,7 @@ const RoomInfoSection = () => {
                 <Receipt className="w-4 h-4" />
                 Create Bill
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="justify-start gap-2 w-full"
-              >
-                <FileText className="w-4 h-4" />
-                Create Expense
-              </Button>
+              <ExpenseAddOrEditButton />
               <ContractAddButton />
               <div className="pt-1 border-t border-border">
                 <AddTenantButton houseId={room.house.id} roomId={room.id} />
@@ -154,8 +145,8 @@ const RoomInfoSection = () => {
       {/* Main Info Section */}
       <div className="flex flex-col md:flex-row gap-6 mb-6">
         {/* Room Avatar/Icon */}
-        <div className="flex-shrink-0">
-          <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+        <div className="shrink-0">
+          <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-linear-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
             <Building2 className="w-12 h-12 md:w-16 md:h-16 text-secondary" />
           </div>
         </div>

@@ -1,7 +1,13 @@
 import { api } from "@/lib/apiHelpers";
 import { queryStringify } from "@/lib/utils";
 import { PaginationResponse } from "@/types";
-import { CreateRoomDto, GetRoomByHouse, Room } from "@/types/rooms.type";
+import {
+  CreateRoomDto,
+  CreateRoomExpenseDto,
+  GetRoomByHouse,
+  Room,
+  RoomExpense,
+} from "@/types/rooms.type";
 
 export const getRooms = async (
   payload?: GetRoomByHouse

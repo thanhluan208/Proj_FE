@@ -36,6 +36,8 @@ export const QueryKeys = {
 
   ROOM_LIST: "ROOM_LIST",
   ROOM_DETAIL: "ROOM_DETAIL",
+  ROOM_EXPENSE_LIST: "room-expense-list",
+  ROOM_EXPENSE_PAGING: "room-expense-paging",
 
   BILLING_LIST: "BILLING_LIST",
   BILLING_PAGING: "BILLING_PAGING",

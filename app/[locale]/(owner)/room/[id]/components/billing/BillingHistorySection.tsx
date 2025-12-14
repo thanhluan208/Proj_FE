@@ -190,26 +190,6 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
       /> */}
     </CardContainer>
   );
-
-  return (
-    <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm border border-border">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="h-12 w-1 bg-primary rounded-full" />
-          <div>
-            <h2 className="text-2xl font-bold text-foreground">
-              Billing History
-            </h2>
-          </div>
-        </div>
-
-        {/* Controls */}
-      </div>
-
-      {/* Billing List */}
-    </div>
-  );
 };
 
 export default BillingHistorySection;

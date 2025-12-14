@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 
 interface TextareaFieldProps<
   FormValues extends FieldValues,
-  TName extends Path<FormValues>,
+  TName extends Path<FormValues>
 > extends Omit<React.ComponentProps<"textarea">, "onChange"> {
   // Core form integration props
   control: Control<FormValues, any>;
@@ -44,7 +44,7 @@ interface TextareaFieldProps<
 
 const TextareaField = <
   FormValues extends FieldValues,
-  TName extends Path<FormValues>,
+  TName extends Path<FormValues>
 >({
   control,
   name,
@@ -95,7 +95,7 @@ const TextareaField = <
               <div
                 className={cn(
                   "relative flex gap-1.5 overflow-hidden",
-                  "border border-neutral-90 transition-colors duration-200",
+                  "border border-border transition-colors duration-200",
                   "hover:border-primary focus-within:border-primary",
                   "disabled:cursor-not-allowed disabled:opacity-50",
                   "rounded-[10px]",
@@ -104,9 +104,7 @@ const TextareaField = <
                   textareaContainerClassName
                 )}
               >
-                {leftIcon && (
-                  <div className="pt-3 flex-shrink-0">{leftIcon}</div>
-                )}
+                {leftIcon && <div className="pt-3 shrink-0">{leftIcon}</div>}
 
                 <div className="relative flex-1">
                   <Textarea
@@ -130,9 +128,7 @@ const TextareaField = <
                   )}
                 </div>
 
-                {rightIcon && (
-                  <div className="pt-3 flex-shrink-0">{rightIcon}</div>
-                )}
+                {rightIcon && <div className="pt-3 shrink-0">{rightIcon}</div>}
               </div>
             </FormControl>
 

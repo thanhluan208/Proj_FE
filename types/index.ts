@@ -50,3 +50,13 @@ export interface PaginationParams {
 }
 
 export type ViewMode = "card" | "table";
+
+export interface FileMetadata {
+  id: string;
+  path: string;
+  mimeType: string;
+  size: number;
+  originalName: string;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+}
