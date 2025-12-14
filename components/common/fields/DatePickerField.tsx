@@ -91,7 +91,7 @@ const DatePickerField = <
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
               <DatePicker
-                date={dayjs(value).toDate()}
+                date={value ? dayjs(value).toDate() : undefined}
                 setDate={handleSelect}
                 disabled={disabled}
                 placeholder={placeholder}

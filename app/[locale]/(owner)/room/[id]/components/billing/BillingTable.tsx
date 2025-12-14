@@ -64,14 +64,14 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
         accessorKey: "tenant",
         cell: ({ row }) => (
           <>
-            {row.original.tenant && (
+            {row.original.tenantContract.tenant && (
               <>
                 <div className="text-sm font-medium text-foreground">
-                  {row.original.tenant.name}
+                  {row.original.tenantContract.tenant.name}
                 </div>
-                {row.original.tenant.citizenId && (
+                {row.original.tenantContract.tenant.citizenId && (
                   <div className="text-xs text-muted-foreground">
-                    {row.original.tenant.citizenId}
+                    {row.original.tenantContract.tenant.citizenId}
                   </div>
                 )}
               </>

@@ -7,17 +7,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { Billing } from "@/types/billing.type";
 import { Edit2, FilePlus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
 
-interface BillingAddOrEditButtonProps {
+interface BillingAddOrEditButtonProps
+  extends ComponentPropsWithoutRef<"button"> {
   data?: Billing;
+  isGhost?: boolean;
 }
 
-const BillingAddOrEditButton = ({ data }: BillingAddOrEditButtonProps) => {
+const BillingAddOrEditButton = ({
+  data,
+  isGhost,
+  className,
+}: BillingAddOrEditButtonProps) => {
   const params = useParams();
   const t = useTranslations("bill");
 
@@ -28,8 +35,8 @@ const BillingAddOrEditButton = ({ data }: BillingAddOrEditButtonProps) => {
       <Button
         onClick={() => setOpen(true)}
         size="sm"
-        variant={data ? "ghost" : "default"}
-        className="justify-start gap-2 w-full"
+        variant={data || isGhost ? "ghost" : "default"}
+        className={cn("justify-start gap-2 w-full", className)}
       >
         {data ? (
           <>

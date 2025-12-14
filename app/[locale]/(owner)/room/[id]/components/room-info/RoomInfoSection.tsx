@@ -22,9 +22,12 @@ import { useParams } from "next/navigation";
 import ContractAddButton from "../contract/ContractAddButton";
 import ExpenseAddOrEditButton from "../room-expense/ExpenseAddOrEditButton";
 import AddTenantButton from "./AddTenantButton";
+import { useTranslations } from "next-intl";
+import BillingAddOrEditButton from "../billing/BillingAddOrEditButton";
 
 const RoomInfoSection = () => {
   const params = useParams();
+  const t = useTranslations("room");
 
   const { data: room } = useGetRoomDetail(params.id as string);
 
@@ -75,31 +78,31 @@ const RoomInfoSection = () => {
   const stats = [
     {
       icon: Users,
-      label: "Total Tenants",
+      label: t("info.stats.totalTenants"),
       value: room.totalTenants?.toString(),
       bgColor: "bg-secondary-10 dark:bg-secondary-90",
       iconColor: "text-secondary",
     },
     {
       icon: TrendingUp,
-      label: "Total Income",
+      label: t("info.stats.totalIncome"),
       value: formatCurrency(room.totalIncome),
       bgColor: "bg-primary-10 dark:bg-primary-90",
       iconColor: "text-primary",
     },
     {
       icon: DollarSign,
-      label: "Total Expenses",
+      label: t("info.stats.totalExpenses"),
       value: formatCurrency(room.totalExpenses),
       bgColor: "bg-warning/10 dark:bg-warning/20",
       iconColor: "text-warning",
     },
     {
       icon: CreditCard,
-      label: "Last Payment",
+      label: t("info.stats.lastPayment"),
       value: room.paymentDate
         ? format(new Date(room.paymentDate), "dd/MM/yyyy")
-        : "N/A",
+        : t("info.na"),
       bgColor: "bg-accent dark:bg-accent/50",
       iconColor: "text-accent-foreground",
     },
@@ -111,7 +114,9 @@ const RoomInfoSection = () => {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div className="h-12 w-1 bg-primary rounded-full" />
-          <h2 className="text-2xl font-bold text-foreground">Room Details</h2>
+          <h2 className="text-2xl font-bold text-foreground">
+            {t("info.title")}
+          </h2>
         </div>
 
         {/* Actions Popover */}
@@ -119,20 +124,13 @@ const RoomInfoSection = () => {
           <PopoverTrigger asChild>
             <Button variant="default" size="sm" className="gap-2 w-fit">
               <MoreVertical className="w-4 h-4" />
-              Actions
+              {t("info.actions.button")}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-56 p-2" align="end">
             <div className="flex flex-col gap-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="justify-start gap-2 w-full"
-              >
-                <Receipt className="w-4 h-4" />
-                Create Bill
-              </Button>
-              <ExpenseAddOrEditButton />
+              <BillingAddOrEditButton isGhost />
+              <ExpenseAddOrEditButton isGhost />
               <ContractAddButton />
               <div className="pt-1 border-t border-border">
                 <AddTenantButton houseId={room.house.id} roomId={room.id} />
@@ -158,8 +156,10 @@ const RoomInfoSection = () => {
               {room.name}
             </h3>
             <p className="text-sm text-muted-foreground">
-              Created: {format(new Date(room.createdAt), "dd MMM yyyy")} •
-              Updated: {format(new Date(room.updatedAt), "dd MMM yyyy")}
+              {t("info.created")}:{" "}
+              {format(new Date(room.createdAt), "dd MMM yyyy")} •{" "}
+              {t("info.updated")}:{" "}
+              {format(new Date(room.updatedAt), "dd MMM yyyy")}
             </p>
           </div>
 
@@ -167,15 +167,15 @@ const RoomInfoSection = () => {
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
             <div className="flex items-center gap-2">
               <Ruler className="w-4 h-4 text-muted-foreground" />
-              <span className="text-muted-foreground">Size:</span>
+              <span className="text-muted-foreground">{t("info.size")}:</span>
               <span className="font-semibold text-foreground">
-                {room?.size_sq_m ?? "N/A"} m²
+                {room?.size_sq_m ?? t("info.na")} m²
               </span>
             </div>
 
             <div className="flex items-center gap-2">
               <Building2 className="w-4 h-4 text-muted-foreground" />
-              <span className="text-muted-foreground">House:</span>
+              <span className="text-muted-foreground">{t("info.house")}:</span>
               <span className="font-semibold text-foreground">
                 {room.house.name}
               </span>
@@ -183,9 +183,11 @@ const RoomInfoSection = () => {
 
             <div className="flex items-center gap-2">
               <DollarSign className="w-4 h-4 text-muted-foreground" />
-              <span className="text-muted-foreground">Base rent:</span>
+              <span className="text-muted-foreground">
+                {t("info.baseRent")}:
+              </span>
               <span className="font-semibold text-foreground">
-                {room.base_rent ? formatCurrency(room.base_rent) : "N/A"}
+                {room.base_rent ? formatCurrency(room.base_rent) : t("info.na")}
               </span>
             </div>
           </div>

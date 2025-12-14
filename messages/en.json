@@ -11,6 +11,7 @@
     "close": "Close",
     "back": "Back",
     "next": "Next",
+    "action": "Action",
     "submit": "Submit",
     "search": "Search",
     "noResults": "No results found",
@@ -192,6 +193,25 @@
     },
     "messages": {
       "roomAddedSuccess": "Room has been added successfully!"
+    },
+    "info": {
+      "title": "Room Details",
+      "created": "Created",
+      "updated": "Updated",
+      "size": "Size",
+      "house": "House",
+      "baseRent": "Base rent",
+      "na": "N/A",
+      "actions": {
+        "button": "Actions",
+        "createBill": "Create Bill"
+      },
+      "stats": {
+        "totalTenants": "Total Tenants",
+        "totalIncome": "Total Income",
+        "totalExpenses": "Total Expenses",
+        "lastPayment": "Last Payment"
+      }
     }
   },
   "tenant": {
@@ -353,8 +373,25 @@
       "paid": "Paid",
       "pendingPayment": "Pending Payment",
       "pendingReview": "Pending Review",
-      "unknown": "Unknown"
+      "unknown": "Unknown",
+      "PAID": "Paid",
+      "PENDING_TENANT_PAYMENT": "Pending Payment",
+      "PENDING_OWNER_REVIEW": "Pending Review"
     },
+    "filter": {
+      "buttonText": "Filter",
+      "title": "Filter Billings",
+      "description": "Filter billings by date range and status. Click apply when you're done.",
+      "fromDate": "From Date",
+      "fromDatePlaceholder": "Select start date",
+      "toDate": "To Date",
+      "toDatePlaceholder": "Select end date",
+      "status": "Status",
+      "statusPlaceholder": "Select status",
+      "apply": "Apply Filters",
+      "reset": "Reset"
+    },
+
     "actions": {
       "edit": "Edit",
       "create": "Create Bill"
@@ -489,6 +526,16 @@
       "amountPositive": "Amount must be a positive number",
       "dateRequired": "Date is required"
     },
+    "button": {
+      "edit": "Edit",
+      "create": "Create room expense(s)"
+    },
+    "dialog": {
+      "editTitle": "Edit Room Expense",
+      "createTitle": "Create Room Expense(s)",
+      "editDescription": "Edit expense for {name}",
+      "createDescription": "Create new expense(s) to this room"
+    },
     "form": {
       "name": "Expense Name",
       "namePlaceholder": "Enter expense name",
@@ -502,6 +549,34 @@
       "cancel": "Cancel",
       "submit": "Create",
       "save": "Save Changes"
+    },
+    "table": {
+      "date": "Date",
+      "name": "Expense Name",
+      "room": "Room",
+      "amount": "Amount",
+      "notes": "Notes"
+    },
+    "filter": {
+      "buttonText": "Filter",
+      "title": "Filter Expenses",
+      "description": "Filter expenses by search term, date range, and amount. Click apply when you're done.",
+      "search": "Search",
+      "searchPlaceholder": "Search by expense name",
+      "fromDate": "From Date",
+      "fromDatePlaceholder": "Select start date",
+      "toDate": "To Date",
+      "toDatePlaceholder": "Select end date",
+      "comparisonLabel": "Comparison",
+      "comparisonPlaceholder": "Select",
+      "amount": "Amount",
+      "amountPlaceholder": "Enter amount",
+      "apply": "Apply Filters",
+      "reset": "Reset",
+      "comparison": {
+        "bigger": "Greater than",
+        "smaller": "Less than"
+      }
     }
   }
 }

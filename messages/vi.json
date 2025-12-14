@@ -12,6 +12,7 @@
     "back": "Quay lại",
     "next": "Tiếp theo",
     "submit": "Gửi",
+    "action": "Hành động",
     "search": "Tìm kiếm",
     "noResults": "Không có kết quả",
     "loadingMore": "Đang tải thêm...",
@@ -192,6 +193,25 @@
     },
     "messages": {
       "roomAddedSuccess": "Phòng đã được thêm thành công!"
+    },
+    "info": {
+      "title": "Chi Tiết Phòng",
+      "created": "Tạo lúc",
+      "updated": "Cập nhật",
+      "size": "Diện tích",
+      "house": "Nhà",
+      "baseRent": "Giá thuê cơ bản",
+      "na": "Không có",
+      "actions": {
+        "button": "Thao Tác",
+        "createBill": "Tạo Hóa Đơn"
+      },
+      "stats": {
+        "totalTenants": "Tổng Số Khách",
+        "totalIncome": "Tổng Thu Nhập",
+        "totalExpenses": "Tổng Chi Phí",
+        "lastPayment": "Thanh Toán Gần Nhất"
+      }
     }
   },
   "tenant": {
@@ -355,7 +375,23 @@
       "paid": "Đã thanh toán",
       "pendingPayment": "Chờ thanh toán",
       "pendingReview": "Chờ xét duyệt",
-      "unknown": "Không xác định"
+      "unknown": "Không xác định",
+      "PAID": "Đã Thanh Toán",
+      "PENDING_TENANT_PAYMENT": "Chờ Thanh Toán",
+      "PENDING_OWNER_REVIEW": "Chờ Duyệt"
+    },
+    "filter": {
+      "buttonText": "Lọc",
+      "title": "Lọc Hóa Đơn",
+      "description": "Lọc hóa đơn theo khoảng thời gian và trạng thái. Nhấn áp dụng khi hoàn tất.",
+      "fromDate": "Từ Ngày",
+      "fromDatePlaceholder": "Chọn ngày bắt đầu",
+      "toDate": "Đến Ngày",
+      "toDatePlaceholder": "Chọn ngày kết thúc",
+      "status": "Trạng Thái",
+      "statusPlaceholder": "Chọn trạng thái",
+      "apply": "Áp Dụng Bộ Lọc",
+      "reset": "Đặt Lại"
     },
     "actions": {
       "edit": "Chỉnh sửa",
@@ -504,6 +540,44 @@
       "cancel": "Hủy",
       "submit": "Tạo Mới",
       "save": "Lưu Thay Đổi"
+    },
+    "table": {
+      "date": "Ngày",
+      "name": "Tên Chi Phí",
+      "room": "Phòng",
+      "amount": "Số Tiền",
+      "notes": "Ghi chú"
+    },
+    "button": {
+      "edit": "Chỉnh Sửa",
+      "create": "Tạo chi phí phòng"
+    },
+    "dialog": {
+      "editTitle": "Chỉnh Sửa Chi Phí Phòng",
+      "createTitle": "Tạo Chi Phí Phòng",
+      "editDescription": "Chỉnh sửa chi phí cho {name}",
+      "createDescription": "Tạo chi phí mới cho phòng này"
+    },
+    "filter": {
+      "buttonText": "Lọc",
+      "title": "Lọc Chi Phí",
+      "description": "Lọc chi phí theo từ khóa tìm kiếm, khoảng thời gian và số tiền. Nhấn áp dụng khi hoàn tất.",
+      "search": "Tìm Kiếm",
+      "searchPlaceholder": "Tìm kiếm theo tên chi phí",
+      "fromDate": "Từ Ngày",
+      "fromDatePlaceholder": "Chọn ngày bắt đầu",
+      "toDate": "Đến Ngày",
+      "toDatePlaceholder": "Chọn ngày kết thúc",
+      "comparisonLabel": "So Sánh",
+      "comparisonPlaceholder": "Chọn",
+      "amount": "Số Tiền",
+      "amountPlaceholder": "Nhập số tiền",
+      "apply": "Áp Dụng Bộ Lọc",
+      "reset": "Đặt Lại",
+      "comparison": {
+        "bigger": "Lớn hơn",
+        "smaller": "Nhỏ hơn"
+      }
     }
   }
 }

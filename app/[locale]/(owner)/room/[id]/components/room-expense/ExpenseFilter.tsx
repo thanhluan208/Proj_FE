@@ -21,20 +21,28 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { billingFilterKeys, filterPrefix } from "./BillingHistorySection";
 import { isEmpty } from "lodash";
+import {
+  expenseFilterKeys,
+  expenseFilterPrefix,
+} from "./ExpenseManagementSection";
+import { GetRoomExpensesDto } from "@/types/rooms.type";
+import NumericFormatField from "@/components/common/fields/NumericFormatField";
+import InputField from "@/components/common/fields/InputField";
 
-const BillingFilter = () => {
+const ExpenseFilter = () => {
   const searchParams = useSearchParams();
-  const t = useTranslations("bill");
+  const t = useTranslations("expense");
 
   const [open, setOpen] = useState(false);
 
   const filters = useMemo<GetBillingDto>(() => {
-    return billingFilterKeys.reduce(
+    return expenseFilterKeys.reduce(
       (prev: Record<string, string | undefined>, cur) => {
         if (!cur) return prev;
-        const filterValue = searchParams.get(`${filterPrefix}_${cur.key}`);
+        const filterValue = searchParams.get(
+          `${expenseFilterPrefix}_${cur.key}`
+        );
         return {
           ...prev,
           [cur.key]: filterValue || cur.defaultValue,
@@ -72,32 +80,34 @@ const BillingFilter = () => {
           <SheetTitle>{t("filter.title")}</SheetTitle>
           <SheetDescription>{t("filter.description")}</SheetDescription>
         </SheetHeader>
-        {open && <BillingFilterContent filters={filters} setOpen={setOpen} />}
+        {open && <ExpenseFilterContent filters={filters} setOpen={setOpen} />}
       </SheetContent>
     </Sheet>
   );
 };
 
-export default BillingFilter;
+export default ExpenseFilter;
 
-interface BillingFilterContentProps {
-  filters: GetBillingDto;
+interface ExpenseFilterContentProps {
+  filters: GetRoomExpensesDto;
   setOpen: (value: boolean) => void;
 }
 
-const BillingFilterContent = ({
+const ExpenseFilterContent = ({
   filters,
   setOpen,
-}: BillingFilterContentProps) => {
+}: ExpenseFilterContentProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const t = useTranslations("bill");
+  const t = useTranslations("expense");
 
   const schema = z.object({
     from: z.date().optional(),
     to: z.date().optional(),
-    status: z.string().optional(),
+    comparison: z.string().optional(),
+    search: z.string().optional(),
+    amount: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof schema>>({
@@ -105,14 +115,16 @@ const BillingFilterContent = ({
     defaultValues: {
       from: filters?.from ? dayjs(filters.from).toDate() : undefined,
       to: filters?.to ? dayjs(filters.to).toDate() : undefined,
-      status: filters.status || "",
+      comparison: filters.comparison || "",
+      search: filters.search || "",
+      amount: filters.amount || "",
     },
   });
 
-  const statusOption = useMemo(() => {
-    return Object.values(BillingStatusEnum).map((elm) => {
+  const comparisonOption = useMemo(() => {
+    return ["bigger", "smaller"].map((elm) => {
       return {
-        label: t(`status.${elm}`),
+        label: t(`filter.comparison.${elm}`),
         value: elm,
       };
     });
@@ -124,11 +136,11 @@ const BillingFilterContent = ({
     Object.entries(data).forEach(([key, value]) => {
       if (value) {
         params.append(
-          `${filterPrefix}_${key}`,
+          `${expenseFilterPrefix}_${key}`,
           value instanceof Date ? dayjs(value).toISOString() : value
         );
       } else {
-        params.delete(`${filterPrefix}_${key}`);
+        params.delete(`${expenseFilterPrefix}_${key}`);
       }
     });
 
@@ -138,9 +150,8 @@ const BillingFilterContent = ({
 
   const handleReset = () => {
     const params = new URLSearchParams(searchParams.toString());
-    billingFilterKeys.forEach((key) => {
-      console.log("delete", `${filterPrefix}_${key}`);
-      params.delete(`${filterPrefix}_${key.key}`);
+    expenseFilterKeys.forEach((key) => {
+      params.delete(`${expenseFilterPrefix}_${key.key}`);
     });
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     setOpen(false);
@@ -153,6 +164,13 @@ const BillingFilterContent = ({
         className="h-full flex flex-col"
       >
         <div className="grid flex-1 auto-rows-min gap-6 px-4 py-6">
+          <InputField
+            control={form.control}
+            name="search"
+            label={t("filter.search")}
+            placeholder={t("filter.searchPlaceholder")}
+          />
+
           <DatePickerField
             control={form.control}
             name="from"
@@ -166,13 +184,24 @@ const BillingFilterContent = ({
             placeholder={t("filter.toDatePlaceholder")}
           />
 
-          <SelectField
-            name="status"
-            control={form.control}
-            options={statusOption}
-            label={t("filter.status")}
-            placeholder={t("filter.statusPlaceholder")}
-          />
+          <div className="grid grid-cols-3 gap-2">
+            <SelectField
+              name="comparison"
+              control={form.control}
+              options={comparisonOption}
+              label={t("filter.comparisonLabel")}
+              placeholder={t("filter.comparisonPlaceholder")}
+            />
+            <div className="col-span-2">
+              <NumericFormatField
+                rightIcon={<span className="text-muted-foreground">₫</span>}
+                control={form.control}
+                name="amount"
+                label={t("filter.amount")}
+                placeholder={t("filter.amountPlaceholder")}
+              />
+            </div>
+          </div>
         </div>
         <SheetFooter className="gap-2">
           <Button type="button" variant="outline" onClick={handleReset}>

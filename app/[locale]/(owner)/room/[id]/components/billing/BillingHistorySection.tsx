@@ -11,7 +11,7 @@ import { Filter, LayoutGrid, List } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useMemo, useState } from "react";
 import BillingCard from "./BillingCard";
-import { FilterValues } from "./BillingFilter";
+import BillingFilter from "./BillingFilter";
 import BillingTable from "./BillingTable";
 import { useRouter } from "@/i18n/routing";
 import CardContainer from "@/components/ui/card-container";
@@ -23,7 +23,7 @@ interface BillingHistorySectionProps {
 
 type ViewMode = "card" | "table";
 
-const filterKeys = [
+export const billingFilterKeys = [
   { key: "status", defaultValue: undefined },
   { key: "pageSize", defaultValue: "10" },
   { key: "page", defaultValue: "1" },
@@ -31,7 +31,7 @@ const filterKeys = [
   { key: "to", defaultValue: undefined },
 ];
 
-const filterPrefix = "bills";
+export const filterPrefix = "bills";
 
 const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
   roomId,
@@ -40,11 +40,10 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [viewMode, setViewMode] = useState<ViewMode>("card");
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>("table");
 
   const filters = useMemo<GetBillingDto>(() => {
-    return filterKeys.reduce(
+    return billingFilterKeys.reduce(
       (prev: Record<string, string | undefined>, cur) => {
         if (!cur) return prev;
         const filterValue = searchParams.get(`${filterPrefix}_${cur.key}`);
@@ -68,7 +67,7 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
   // Pagination
   const totalPages = total ? Math.ceil(total.total / 10) : 0;
 
-  const handleFilterApply = (newFilters: FilterValues) => {
+  const handleFilterApply = () => {
     // setFilters(newFilters);
     // setCurrentPage(1); // Reset to first page when filters change
   };
@@ -79,7 +78,10 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const hasActiveFilters = Object.values(filters).some((value) => value);
+  const hasActiveFilters =
+    Object.entries(filters).filter(
+      ([key, value]) => !["page", "pageSize", "room"].includes(key) && !!value
+    ).length > 0;
 
   // Masonry layout for card view
   const columns = useMasonry(bills, { 0: 1, 768: 2, 1024: 3 });
@@ -122,25 +124,8 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
             </button>
           </div>
 
-          {/* Filter Button */}
-          <button
-            onClick={() => setIsFilterOpen(true)}
-            className={`flex items-center gap-2 px-4 py-1 rounded-md font-medium transition-all ${
-              hasActiveFilters
-                ? "bg-primary text-primary-foreground"
-                : "bg-accent/50 dark:bg-accent/30 text-foreground hover:bg-accent"
-            }`}
-          >
-            <Filter className="w-4 h-4" />
-            <span className="hidden sm:inline">Filter</span>
-            {hasActiveFilters && (
-              <span className="bg-primary-foreground text-primary text-xs px-1.5 py-0.5 rounded-full font-bold">
-                {Object.values(filters).filter((v) => v).length}
-              </span>
-            )}
-          </button>
-
-          <BillingAddButton />
+          <BillingFilter />
+          <BillingAddButton className="w-fit" />
         </>
       }
     >
@@ -149,7 +134,16 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
           <p className="text-muted-foreground">No billing records found</p>
           {hasActiveFilters && (
             <button
-              onClick={() => handleFilterApply({})}
+              onClick={() => {
+                const params = new URLSearchParams(searchParams.toString());
+                billingFilterKeys.forEach((key) => {
+                  console.log("delete", `${filterPrefix}_${key}`);
+                  params.delete(`${filterPrefix}_${key.key}`);
+                });
+                router.replace(`${pathname}?${params.toString()}`, {
+                  scroll: false,
+                });
+              }}
               className="mt-2 text-primary hover:underline"
             >
               Clear filters
@@ -180,14 +174,6 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-
-      {/* Filter Panel */}
-      {/* <BillingFilter
-        isOpen={isFilterOpen}
-        onClose={() => setIsFilterOpen(false)}
-        onApply={handleFilterApply}
-        tenants={tenants}
-      /> */}
     </CardContainer>
   );
 };

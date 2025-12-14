@@ -14,15 +14,15 @@ import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { FC, useMemo, useState } from "react";
 import ExpenseCard from "./ExpenseCard";
-// import ExpenseCard from "./ExpenseCard";
-// import ExpenseTable from "./ExpenseTable";
-// import ExpenseFilter from "./ExpenseFilter";
+import ExpenseTable from "./ExpenseTable";
+import ExpenseFilter from "./ExpenseFilter";
+import ExpenseAddOrEditButton from "./ExpenseAddOrEditButton";
 
 interface ExpenseManagementSectionProps {
   roomId: string;
 }
 
-const filterKeys = [
+export const expenseFilterKeys = [
   { key: "from", defaultValue: undefined },
   { key: "to", defaultValue: undefined },
   { key: "search", defaultValue: undefined },
@@ -31,7 +31,7 @@ const filterKeys = [
   { key: "pageSize", defaultValue: "10" },
   { key: "page", defaultValue: "1" },
 ];
-const filterPrefix = "expenses";
+export const expenseFilterPrefix = "expenses";
 
 const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
   roomId,
@@ -43,10 +43,12 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
   const [viewMode, setViewMode] = useState<ViewMode>("card");
 
   const filters = useMemo<GetRoomExpensesDto>(() => {
-    const baseFilters = filterKeys.reduce(
+    const baseFilters = expenseFilterKeys.reduce(
       (prev: Record<string, string | undefined>, cur) => {
         if (!cur) return prev;
-        const filterValue = searchParams.get(`${filterPrefix}_${cur.key}`);
+        const filterValue = searchParams.get(
+          `${expenseFilterPrefix}_${cur.key}`
+        );
         return {
           ...prev,
           [cur.key]: filterValue || cur.defaultValue,
@@ -78,16 +80,16 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
   const updateFilters = (newFilters: Partial<GetRoomExpensesDto>) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    filterKeys.forEach((cur) => {
+    expenseFilterKeys.forEach((cur) => {
       const filterValue = newFilters[cur.key as keyof GetRoomExpensesDto];
       if (
         filterValue !== undefined &&
         filterValue !== null &&
         filterValue !== ""
       ) {
-        params.set(`${filterPrefix}_${cur.key}`, String(filterValue));
+        params.set(`${expenseFilterKeys}_${cur.key}`, String(filterValue));
       } else {
-        params.delete(`${filterPrefix}_${cur.key}`);
+        params.delete(`${expenseFilterKeys}_${cur.key}`);
       }
     });
 
@@ -157,44 +159,6 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
       }
       actions={
         <>
-          {/* Quick Period Filter */}
-          <div className="hidden md:flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1 mr-2">
-            <button
-              onClick={() => handleQuickFilter("all")}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-                !filters.from && !filters.to
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {t("all")}
-            </button>
-            <button
-              onClick={() => handleQuickFilter("thisMonth")}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-                filters.from &&
-                filters.to &&
-                new Date(filters.from).getMonth() === new Date().getMonth()
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {t("thisMonth")}
-            </button>
-            <button
-              onClick={() => handleQuickFilter("lastMonth")}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-                filters.from &&
-                filters.to &&
-                new Date(filters.from).getMonth() === new Date().getMonth() - 1
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {t("lastMonth")}
-            </button>
-          </div>
-
           {/* View Toggle */}
           <div className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1">
             <button
@@ -222,11 +186,9 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
           </div>
 
           {/* Filter Button - Placeholder */}
-          {/* <ExpenseFilter 
-            filters={filters}
-            onApply={handleFilterApply}
-            hasActiveFilters={hasActiveFilters}
-          /> */}
+          <ExpenseFilter />
+
+          <ExpenseAddOrEditButton className="w-fit" />
         </>
       }
     >
@@ -253,13 +215,7 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
           ))}
         </div>
       ) : (
-        // Placeholder for ExpenseTable component
-        <div className="border rounded-lg bg-card p-4">
-          {/* <ExpenseTable expenses={expenses} /> */}
-          <p className="text-sm text-muted-foreground">
-            Expense Table Placeholder
-          </p>
-        </div>
+        <ExpenseTable expenses={expenses} />
       )}
     </CardContainer>
   );

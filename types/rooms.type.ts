@@ -68,6 +68,6 @@ export interface GetRoomExpensesDto extends PaginationParams {
   from?: string;
   to?: string;
   search?: string;
-  amount?: number;
+  amount?: string;
   comparison?: ComparisonEnum;
 }

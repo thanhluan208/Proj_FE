@@ -6,36 +6,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { ImageDialog } from "@/components/ui/image-dialog";
 import { cn, formatCurrency } from "@/lib/utils";
 import { RoomExpense } from "@/types/rooms.type";
 import dayjs from "dayjs";
-import {
-  Calendar,
-  DollarSign,
-  Edit2,
-  FileText,
-  MoreVertical,
-  Receipt,
-  Trash2,
-} from "lucide-react";
+import { Calendar, DollarSign, Receipt } from "lucide-react";
 import { useTranslations } from "next-intl";
-import React, { use, useEffect, useState } from "react";
-import ExpenseAddOrEditButton from "./ExpenseAddOrEditButton";
-import { ImageDialog } from "@/components/ui/image-dialog";
-import DeleteButton from "@/components/ui/delete-button";
-import useRoomMutation from "@/hooks/rooms/useRoomMutation";
+import React, { useState } from "react";
+import ExpenseActionButton from "./ExpenseActionButton";
 // import ExpenseDeleteButton from "./ExpenseDeleteButton";
 
 interface ExpenseCardProps {
@@ -49,11 +27,9 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({
   onEdit,
   onDelete,
 }) => {
-  const [open, setOpen] = useState<string | undefined>("details");
+  const [open, setOpen] = useState<string | undefined>(undefined);
   const t = useTranslations("expense");
   const tCommon = useTranslations("common");
-
-  const { deleteRoomExpense } = useRoomMutation();
 
   const getCategoryColor = (category?: string) => {
     const colors: Record<string, string> = {
@@ -99,28 +75,7 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({
                 </div>
               </div>
 
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                  >
-                    <MoreVertical className="w-4 h-4" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="flex flex-col w-36 p-1">
-                  <ExpenseAddOrEditButton expense={expense} />
-
-                  <DeleteButton
-                    id={expense.id}
-                    action={deleteRoomExpense}
-                    title="Delete room expense"
-                    description="Are you sure you want to delete this room expense ?"
-                    className="justify-start"
-                  />
-                </PopoverContent>
-              </Popover>
+              <ExpenseActionButton expense={expense} />
             </div>
 
             <div className="flex items-center justify-between p-3 bg-accent/50 rounded-lg border border-border/50">

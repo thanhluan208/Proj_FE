@@ -8,19 +8,27 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { Expense, RoomExpense } from "@/types/rooms.type";
+import { extend } from "lodash";
 import { BanknoteArrowDown, Edit2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
 
-interface ExpenseAddOrEditButtonProps {
+interface ExpenseAddOrEditButtonProps
+  extends ComponentPropsWithoutRef<"button"> {
   expense?: RoomExpense;
+  isGhost?: boolean;
 }
 
-const ExpenseAddOrEditButton = ({ expense }: ExpenseAddOrEditButtonProps) => {
+const ExpenseAddOrEditButton = ({
+  expense,
+  isGhost,
+  className,
+}: ExpenseAddOrEditButtonProps) => {
   const params = useParams();
-  const t = useTranslations("common");
+  const t = useTranslations("expense");
 
   const [open, setOpen] = useState(false);
 
@@ -28,27 +36,27 @@ const ExpenseAddOrEditButton = ({ expense }: ExpenseAddOrEditButtonProps) => {
     <>
       <Button
         onClick={() => setOpen(true)}
-        variant="ghost"
+        variant={isGhost || !!expense ? "ghost" : "default"}
         size="sm"
-        className="justify-start gap-2 w-full"
+        className={cn("justify-start gap-2 w-full", className)}
       >
         {expense ? (
           <Edit2 className="w-4 h-4" />
         ) : (
           <BanknoteArrowDown className="w-4 h-4 rotate-x-180" />
         )}
-        {expense ? "Edit" : "Create room expense(s)"}
+        {expense ? t("button.edit") : t("button.create")}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-[min(90vw,650px)]! max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
-              {expense ? "Edit room expense" : "Create Room Expense(s)"}
+              {expense ? t("dialog.editTitle") : t("dialog.createTitle")}
             </DialogTitle>
             <DialogDescription>
               {expense
-                ? `Edit expense for ${expense.name}`
-                : "Create new expense(s) to this room"}
+                ? t("dialog.editDescription", { name: expense.name })
+                : t("dialog.createDescription")}
             </DialogDescription>
           </DialogHeader>
 

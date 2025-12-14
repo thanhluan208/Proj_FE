@@ -137,21 +137,16 @@ const AddOrEditTenantForm: FC<AddTenantFormProps> = ({
             )}
           />
 
-          <FormField
-            control={form.control}
+          <SelectField
             name="sex"
-            render={({ field }) => (
-              <SelectField
-                field={field}
-                options={[
-                  { label: t("gender.male"), value: "Male" },
-                  { label: t("gender.female"), value: "Female" },
-                  { label: t("gender.other"), value: "Other" },
-                ]}
-                label={t("form.sex")}
-                placeholder={t("form.sexPlaceholder")}
-              />
-            )}
+            control={form.control}
+            options={[
+              { label: t("gender.male"), value: "Male" },
+              { label: t("gender.female"), value: "Female" },
+              { label: t("gender.other"), value: "Other" },
+            ]}
+            label={t("form.sex")}
+            placeholder={t("form.sexPlaceholder")}
           />
         </div>
 
