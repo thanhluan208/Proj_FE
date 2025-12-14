@@ -20,7 +20,7 @@ const CardContainer: FC<CardContainerProps> = ({
           <div className="h-12 w-1 bg-primary rounded-full" />
           <div>
             <h2 className="text-2xl font-bold text-foreground">{cardTitle}</h2>
-            <p className="text-sm text-muted-foreground">{subTitle}</p>
+            <div className="text-sm text-muted-foreground">{subTitle}</div>
           </div>
         </div>
 

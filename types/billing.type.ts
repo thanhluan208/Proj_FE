@@ -28,11 +28,11 @@ export interface CreateBillingDto {
 
   notes?: string;
 
-  electricity_start_index: number;
-  electricity_end_index: number;
+  electricity_start_index: string;
+  electricity_end_index: string;
 
-  water_start_index: number;
-  water_end_index: number;
+  water_start_index: string;
+  water_end_index: string;
 
   houseInfo: HouseInfo;
   bankInfo: BankInfo;
@@ -68,8 +68,6 @@ export interface Billing {
   createdAt: string; // ISO datetime
   updatedAt: string; // ISO datetime
   deletedAt: string | null;
-
-  tenant: Tenant;
 
   tenantContract: TenantContracts;
 }

@@ -14,6 +14,8 @@ import BillingCard from "./BillingCard";
 import { FilterValues } from "./BillingFilter";
 import BillingTable from "./BillingTable";
 import { useRouter } from "@/i18n/routing";
+import CardContainer from "@/components/ui/card-container";
+import BillingAddButton from "./BillingAddOrEditButton";
 
 interface BillingHistorySectionProps {
   roomId: string;
@@ -83,25 +85,17 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
   const columns = useMasonry(bills, { 0: 1, 768: 2, 1024: 3 });
 
   return (
-    <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm border border-border">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="h-12 w-1 bg-primary rounded-full" />
-          <div>
-            <h2 className="text-2xl font-bold text-foreground">
-              Billing History
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              {bills.length} record
-              {bills.length !== 1 ? "s" : ""}
-              {hasActiveFilters && " (filtered)"}
-            </p>
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="flex items-center gap-2">
+    <CardContainer
+      cardTitle="Billing History"
+      subTitle={
+        <p className="text-sm text-muted-foreground">
+          {bills.length} record
+          {bills.length !== 1 ? "s" : ""}
+          {hasActiveFilters && " (filtered)"}
+        </p>
+      }
+      actions={
+        <>
           {/* View Toggle */}
           <div className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1">
             <button
@@ -131,7 +125,7 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
           {/* Filter Button */}
           <button
             onClick={() => setIsFilterOpen(true)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+            className={`flex items-center gap-2 px-4 py-1 rounded-md font-medium transition-all ${
               hasActiveFilters
                 ? "bg-primary text-primary-foreground"
                 : "bg-accent/50 dark:bg-accent/30 text-foreground hover:bg-accent"
@@ -145,10 +139,11 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
               </span>
             )}
           </button>
-        </div>
-      </div>
 
-      {/* Billing List */}
+          <BillingAddButton />
+        </>
+      }
+    >
       {bills.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-muted-foreground">No billing records found</p>
@@ -165,8 +160,12 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
         <div className="flex gap-4 items-start">
           {columns.map((column, colIndex) => (
             <div key={colIndex} className="flex-1 space-y-4">
-              {column.map((billing) => (
-                <BillingCard key={billing.id} billing={billing} />
+              {column.map((billing, index) => (
+                <BillingCard
+                  key={billing.id}
+                  billing={billing}
+                  defaultOpen={index === 0 && colIndex === 0}
+                />
               ))}
             </div>
           ))}
@@ -189,6 +188,26 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
         onApply={handleFilterApply}
         tenants={tenants}
       /> */}
+    </CardContainer>
+  );
+
+  return (
+    <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm border border-border">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="h-12 w-1 bg-primary rounded-full" />
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">
+              Billing History
+            </h2>
+          </div>
+        </div>
+
+        {/* Controls */}
+      </div>
+
+      {/* Billing List */}
     </div>
   );
 };

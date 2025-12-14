@@ -17,7 +17,16 @@
     "loadingMore": "Loading more...",
     "retry": "Retry",
     "viewDetails": "View Details",
-    "actions": "Actions"
+    "actions": "Actions",
+    "requiredField": "{field} is required",
+    "messages": {
+      "createSuccess": "Created successfully",
+      "createError": "Failed to create. Please try again.",
+      "updateSuccess": "Updated successfully",
+      "updateError": "Failed to update. Please try again.",
+      "deleteSuccess": "Deleted successfully",
+      "deleteError": "Failed to delete. Please try again."
+    }
   },
   "auth": {
     "login": {
@@ -346,9 +355,28 @@
       "pendingReview": "Pending Review",
       "unknown": "Unknown"
     },
+    "actions": {
+      "edit": "Edit",
+      "create": "Create Bill"
+    },
+    "dialog": {
+      "editTitle": "Edit bill",
+      "editDescription": "Edit the current bill",
+      "createTitle": "Create new bill",
+      "createDescription": "Create a new bill for this room"
+    },
+    "sections": {
+      "general": "General",
+      "houseInfo": "House Info",
+      "bankInfo": "Bank Info",
+      "billInfo": "Bill Information"
+    },
     "collapse": "Collapse",
     "expand": "Expand",
     "total": "Total",
+    "delete": "Delete",
+    "deleteTitle": "Delete Bill",
+    "deleteDescription": "Are you sure you want to delete this bill?",
     "utilities": {
       "electricity": "Electricity",
       "fixedElectricityPrice": "Fixed electricity price",
@@ -376,6 +404,48 @@
       "total": "Total",
       "status": "Status",
       "paymentDate": "Payment Date"
+    },
+    "form": {
+      "from": "From date",
+      "fromPlaceholder": "Select start date",
+      "to": "To date",
+      "toPlaceholder": "Select end date",
+
+      "houseAddress": "House address",
+      "houseAddressPlaceholder": "Enter house address",
+
+      "houseOwner": "House owner",
+      "houseOwnerPlaceholder": "Enter house owner name",
+
+      "houseOwnerPhoneNumber": "Owner phone number",
+      "houseOwnerPhoneNumberPlaceholder": "Enter phone number",
+
+      "houseOwnerBackupPhoneNumber": "Backup phone number",
+      "houseOwnerBackupPhoneNumberPlaceholder": "Enter backup phone number",
+
+      "bankAccountName": "Bank account name",
+      "bankAccountNamePlaceholder": "Enter account holder name",
+
+      "bankAccountNumber": "Bank account number",
+      "bankAccountNumberPlaceholder": "Enter account number",
+
+      "bankName": "Bank name",
+      "bankNamePlaceholder": "Enter bank name",
+
+      "electricity_start_index": "Electricity start index",
+      "electricity_start_indexPlaceholder": "Enter start meter index",
+
+      "electricity_end_index": "Electricity end index",
+      "electricity_end_indexPlaceholder": "Enter end meter index",
+
+      "water_start_index": "Water start index",
+      "water_start_indexPlaceholder": "Enter start meter index",
+
+      "water_end_index": "Water end index",
+      "water_end_indexPlaceholder": "Enter end meter index",
+
+      "paymentDate": "Payment Date",
+      "paymentDatePlaceholder": "Select Payment Date"
     }
   }
 }

@@ -17,7 +17,16 @@
     "loadingMore": "Đang tải thêm...",
     "retry": "Thử lại",
     "viewDetails": "Xem chi tiết",
-    "actions": "Hành động"
+    "actions": "Hành động",
+    "requiredField": "{field} là bắt buộc",
+    "messages": {
+      "createSuccess": "Tạo mới thành công",
+      "createError": "Tạo mới thất bại. Vui lòng thử lại.",
+      "updateSuccess": "Cập nhật thành công",
+      "updateError": "Cập nhật thất bại. Vui lòng thử lại.",
+      "deleteSuccess": "Xóa thành công",
+      "deleteError": "Xóa thất bại. Vui lòng thử lại."
+    }
   },
   "auth": {
     "login": {
@@ -348,9 +357,28 @@
       "pendingReview": "Chờ xét duyệt",
       "unknown": "Không xác định"
     },
+    "actions": {
+      "edit": "Chỉnh sửa",
+      "create": "Tạo hóa đơn"
+    },
+    "dialog": {
+      "editTitle": "Chỉnh sửa hóa đơn",
+      "editDescription": "Chỉnh sửa thông tin hóa đơn hiện tại",
+      "createTitle": "Tạo hóa đơn mới",
+      "createDescription": "Tạo hóa đơn mới cho phòng này"
+    },
+    "sections": {
+      "general": "Thông tin chung",
+      "houseInfo": "Thông tin nhà",
+      "bankInfo": "Thông tin ngân hàng",
+      "billInfo": "Thông tin hóa đơn"
+    },
     "collapse": "Thu gọn",
     "expand": "Mở rộng",
     "total": "Tổng cộng",
+    "delete": "Xoá",
+    "deleteTitle": "Xoá hoá đơn",
+    "deleteDescription": "Bạn có chắc là muốn xoá hoá đơn này không?",
     "utilities": {
       "electricity": "Điện",
       "fixedElectricityPrice": "Giá điện cố định",
@@ -378,6 +406,48 @@
       "total": "Tổng cộng",
       "status": "Trạng thái",
       "paymentDate": "Ngày thanh toán"
+    },
+    "form": {
+      "from": "Từ ngày",
+      "fromPlaceholder": "Chọn ngày bắt đầu",
+      "to": "Đến ngày",
+      "toPlaceholder": "Chọn ngày kết thúc",
+
+      "houseAddress": "Địa chỉ nhà",
+      "houseAddressPlaceholder": "Nhập địa chỉ nhà",
+
+      "houseOwner": "Chủ nhà",
+      "houseOwnerPlaceholder": "Nhập tên chủ nhà",
+
+      "houseOwnerPhoneNumber": "Số điện thoại chủ nhà",
+      "houseOwnerPhoneNumberPlaceholder": "Nhập số điện thoại",
+
+      "houseOwnerBackupPhoneNumber": "Số điện thoại dự phòng",
+      "houseOwnerBackupPhoneNumberPlaceholder": "Nhập số điện thoại dự phòng",
+
+      "bankAccountName": "Tên chủ tài khoản",
+      "bankAccountNamePlaceholder": "Nhập tên chủ tài khoản",
+
+      "bankAccountNumber": "Số tài khoản ngân hàng",
+      "bankAccountNumberPlaceholder": "Nhập số tài khoản",
+
+      "bankName": "Tên ngân hàng",
+      "bankNamePlaceholder": "Nhập tên ngân hàng",
+
+      "electricity_start_index": "Chỉ số điện đầu kỳ",
+      "electricity_start_indexPlaceholder": "Nhập chỉ số điện đầu kỳ",
+
+      "electricity_end_index": "Chỉ số điện cuối kỳ",
+      "electricity_end_indexPlaceholder": "Nhập chỉ số điện cuối kỳ",
+
+      "water_start_index": "Chỉ số nước đầu kỳ",
+      "water_start_indexPlaceholder": "Nhập chỉ số nước đầu kỳ",
+
+      "water_end_index": "Chỉ số nước cuối kỳ",
+      "water_end_indexPlaceholder": "Nhập chỉ số nước cuối kỳ",
+
+      "paymentDate": "Ngày thanh toán",
+      "paymentDatePlaceholder": "Chọn ngày thanh toán"
     }
   }
 }

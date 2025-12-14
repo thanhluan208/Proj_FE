@@ -1,0 +1,73 @@
+import AddOrEditBillingForm from "@/app/[locale]/(owner)/components/billing/AddOrEditBillingForm";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Billing } from "@/types/billing.type";
+import { Edit2, FilePlus } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import { useState } from "react";
+
+interface BillingAddOrEditButtonProps {
+  data?: Billing;
+}
+
+const BillingAddOrEditButton = ({ data }: BillingAddOrEditButtonProps) => {
+  const params = useParams();
+  const t = useTranslations("bill");
+
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button
+        onClick={() => setOpen(true)}
+        size="sm"
+        variant={data ? "ghost" : "default"}
+        className="justify-start gap-2 w-full"
+      >
+        {data ? (
+          <>
+            <Edit2 className="w-4 h-4 mr-2" />
+            {t("actions.edit")}
+          </>
+        ) : (
+          <>
+            <FilePlus className="w-4 h-4" />
+            {t("actions.create")}
+          </>
+        )}
+      </Button>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-[min(90vw,1150px)]! max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {data ? t("dialog.editTitle") : t("dialog.createTitle")}
+            </DialogTitle>
+            <DialogDescription>
+              {data
+                ? t("dialog.editDescription")
+                : t("dialog.createDescription")}
+            </DialogDescription>
+          </DialogHeader>
+
+          {open && (
+            <AddOrEditBillingForm
+              roomId={String(params.id)}
+              setIsDialogOpen={setOpen}
+              data={data}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
+export default BillingAddOrEditButton;

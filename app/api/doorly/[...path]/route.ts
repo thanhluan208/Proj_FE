@@ -74,11 +74,18 @@ async function handleProxyRequest(
     );
   }
 
-  // Get request body for non-GET requests
-  let body: string | null = null;
+  let body: ArrayBuffer | null = null;
   if (!METHODS_WITHOUT_BODY.includes(request.method as any)) {
     try {
-      body = await request.text();
+      // Use arrayBuffer() instead of text() to preserve binary data
+      body = await request.arrayBuffer();
+
+      console.log("📦 Request body details:", {
+        method: request.method,
+        contentType: request.headers.get("content-type"),
+        bodySize: body.byteLength,
+        bodySizeKB: (body.byteLength / 1024).toFixed(2) + " KB",
+      });
     } catch (error) {
       console.error("Failed to read request body:", error);
       return NextResponse.json(
@@ -96,7 +103,12 @@ async function handleProxyRequest(
     const backendResponse = await fetch(backendUrl, {
       method: request.method,
       headers: await buildProxyHeaders(request),
-      body,
+      body: body, // Now passing ArrayBuffer directly
+    });
+
+    console.log("📨 Backend response:", {
+      status: backendResponse.status,
+      contentType: backendResponse.headers.get("content-type"),
     });
 
     // Get response data

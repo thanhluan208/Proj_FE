@@ -29,8 +29,8 @@ export function ConfirmationDialog({
   isOpen,
   title,
   description,
-  confirmText = "Confirm",
-  cancelText = "Cancel",
+  confirmText,
+  cancelText,
   content,
   onConfirm,
   onCancel,
@@ -54,7 +54,7 @@ export function ConfirmationDialog({
             onClick={onCancel}
             disabled={isLoading}
           >
-            {cancelText || t("form.cancel")}
+            {cancelText || t("cancel")}
           </Button>
 
           <Button disabled={isLoading} onClick={onConfirm} className="flex-1">
@@ -63,7 +63,7 @@ export function ConfirmationDialog({
             ) : confirmText ? (
               confirmText
             ) : (
-              t("form.submit")
+              t("confirm")
             )}
           </Button>
         </DialogFooter>
