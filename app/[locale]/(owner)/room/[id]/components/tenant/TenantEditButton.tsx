@@ -41,7 +41,7 @@ const TenantEditButton: FC<TenantEditButtonProps> = ({ data }) => {
         <Edit className="w-3.5 h-3.5 text-muted-foreground" />
       </button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-[700px] max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-[700px]! max-h-[90vh]! overflow-y-auto">
           <DialogHeader className="sticky top-0 z-10 bg-neutral-100 -mx-4 -mt-3 px-4 py-3 border-b border-border">
             <DialogTitle>
               {t("editDialog.title", { name: data.name })}

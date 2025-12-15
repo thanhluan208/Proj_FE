@@ -46,6 +46,9 @@ import {
 import { useTranslations } from "next-intl";
 import React from "react";
 import ContractDeleteButton from "./ContractDeleteButton";
+import useContractMutation from "@/hooks/contracts/useContractMutation";
+import DeleteButton from "@/components/ui/delete-button";
+import ContractAction from "./ContractAction";
 
 interface ContractCardProps {
   contract: Contract;
@@ -53,12 +56,10 @@ interface ContractCardProps {
   onDelete?: (contract: Contract) => void;
 }
 
-const ContractCard: React.FC<ContractCardProps> = ({
-  contract,
-  onEdit,
-  onDelete,
-}) => {
-  const t = useTranslations("contract"); // Assuming 'contract' namespace exists, fallback to hardcoded if needed
+const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
+  const t = useTranslations("contract");
+
+  const { deleteContract } = useContractMutation();
 
   const formatCurrency = (value: number | string) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -180,24 +181,7 @@ const ContractCard: React.FC<ContractCardProps> = ({
                 </div>
               </div>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                  >
-                    <MoreVertical className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => onEdit?.(contract)}>
-                    <Edit2 className="w-4 h-4 mr-2" />
-                    Edit
-                  </DropdownMenuItem>
-                  <ContractDeleteButton contract={contract} />
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <ContractAction data={contract} />
             </div>
 
             <div className="grid grid-cols-3  mb-4">

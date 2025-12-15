@@ -220,7 +220,7 @@ const AddOrEditTenantForm: FC<AddTenantFormProps> = ({
           />
         </div>
 
-        <div className="flex gap-3 mt-6 sticky bottom-0 bg-neutral-100 ">
+        <div className="flex gap-3 mt-6 pb-6 sticky bottom-0 bg-neutral-100 ">
           <Button
             type="button"
             variant="outline"

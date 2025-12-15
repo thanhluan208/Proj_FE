@@ -1,4 +1,3 @@
-import { expenseFilterPrefix } from "@/app/[locale]/(owner)/room/[id]/components/room-expense/ExpenseManagementSection";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { SortOrder } from "@/types";
@@ -26,18 +25,19 @@ const HeaderSort = ({ children, name, filterPrefix }: HeaderSortProps) => {
   }, [searchParams]);
 
   const handleSort = useCallback(() => {
+    console.log("sorting");
     const search = new URLSearchParams(searchParams.toString());
     if (!currentSort) {
-      search.set(`${expenseFilterPrefix}_sort`, `${name}:${SortOrder.DESC}`);
+      search.set(`${filterPrefix}_sort`, `${name}:${SortOrder.DESC}`);
     } else {
       const [, currentDirect] = currentSort;
 
       if (currentDirect === SortOrder.ASC) {
-        search.delete(`${expenseFilterPrefix}_sort`);
+        search.delete(`${filterPrefix}_sort`);
       }
 
       if (currentDirect === SortOrder.DESC) {
-        search.set(`${expenseFilterPrefix}_sort`, `${name}:${SortOrder.ASC}`);
+        search.set(`${filterPrefix}_sort`, `${name}:${SortOrder.ASC}`);
       }
     }
     router.replace(`${pathname}?${search.toString()}`, { scroll: false });

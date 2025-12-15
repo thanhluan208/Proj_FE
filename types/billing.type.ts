@@ -1,4 +1,4 @@
-import { PaginationParams } from ".";
+import { PaginationParams, SortOrder } from ".";
 import { Contract } from "./contract.type";
 import { Tenant } from "./tenants.type";
 

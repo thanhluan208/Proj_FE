@@ -16,6 +16,8 @@ import BillingTable from "./BillingTable";
 import { useRouter } from "@/i18n/routing";
 import CardContainer from "@/components/ui/card-container";
 import BillingAddButton from "./BillingAddOrEditButton";
+import { SortOrder } from "@/types";
+import { IGNORE_FILTERS_LIST } from "@/lib/constant";
 
 interface BillingHistorySectionProps {
   roomId: string;
@@ -31,7 +33,7 @@ export const billingFilterKeys = [
   { key: "to", defaultValue: undefined },
 ];
 
-export const filterPrefix = "bills";
+export const billingFilterPrefix = "bills";
 
 const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
   roomId,
@@ -43,10 +45,12 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
   const [viewMode, setViewMode] = useState<ViewMode>("table");
 
   const filters = useMemo<GetBillingDto>(() => {
-    return billingFilterKeys.reduce(
+    const baseFilters = billingFilterKeys.reduce(
       (prev: Record<string, string | undefined>, cur) => {
         if (!cur) return prev;
-        const filterValue = searchParams.get(`${filterPrefix}_${cur.key}`);
+        const filterValue = searchParams.get(
+          `${billingFilterPrefix}_${cur.key}`
+        );
         return {
           ...prev,
           [cur.key]: filterValue || cur.defaultValue,
@@ -57,6 +61,16 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
         pageSize: "10",
       }
     ) as unknown as GetBillingDto;
+
+    const sort = searchParams.get(`${billingFilterPrefix}_sort`);
+
+    if (sort) {
+      const [sortName, sortDirect] = sort.split(":");
+      if (sortName) baseFilters.sortBy = sortName;
+      if (sortDirect) baseFilters.sortOrder = sortDirect as SortOrder;
+    }
+
+    return baseFilters;
   }, [roomId, searchParams]);
 
   const { data } = useGetListBilling(filters);
@@ -64,20 +78,10 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
 
   const bills = data?.data || [];
 
-  const handleFilterApply = () => {
-    // setFilters(newFilters);
-    // setCurrentPage(1); // Reset to first page when filters change
-  };
-
-  const handlePageChange = (page: number) => {
-    // setCurrentPage(page);
-    // Scroll to top of section
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   const hasActiveFilters =
     Object.entries(filters).filter(
-      ([key, value]) => !["page", "pageSize", "room"].includes(key) && !!value
+      ([key, value]) =>
+        !["room", ...IGNORE_FILTERS_LIST].includes(key) && !!value
     ).length > 0;
 
   // Masonry layout for card view
@@ -135,8 +139,8 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
               onClick={() => {
                 const params = new URLSearchParams(searchParams.toString());
                 billingFilterKeys.forEach((key) => {
-                  console.log("delete", `${filterPrefix}_${key}`);
-                  params.delete(`${filterPrefix}_${key.key}`);
+                  console.log("delete", `${billingFilterPrefix}_${key}`);
+                  params.delete(`${billingFilterPrefix}_${key.key}`);
                 });
                 router.replace(`${pathname}?${params.toString()}`, {
                   scroll: false,

@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import toast from "react-hot-toast";
 
 const useContractMutation = () => {
-  const t = useTranslations("contract");
+  const t = useTranslations("common");
   const queryClient = useQueryClient();
 
   const handleCreate = useMutation({

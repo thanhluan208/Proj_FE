@@ -336,7 +336,15 @@
       "startAfterCreated": "Start date must be after created date",
       "endAfterCreated": "End date must be after created date",
       "endAfterStart": "End date must be after start date",
-      "startBeforeEnd": "Start date must be before end date"
+      "startBeforeEnd": "Start date must be before end date",
+      "eitherFieldGreaterThanZero": "Either {fieldA} or {fieldB} must be greater than 0"
+    },
+    "actions": {
+      "delete": "Delete"
+    },
+    "dialog": {
+      "deleteTitle": "Delete contract",
+      "deleteDescription": "Are you sure you want to delete this contract?"
     },
     "form": {
       "houseInfo": "House Info",
@@ -364,7 +372,9 @@
       "startDate": "Start Date",
       "startDatePlaceholder": "Select Start date",
       "endDate": "End Date",
-      "endDatePlaceholder": "Select end date"
+      "endDatePlaceholder": "Select end date",
+      "internet_fee": "Internet Fee",
+      "internet_feePlaceholder": "Enter internet fee"
     }
   },
   "bill": {
@@ -391,16 +401,18 @@
       "apply": "Apply Filters",
       "reset": "Reset"
     },
-
     "actions": {
       "edit": "Edit",
-      "create": "Create Bill"
+      "create": "Create Bill",
+      "confirmPayment": "Confirm payment"
     },
     "dialog": {
       "editTitle": "Edit bill",
       "editDescription": "Edit the current bill",
       "createTitle": "Create new bill",
-      "createDescription": "Create a new bill for this room"
+      "createDescription": "Create a new bill for this room",
+      "confirmPaymentTitle": "Confirm Payment",
+      "confirmPaymentDescription": "Confirm payment for bill in {month} for {tenant}"
     },
     "sections": {
       "general": "General",

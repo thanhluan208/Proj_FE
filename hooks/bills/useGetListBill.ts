@@ -1,5 +1,5 @@
 // hooks/useGetBilling.ts
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 import { QueryKeys } from "@/lib/constant";
 import { GetBillingDto } from "@/types/billing.type";
@@ -15,9 +15,12 @@ export const useGetListBilling = (params: GetBillingDto) => {
       params.status,
       params.from,
       params.to,
+      params.sortBy,
+      params.sortOrder,
     ],
     queryFn: () => getBills(params),
     enabled: !!params.room,
+    placeholderData: keepPreviousData,
   });
 };
 

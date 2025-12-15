@@ -4,6 +4,7 @@ import {
   ComponentPropsWithoutRef,
   FC,
   ReactNode,
+  useEffect,
   useId,
   useState,
 } from "react";
@@ -33,22 +34,29 @@ const CardContainer: FC<CardContainerProps> = ({
 }) => {
   const tCommon = useTranslations("common");
 
-  const initOpen = defaultOpen && !!localStorage.getItem(`card_${name}`);
+  const [value, setValue] = useState<string | undefined>(undefined);
 
-  const [value, setValue] = useState(initOpen ? name : undefined);
-
-  const handleTrigger = () => {
-    if (value) {
-      localStorage.removeItem(`card_${name}`);
-      setValue(undefined);
-    } else {
-      localStorage.setItem(`card_${name}`, "1");
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      (defaultOpen || !!window.localStorage.getItem(`card_${name}`))
+    ) {
+      console.log("window", window.localStorage.getItem(`card_${name}`));
       setValue(name);
     }
-  };
+  }, [defaultOpen, name]);
 
   return (
-    <Accordion type="single" collapsible value={value}>
+    <Accordion
+      type="single"
+      collapsible
+      onValueChange={(value) => {
+        if (value) window.localStorage.setItem(`card_${name}`, "1");
+        else window.localStorage.removeItem(`card_${name}`);
+        setValue(value);
+      }}
+      value={value}
+    >
       <AccordionItem value={name}>
         <div className="bg-card  rounded-2xl p-6 md:p-8 shadow-sm border border-border">
           <div className="flex flex-col cursor-pointer items-start sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -70,10 +78,7 @@ const CardContainer: FC<CardContainerProps> = ({
           <AccordionContent>{children}</AccordionContent>
 
           <div className="w-full items-center justify-center [&>h3]:w-fit! flex">
-            <AccordionTrigger
-              onClick={handleTrigger}
-              className="p-0 w-fit! hover:no-underline text-xs text-muted-foreground hover:text-primary transition-colors"
-            >
+            <AccordionTrigger className="p-0 w-fit! hover:no-underline text-xs text-muted-foreground hover:text-primary transition-colors">
               <span>{tCommon("viewDetails")}</span>
             </AccordionTrigger>
           </div>

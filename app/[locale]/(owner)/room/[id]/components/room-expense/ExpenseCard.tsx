@@ -12,44 +12,32 @@ import { RoomExpense } from "@/types/rooms.type";
 import dayjs from "dayjs";
 import { Calendar, DollarSign, Receipt } from "lucide-react";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ExpenseActionButton from "./ExpenseActionButton";
 // import ExpenseDeleteButton from "./ExpenseDeleteButton";
 
 interface ExpenseCardProps {
   expense: RoomExpense;
-  onEdit?: (expense: RoomExpense) => void;
-  onDelete?: (expense: RoomExpense) => void;
 }
 
-const ExpenseCard: React.FC<ExpenseCardProps> = ({
-  expense,
-  onEdit,
-  onDelete,
-}) => {
+const ExpenseCard: React.FC<ExpenseCardProps> = ({ expense }) => {
   const [open, setOpen] = useState<string | undefined>(undefined);
   const t = useTranslations("expense");
   const tCommon = useTranslations("common");
 
-  const getCategoryColor = (category?: string) => {
-    const colors: Record<string, string> = {
-      utilities: "bg-blue-100 text-blue-700",
-      maintenance: "bg-orange-100 text-orange-700",
-      cleaning: "bg-green-100 text-green-700",
-      supplies: "bg-purple-100 text-purple-700",
-      other: "bg-gray-100 text-gray-700",
-    };
-    return colors[category?.toLowerCase() || "other"] || colors.other;
-  };
+  const hasDetail = !!expense.notes || !!expense.receipt;
 
-  const hasDetail = expense.notes || expense.receipt;
+  useEffect(() => {
+    if (!hasDetail) setOpen(undefined);
+  }, [hasDetail]);
 
   return (
     <div className="group relative">
       <Accordion
         type="single"
         collapsible
-        value={hasDetail ? open : undefined}
+        value={open}
+        onValueChange={hasDetail ? setOpen : undefined}
         className="bg-card rounded-xl border border-border hover:shadow-lg transition-all duration-300 overflow-hidden"
       >
         <AccordionItem value="details" className="border-none">
@@ -133,10 +121,7 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({
 
           {hasDetail && (
             <div className="px-5 pb-2 flex justify-center">
-              <AccordionTrigger
-                onClick={() => (open ? setOpen(undefined) : setOpen("details"))}
-                className="pt-0 pb-2 hover:no-underline text-xs text-muted-foreground hover:text-primary transition-colors"
-              >
+              <AccordionTrigger className="pt-0 pb-2 hover:no-underline text-xs text-muted-foreground hover:text-primary transition-colors">
                 <span className="mr-1">{tCommon("viewDetails")}</span>
               </AccordionTrigger>
             </div>

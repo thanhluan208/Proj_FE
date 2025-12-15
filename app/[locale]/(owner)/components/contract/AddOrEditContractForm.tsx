@@ -30,6 +30,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
 }) => {
   const t = useTranslations("contract");
   const roomTrans = useTranslations("room");
+  const tCommon = useTranslations("common");
   const { createContract } = useContractMutation();
 
   const isPending = createContract.isPending;
@@ -54,8 +55,10 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
       bankAccountNumber: z.string().optional(),
       bankName: z.string().optional(),
       // Fee Info
-      base_rent: z.string().refine((value) => value !== "", {
-        message: t("validation.baseRentRequired"),
+      base_rent: z.string().refine((value) => Number(value) > 1, {
+        message: tCommon("requiredField", {
+          field: roomTrans("addRoom.baseRent"),
+        }),
       }),
       price_per_electricity_unit: z.string().optional(),
       price_per_water_unit: z.string().optional(),
@@ -67,14 +70,56 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
       internet_fee: z.string().optional(),
     })
     .superRefine((data, ctx) => {
-      const { createdDate, startDate, endDate } = data;
+      const {
+        createdDate,
+        startDate,
+        endDate,
+        fixed_electricity_fee,
+        price_per_electricity_unit,
+        fixed_water_fee,
+        price_per_water_unit,
+      } = data;
 
-      // Start must be AFTER created date
-      if (startDate <= createdDate) {
+      if (
+        Number(fixed_electricity_fee) <= 0 &&
+        Number(price_per_electricity_unit) <= 0
+      ) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          path: ["startDate"],
-          message: t("validation.startAfterCreated"),
+          path: ["fixed_electricity_fee"],
+          message: t("validation.eitherFieldGreaterThanZero", {
+            fieldB: roomTrans("addRoom.pricePerElectricityUnit"),
+            fieldA: roomTrans("addRoom.fixedElectricityFee"),
+          }),
+        });
+
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["price_per_electricity_unit"],
+          message: t("validation.eitherFieldGreaterThanZero", {
+            fieldA: roomTrans("addRoom.pricePerElectricityUnit"),
+            fieldB: roomTrans("addRoom.fixedElectricityFee"),
+          }),
+        });
+      }
+
+      if (Number(fixed_water_fee) <= 0 && Number(price_per_water_unit) <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["fixed_water_fee"],
+          message: t("validation.eitherFieldGreaterThanZero", {
+            fieldB: roomTrans("addRoom.pricePerWaterUnit"),
+            fieldA: roomTrans("addRoom.fixedWaterFee"),
+          }),
+        });
+
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["price_per_water_unit"],
+          message: t("validation.eitherFieldGreaterThanZero", {
+            fieldA: roomTrans("addRoom.pricePerWaterUnit"),
+            fieldB: roomTrans("addRoom.fixedWaterFee"),
+          }),
         });
       }
 
@@ -291,6 +336,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
                   label={t("form.bankAccountNumber")}
                   placeholder={t("form.bankAccountNumberPlaceholder")}
                   type="number"
+                  min={0}
                   maxLength={10}
                 />
 
@@ -317,6 +363,13 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
                   name="base_rent"
                   label={roomTrans("addRoom.baseRent")}
                   placeholder={roomTrans("addRoom.baseRentPlaceholder")}
+                  rightIcon={<span className="text-muted-foreground">₫</span>}
+                />
+                <NumericFormatField
+                  control={form.control}
+                  name="overRentalFee"
+                  label={t("form.overRentalFee")}
+                  placeholder={t("form.overRentalFeePlaceholder")}
                   rightIcon={<span className="text-muted-foreground">₫</span>}
                 />
                 <NumericFormatField
@@ -381,15 +434,13 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
                   placeholder={roomTrans("addRoom.cleaningFeePlaceholder")}
                 />
 
-                <div className="col-span-2">
-                  <NumericFormatField
-                    control={form.control}
-                    name="overRentalFee"
-                    label={t("form.overRentalFee")}
-                    placeholder={t("form.overRentalFeePlaceholder")}
-                    rightIcon={<span className="text-muted-foreground">₫</span>}
-                  />
-                </div>
+                <NumericFormatField
+                  control={form.control}
+                  name="internet_fee"
+                  label={t("form.internet_fee")}
+                  placeholder={t("form.internet_feePlaceholder")}
+                  rightIcon={<span className="text-muted-foreground">₫</span>}
+                />
               </div>
             </AccordionContent>
           </AccordionItem>

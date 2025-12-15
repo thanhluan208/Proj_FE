@@ -6,6 +6,9 @@ import { format } from "date-fns";
 import React, { useMemo } from "react";
 import { calculateTotals } from "./Billing.util";
 import { useTranslations } from "next-intl";
+import HeaderSort from "@/components/ui/header-sort";
+import { billingFilterPrefix } from "./BillingHistorySection";
+import BillingAction from "./BillingAction";
 
 interface BillingTableProps {
   billings: Billing[];
@@ -13,6 +16,7 @@ interface BillingTableProps {
 
 const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
   const t = useTranslations("bill");
+  const tCommon = useTranslations("common");
 
   const getStatusConfig = (status: BillingStatusEnum) => {
     switch (status) {
@@ -80,7 +84,14 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
         ),
       },
       {
-        header: t("table.electricity"),
+        header: () => (
+          <HeaderSort
+            name="electricity_usage"
+            filterPrefix={billingFilterPrefix}
+          >
+            {t("table.electricity")}
+          </HeaderSort>
+        ),
         id: "electricity",
         cell: ({ row }) => {
           const totalFees = calculateTotals(row.original);
@@ -98,7 +109,11 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
         },
       },
       {
-        header: t("table.water"),
+        header: () => (
+          <HeaderSort name="water_usage" filterPrefix={billingFilterPrefix}>
+            {t("table.water")}
+          </HeaderSort>
+        ),
         id: "water",
         cell: ({ row }) => {
           const totalFees = calculateTotals(row.original);
@@ -197,8 +212,17 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
           </div>
         ),
       },
+      {
+        header: tCommon("action"),
+        accessorKey: "action",
+        cell: ({ row }) => (
+          <div className="text-sm text-foreground">
+            <BillingAction data={row.original} />
+          </div>
+        ),
+      },
     ],
-    [t]
+    [t, tCommon]
   );
 
   return <CommonTable columns={columns} data={billings} />;

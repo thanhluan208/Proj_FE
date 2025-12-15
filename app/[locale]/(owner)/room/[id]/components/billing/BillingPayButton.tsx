@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { Billing } from "@/types/billing.type";
 import dayjs from "dayjs";
-import { Edit2, FilePlus, SquareCheckBig } from "lucide-react";
+import { SquareCheckBig } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
 import { useState } from "react";
 
 interface BillingPayButtonProps {
@@ -21,7 +20,6 @@ interface BillingPayButtonProps {
 
 const BillingPayButton = ({ data }: BillingPayButtonProps) => {
   const t = useTranslations("bill");
-
   const [open, setOpen] = useState(false);
 
   if (!data) return null;
@@ -35,17 +33,18 @@ const BillingPayButton = ({ data }: BillingPayButtonProps) => {
         className="justify-start gap-2 w-full"
       >
         <SquareCheckBig className="w-4 h-4 mr-2" />
-        Confirm payment
+        {t("actions.confirmPayment")}
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-[min(90vw,500px)]! max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Confirm Payment</DialogTitle>
+            <DialogTitle>{t("dialog.confirmPaymentTitle")}</DialogTitle>
             <DialogDescription>
-              {`Confirm payment for bill in ${dayjs(data?.from).format(
-                "MM-YYYY"
-              )} for ${data?.tenantContract.tenant.name}`}
+              {t("dialog.confirmPaymentDescription", {
+                month: dayjs(data.from).format("MM-YYYY"),
+                tenant: data.tenantContract.tenant.name,
+              })}
             </DialogDescription>
           </DialogHeader>
 

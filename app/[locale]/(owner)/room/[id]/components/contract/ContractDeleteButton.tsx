@@ -19,9 +19,11 @@ const ContractDeleteButton: FC<ContractDeleteButtonProps> = ({ contract }) => {
 
   const handleConfirm = () => {
     if (!contract.id) return;
-    deleteContract.mutate(contract.id);
-
     setOpenConfirm(false);
+
+    setTimeout(() => {
+      deleteContract.mutate(contract.id);
+    }, 200);
   };
 
   return (

@@ -330,16 +330,22 @@
     "tableView": "Xem dạng bảng",
     "noTenantsFound": "Không tìm thấy hợp đồng nào",
     "clearFilters": "Xóa bộ lọc",
-
+    "actions": {
+      "delete": "Xóa"
+    },
+    "dialog": {
+      "deleteTitle": "Xóa hợp đồng",
+      "deleteDescription": "Bạn có chắc chắn muốn xóa hợp đồng này không?"
+    },
     "validation": {
       "minTenant": "Phải chọn ít nhất 1 người thuê",
       "required": "Trường này là bắt buộc",
       "startAfterCreated": "Ngày bắt đầu phải sau ngày hiệu lực",
       "endAfterCreated": "Ngày kết thúc phải sau ngày hiệu lực",
       "endAfterStart": "Ngày kết thúc phải sau ngày bắt đầu",
-      "startBeforeEnd": "Ngày bắt đầu phải trước ngày kết thúc"
+      "startBeforeEnd": "Ngày bắt đầu phải trước ngày kết thúc",
+      "eitherFieldGreaterThanZero": "Ít nhất {fieldA} hoặc {fieldB} phải lớn hơn 0"
     },
-
     "form": {
       "houseInfo": "Thông tin nhà",
       "houseAddress": "Địa chỉ nhà",
@@ -366,7 +372,9 @@
       "startDate": "Ngày bắt đầu",
       "startDatePlaceholder": "Chọn ngày bắt đầu",
       "endDate": "Ngày kết thúc",
-      "endDatePlaceholder": "Chọn ngày kết thúc"
+      "endDatePlaceholder": "Chọn ngày kết thúc",
+      "internet_fee": "Phí Internet",
+      "internet_feePlaceholder": "Nhập phí Internet"
     }
   },
   "bill": {
@@ -395,13 +403,16 @@
     },
     "actions": {
       "edit": "Chỉnh sửa",
-      "create": "Tạo hóa đơn"
+      "create": "Tạo hóa đơn",
+      "confirmPayment": "Xác nhận thanh toán"
     },
     "dialog": {
       "editTitle": "Chỉnh sửa hóa đơn",
       "editDescription": "Chỉnh sửa thông tin hóa đơn hiện tại",
       "createTitle": "Tạo hóa đơn mới",
-      "createDescription": "Tạo hóa đơn mới cho phòng này"
+      "createDescription": "Tạo hóa đơn mới cho phòng này",
+      "confirmPaymentTitle": "Xác nhận thanh toán",
+      "confirmPaymentDescription": "Xác nhận thanh toán hóa đơn tháng {month} cho {tenant}"
     },
     "sections": {
       "general": "Thông tin chung",

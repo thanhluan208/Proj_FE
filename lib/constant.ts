@@ -8,6 +8,8 @@ export const BASE_URL = process.env.BASE_URL || "http://backend-default";
 export const NEXT_LOCALE = "NEXT_LOCALE";
 export const DEFAULT_INIT_PAGE = "1";
 
+export const IGNORE_FILTERS_LIST = ["page", "pageSize", "sortBy", "sortOrder"];
+
 export const Routes = {
   ROOT: "/",
 

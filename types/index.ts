@@ -47,6 +47,8 @@ export interface PaginationResponse<T> {
 export interface PaginationParams {
   page?: number;
   pageSize?: number;
+  sortBy?: string;
+  sortOrder?: SortOrder;
 }
 
 export type ViewMode = "card" | "table";

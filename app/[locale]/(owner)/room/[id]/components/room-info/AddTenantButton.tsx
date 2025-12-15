@@ -30,7 +30,7 @@ const AddTenantButton: FC<AddTenantButtonProps> = ({ houseId, roomId }) => {
         Add Tenant
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-[700px] max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-[700px]! max-h-[90vh]! overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add new tenant</DialogTitle>
             <DialogDescription>Add a new tenant to this room</DialogDescription>

@@ -41,9 +41,9 @@ const DeleteButton = <T,>({
 
   const handleConfirm = () => {
     if (!id) return;
-    action.mutate(id);
-
-    setOpenConfirm(false);
+    action.mutate(id, {
+      onSuccess: () => setOpenConfirm(false),
+    });
   };
 
   const renderButtonContent = useCallback(() => {
@@ -74,7 +74,7 @@ const DeleteButton = <T,>({
       </Button>
       <ConfirmationDialog
         isOpen={openConfirm}
-        onCancel={() => setOpenConfirm(false)}
+        setOpenConfirm={setOpenConfirm}
         title={title}
         description={description}
         content={dialogContent}

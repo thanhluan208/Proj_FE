@@ -21,7 +21,10 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { billingFilterKeys, filterPrefix } from "./BillingHistorySection";
+import {
+  billingFilterKeys,
+  billingFilterPrefix,
+} from "./BillingHistorySection";
 import { isEmpty } from "lodash";
 
 const BillingFilter = () => {
@@ -34,7 +37,9 @@ const BillingFilter = () => {
     return billingFilterKeys.reduce(
       (prev: Record<string, string | undefined>, cur) => {
         if (!cur) return prev;
-        const filterValue = searchParams.get(`${filterPrefix}_${cur.key}`);
+        const filterValue = searchParams.get(
+          `${billingFilterPrefix}_${cur.key}`
+        );
         return {
           ...prev,
           [cur.key]: filterValue || cur.defaultValue,
@@ -43,6 +48,8 @@ const BillingFilter = () => {
       {}
     ) as unknown as GetBillingDto;
   }, [searchParams]);
+
+  console.log("filter", filters);
 
   const hasActiveFilters =
     Object.entries(filters).filter(
@@ -124,11 +131,11 @@ const BillingFilterContent = ({
     Object.entries(data).forEach(([key, value]) => {
       if (value) {
         params.append(
-          `${filterPrefix}_${key}`,
+          `${billingFilterPrefix}_${key}`,
           value instanceof Date ? dayjs(value).toISOString() : value
         );
       } else {
-        params.delete(`${filterPrefix}_${key}`);
+        params.delete(`${billingFilterPrefix}_${key}`);
       }
     });
 
@@ -139,8 +146,8 @@ const BillingFilterContent = ({
   const handleReset = () => {
     const params = new URLSearchParams(searchParams.toString());
     billingFilterKeys.forEach((key) => {
-      console.log("delete", `${filterPrefix}_${key}`);
-      params.delete(`${filterPrefix}_${key.key}`);
+      console.log("delete", `${billingFilterPrefix}_${key}`);
+      params.delete(`${billingFilterPrefix}_${key.key}`);
     });
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     setOpen(false);

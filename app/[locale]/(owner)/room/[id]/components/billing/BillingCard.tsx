@@ -6,13 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import DeleteButton from "@/components/ui/delete-button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import {
   Tooltip,
   TooltipContent,
@@ -31,7 +24,6 @@ import {
   Droplets,
   Home,
   ListChecks,
-  MoreVertical,
   Sparkles,
   User,
   Wifi,
@@ -40,9 +32,7 @@ import {
 import { useTranslations } from "next-intl";
 import React from "react";
 import { calculateTotals } from "./Billing.util";
-import BillingAddOrEditButton from "./BillingAddOrEditButton";
-import BillingPayButton from "./BillingPayButton";
-import BillingDownloadFile from "./BillingDownloadFile";
+import BillingAction from "./BillingAction";
 
 interface BillingCardProps {
   billing: Billing;
@@ -137,41 +127,7 @@ const BillingCard: React.FC<BillingCardProps> = ({ billing, defaultOpen }) => {
                 </div>
               </div>
 
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                  >
-                    <MoreVertical className="w-4 h-4" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="flex flex-col w-48 p-1">
-                  {billing.status !== BillingStatusEnum.PAID && (
-                    <BillingPayButton data={billing} />
-                  )}
-
-                  {billing.status !== BillingStatusEnum.PAID && (
-                    <BillingAddOrEditButton data={billing} />
-                  )}
-
-                  <BillingDownloadFile id={billing.id} isBillFile />
-
-                  {billing.status == BillingStatusEnum.PAID && (
-                    <BillingDownloadFile id={billing.id} />
-                  )}
-                  {billing.status !== BillingStatusEnum.PAID && (
-                    <DeleteButton
-                      action={deleteBill}
-                      id={billing.id}
-                      title={t("deleteTitle")}
-                      description={t("deleteDescription")}
-                      className="justify-start"
-                    />
-                  )}
-                </PopoverContent>
-              </Popover>
+              <BillingAction data={billing} />
             </div>
 
             {/* Tenant Info */}
