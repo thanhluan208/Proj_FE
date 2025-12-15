@@ -7,7 +7,7 @@ import {
 
 import { useMasonry } from "@/hooks/useMasonry";
 import { usePathname, useRouter } from "@/i18n/routing";
-import { ViewMode } from "@/types";
+import { SortOrder, ViewMode } from "@/types";
 import { ComparisonEnum, GetRoomExpensesDto } from "@/types/rooms.type";
 import { LayoutGrid, List } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -40,7 +40,7 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [viewMode, setViewMode] = useState<ViewMode>("card");
+  const [viewMode, setViewMode] = useState<ViewMode>("table");
 
   const filters = useMemo<GetRoomExpensesDto>(() => {
     const baseFilters = expenseFilterKeys.reduce(
@@ -60,94 +60,49 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
       }
     );
 
-    // Convert string values to proper types
-    return {
+    const obj = {
       ...baseFilters,
       page: baseFilters.page ? Number(baseFilters.page) : 1,
       pageSize: baseFilters.pageSize ? Number(baseFilters.pageSize) : 10,
       amount: baseFilters.amount ? Number(baseFilters.amount) : undefined,
       comparison: baseFilters.comparison as ComparisonEnum | undefined,
     } as GetRoomExpensesDto;
-  }, [roomId, searchParams]);
 
-  console.log("filters", filters);
+    const sort = searchParams.get(`${expenseFilterPrefix}_sort`);
+
+    if (sort) {
+      const [sortName, sortDirect] = sort.split(":");
+      if (sortName) obj.sortBy = sortName;
+      if (sortDirect) obj.sortOrder = sortDirect as SortOrder;
+    }
+
+    return obj;
+  }, [roomId, searchParams]);
 
   const { data } = useGetListExpense(filters);
   const { data: totalExpenses } = useGetTotalExpense(filters);
 
   const expenses = data?.data || [];
 
-  const updateFilters = (newFilters: Partial<GetRoomExpensesDto>) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    expenseFilterKeys.forEach((cur) => {
-      const filterValue = newFilters[cur.key as keyof GetRoomExpensesDto];
-      if (
-        filterValue !== undefined &&
-        filterValue !== null &&
-        filterValue !== ""
-      ) {
-        params.set(`${expenseFilterKeys}_${cur.key}`, String(filterValue));
-      } else {
-        params.delete(`${expenseFilterKeys}_${cur.key}`);
-      }
-    });
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  const handleQuickFilter = (period: "all" | "thisMonth" | "lastMonth") => {
-    const now = new Date();
-    let from: string | undefined;
-    let to: string | undefined;
-
-    if (period === "thisMonth") {
-      from = new Date(now.getFullYear(), now.getMonth(), 1)
-        .toISOString()
-        .split("T")[0];
-      to = new Date(now.getFullYear(), now.getMonth() + 1, 0)
-        .toISOString()
-        .split("T")[0];
-    } else if (period === "lastMonth") {
-      from = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-        .toISOString()
-        .split("T")[0];
-      to = new Date(now.getFullYear(), now.getMonth(), 0)
-        .toISOString()
-        .split("T")[0];
-    }
-
-    updateFilters({
-      ...filters,
-      from,
-      to,
-      page: 1,
-    });
-  };
-
-  const handleFilterApply = (newFilters: Partial<GetRoomExpensesDto>) => {
-    updateFilters({ ...newFilters, page: 1 });
-  };
-
   const handleClearFilters = () => {
-    updateFilters({
-      room: roomId,
-      page: 1,
-      pageSize: filters.pageSize,
+    const params = new URLSearchParams(searchParams.toString());
+    expenseFilterKeys.forEach((key) => {
+      params.delete(`${expenseFilterPrefix}_${key.key}`);
     });
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const hasActiveFilters = !!(
-    filters.from ||
-    filters.to ||
-    filters.search ||
-    filters.amount
-  );
+  const hasActiveFilters =
+    Object.entries(filters).filter(
+      ([key, value]) =>
+        !["page", "pageSize", "sort", "room"].includes(key) && !!value
+    ).length > 0;
 
   const columns = useMasonry(expenses || [], { 0: 1, 768: 2, 1024: 3 });
 
   return (
     <CardContainer
+      name="expense"
       cardTitle={t("title")}
       subTitle={
         <>
@@ -215,7 +170,7 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
           ))}
         </div>
       ) : (
-        <ExpenseTable expenses={expenses} />
+        <ExpenseTable expenses={expenses} total={totalExpenses?.total} />
       )}
     </CardContainer>
   );

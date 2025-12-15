@@ -1,4 +1,4 @@
-import { FileMetadata, PaginationParams } from ".";
+import { FileMetadata, PaginationParams, SortOrder } from ".";
 import { Contract } from "./contract.type";
 import { House } from "./houses.type";
 
@@ -70,4 +70,6 @@ export interface GetRoomExpensesDto extends PaginationParams {
   search?: string;
   amount?: string;
   comparison?: ComparisonEnum;
+  sortBy?: string;
+  sortOrder?: SortOrder;
 }

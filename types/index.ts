@@ -60,3 +60,8 @@ export interface FileMetadata {
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
 }
+
+export enum SortOrder {
+  ASC = "ASC",
+  DESC = "DESC",
+}

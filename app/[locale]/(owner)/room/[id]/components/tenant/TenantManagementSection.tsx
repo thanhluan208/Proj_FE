@@ -111,6 +111,8 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
 
   return (
     <CardContainer
+      name="tenant"
+      defaultOpen
       cardTitle={t("title")}
       subTitle={
         <>
@@ -213,11 +215,7 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
         <TenantTable tenants={tenants} />
       )}
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      <Pagination total={totalTenants?.total} />
     </CardContainer>
   );
 };

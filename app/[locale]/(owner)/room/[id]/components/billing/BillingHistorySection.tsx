@@ -64,9 +64,6 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
 
   const bills = data?.data || [];
 
-  // Pagination
-  const totalPages = total ? Math.ceil(total.total / 10) : 0;
-
   const handleFilterApply = () => {
     // setFilters(newFilters);
     // setCurrentPage(1); // Reset to first page when filters change
@@ -88,6 +85,7 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
 
   return (
     <CardContainer
+      name="billing"
       cardTitle="Billing History"
       subTitle={
         <p className="text-sm text-muted-foreground">
@@ -168,12 +166,7 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
         <BillingTable billings={bills} />
       )}
 
-      {/* Pagination */}
-      <Pagination
-        currentPage={filters.page || 1}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      <Pagination total={total?.total} />
     </CardContainer>
   );
 };

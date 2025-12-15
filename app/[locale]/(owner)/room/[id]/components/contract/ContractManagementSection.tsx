@@ -90,6 +90,7 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
 
   return (
     <CardContainer
+      name="contract"
       cardTitle={t("title")}
       subTitle={
         <>

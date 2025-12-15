@@ -4,7 +4,7 @@ import {
   getTotalRoomExpenses,
 } from "@/services/room-expense.service";
 import { GetRoomExpensesDto } from "@/types/rooms.type";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 export const useGetListExpense = (params: GetRoomExpensesDto) => {
   return useQuery({
@@ -18,9 +18,12 @@ export const useGetListExpense = (params: GetRoomExpensesDto) => {
       params.search,
       params.amount,
       params.comparison,
+      params.sortBy,
+      params.sortOrder,
     ],
     queryFn: () => getRoomExpenses(params),
     enabled: !!params.room,
+    placeholderData: keepPreviousData,
   });
 };
 

@@ -1,24 +1,32 @@
 import { CommonTable } from "@/components/ui/common-table";
+import HeaderSort from "@/components/ui/header-sort";
+import Pagination from "@/components/ui/pagination";
 import { formatCurrency } from "@/lib/utils";
 import { RoomExpense } from "@/types/rooms.type";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import React, { useMemo } from "react";
 import { useTranslations } from "next-intl";
+import React, { useMemo } from "react";
 import ExpenseActionButton from "./ExpenseActionButton";
+import { expenseFilterPrefix } from "./ExpenseManagementSection";
 
 interface ExpenseTableProps {
   expenses: RoomExpense[];
+  total?: number;
 }
 
-const ExpenseTable: React.FC<ExpenseTableProps> = ({ expenses }) => {
+const ExpenseTable: React.FC<ExpenseTableProps> = ({ expenses, total }) => {
   const t = useTranslations("expense");
   const tCommon = useTranslations("common");
 
   const columns: ColumnDef<RoomExpense>[] = useMemo(
     () => [
       {
-        header: t("table.date"),
+        header: () => (
+          <HeaderSort name="date" filterPrefix={expenseFilterPrefix}>
+            {t("table.date")}
+          </HeaderSort>
+        ),
         accessorKey: "date",
         cell: ({ row }) => (
           <div className="text-sm font-medium text-foreground">
@@ -38,7 +46,11 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({ expenses }) => {
         ),
       },
       {
-        header: t("table.amount"),
+        header: () => (
+          <HeaderSort name="amount" filterPrefix={expenseFilterPrefix}>
+            <p>{t("table.amount")}</p>
+          </HeaderSort>
+        ),
         accessorKey: "amount",
         cell: ({ row }) => (
           <div className="text-sm font-bold text-primary">
@@ -72,7 +84,12 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({ expenses }) => {
     [t]
   );
 
-  return <CommonTable columns={columns} data={expenses} />;
+  return (
+    <div className="flex flex-col gap-1">
+      <CommonTable columns={columns} data={expenses} />
+      <Pagination prefixName={expenseFilterPrefix} total={total} />
+    </div>
+  );
 };
 
 export default ExpenseTable;

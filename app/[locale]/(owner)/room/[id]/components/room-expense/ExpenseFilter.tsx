@@ -144,6 +144,8 @@ const ExpenseFilterContent = ({
       }
     });
 
+    params.set(`${expenseFilterPrefix}_page`, "1");
+
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     setOpen(false);
   };

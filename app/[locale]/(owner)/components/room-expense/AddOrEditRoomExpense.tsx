@@ -9,6 +9,7 @@ import { Form } from "@/components/ui/form";
 import useRoomMutation from "@/hooks/rooms/useRoomMutation";
 import { Expense, RoomExpense } from "@/types/rooms.type";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isEmpty } from "lodash";
 import { Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { FC } from "react";
@@ -39,7 +40,15 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
           .refine((value) => !!Number(value), t("validation.amountRequired")),
         date: z.date({ required_error: t("validation.dateRequired") }),
         notes: z.string().optional(),
-        receipt: z.array(z.instanceof(File)).optional(),
+        receipt: z.array(z.any()).refine((value) => {
+          if (!value || isEmpty(value)) return true;
+
+          for (let i = 0; i < value.length; i++) {
+            if (!(value[i] instanceof File) && !value[i].id) return false;
+          }
+
+          return true;
+        }),
       })
     ),
   });
@@ -53,7 +62,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
               name: data.name,
               amount: String(data.amount),
               date: new Date(data.date),
-              notes: data.notes,
+              notes: data.notes || "",
               receipt: data.receipt ? [data.receipt as unknown as File] : [],
             },
           ]
@@ -88,15 +97,21 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
     let response: any;
 
     if (data) {
-      response = updateRoomExpense.mutateAsync({
+      const payload = {
         id: data.id,
         roomId: roomId,
         name: submitData.expenses[0].name,
         amount: submitData.expenses[0].amount,
         date: submitData.expenses[0].date.toISOString(),
         notes: submitData.expenses[0].notes,
-        receipt: submitData.expenses[0].receipt?.[0],
-      });
+        hasFile: !!submitData.expenses[0].receipt?.[0],
+        receipt:
+          submitData.expenses[0].receipt?.[0] instanceof File
+            ? submitData.expenses[0].receipt?.[0]
+            : undefined,
+      };
+
+      response = updateRoomExpense.mutateAsync(payload);
     } else {
       response = await createRoomExpense.mutateAsync(payload);
     }

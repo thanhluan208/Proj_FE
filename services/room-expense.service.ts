@@ -42,7 +42,11 @@ export const createRoomExpense = async (
 
 export const updateRoomExpense = async (
   data: Partial<
-    Omit<RoomExpense, "receipt"> & { receipt?: File; roomId: string }
+    Omit<RoomExpense, "receipt"> & {
+      receipt?: File;
+      roomId: string;
+      hasFile?: boolean;
+    }
   >
 ): Promise<RoomExpense | null> => {
   const formData = new FormData();
