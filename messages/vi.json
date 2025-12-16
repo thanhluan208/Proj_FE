@@ -315,8 +315,27 @@
       "confirm": "Xóa",
       "cancel": "Hủy"
     },
+    "tabs": {
+      "citizenId": {
+        "label": "Thông tin căn cước công dân"
+      },
+      "generalInfo": {
+        "label": "Thông tin chung"
+      }
+    },
+    "dialog": {
+      "TENANT_ID": {
+        "title": "Thông tin căn cước công dân của người thuê",
+        "description": "Nhập hoặc cập nhật thông tin căn cước công dân của người thuê"
+      },
+      "TENANT_INFO": {
+        "title": "Thông tin chung của người thuê",
+        "description": "Cung cấp thông tin cá nhân và liên hệ của người thuê"
+      }
+    },
     "actions": {
-      "delete": "Xóa"
+      "delete": "Xóa",
+      "addTenant": "Thêm người thuê"
     }
   },
   "contract": {

@@ -15,6 +15,7 @@ import TenantCard from "./TenantCard";
 import TenantFilter, { TenantFilterValues } from "./TenantFilter";
 import TenantTable from "./TenantTable";
 import { ViewMode } from "@/types";
+import { IGNORE_FILTERS_LIST } from "@/lib/constant";
 
 interface TenantManagementSectionProps {
   roomId: string;
@@ -59,10 +60,7 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
     ) as unknown as TenantFilterValues;
   }, [searchParams, roomId]);
 
-  const pageSize = filters.pageSize || 10;
-  const currentPage = filters?.page || 1;
-
-  const { data, isFetching } = useGetListTenant(filters);
+  const { data } = useGetListTenant(filters);
   const { data: totalTenants } = useGetTotalTenant(filters);
   const tenants = data?.data || [];
 
@@ -82,29 +80,15 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  // Pagination
-  const totalPages = totalTenants
-    ? Math.ceil(totalTenants.total / pageSize)
-    : 0;
-
   const handleFilterApply = (newFilters: Partial<TenantFilterValues>) => {
     updateFilters(newFilters);
   };
 
-  const handlePageChange = (page: number) => {
-    updateFilters({ page });
-    // Scroll to top of section
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleQuickFilter = (status: "all" | "active" | "inactive") => {
-    updateFilters({
-      ...filters,
-      status: status === "all" ? undefined : status,
-    });
-  };
-
-  const hasActiveFilters = Object.values(filters).some((value) => value);
+  const hasActiveFilters =
+    Object.entries(filters).filter(
+      ([key, value]) =>
+        !["room", ...IGNORE_FILTERS_LIST].includes(key) && !!value
+    ).length > 0;
 
   // Masonry layout for card view
   const columns = useMasonry(tenants, { 0: 1, 768: 2, 1024: 3 });
@@ -124,40 +108,6 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
       }
       actions={
         <>
-          {/* Quick Status Filter */}
-          <div className="hidden md:flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1 mr-2">
-            <button
-              onClick={() => handleQuickFilter("all")}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-                !filters.status
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {t("all")}
-            </button>
-            <button
-              onClick={() => handleQuickFilter("active")}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-                filters.status === "active"
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {t("active")}
-            </button>
-            <button
-              onClick={() => handleQuickFilter("inactive")}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-                filters.status === "inactive"
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {t("inactive")}
-            </button>
-          </div>
-
           {/* View Toggle */}
           <div className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1">
             <button

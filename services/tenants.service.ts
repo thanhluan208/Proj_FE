@@ -1,9 +1,32 @@
 import { api } from "@/lib/apiHelpers";
 import { PaginationResponse } from "@/types";
-import { CreateTenantDto, GetTenantParams, Tenant } from "@/types/tenants.type";
+import {
+  CreateTenantDto,
+  GetTenantParams,
+  Tenant,
+  UpdateTenantID,
+} from "@/types/tenants.type";
 
 export const createTenant = async (data: CreateTenantDto): Promise<any> => {
   return api.post("/tenant/create", data).then((res) => res.data);
+};
+
+export const updateTenantId = async (data: UpdateTenantID): Promise<Tenant> => {
+  const formData = new FormData();
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (value) {
+      formData.append(key, value);
+    }
+  });
+
+  return api
+    .post(`/tenant/${data.roomId}/upload-id-card`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => res.data);
 };
 
 export const editTenant = async ({

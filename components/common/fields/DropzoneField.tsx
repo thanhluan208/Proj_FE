@@ -19,6 +19,7 @@ import {
 } from "react-hook-form";
 import { useDropzone, type DropzoneOptions } from "react-dropzone";
 import { FileMetadata } from "@/types";
+import BlurWrapper from "@/components/ui/blur-image";
 
 interface DropzoneFieldProps<
   FormValues extends FieldValues,
@@ -158,6 +159,39 @@ const DropzoneField = <
     return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
   };
 
+  const renderContent = useCallback((value: File | FileMetadata) => {
+    if (value) {
+      const src =
+        value instanceof File
+          ? URL.createObjectURL(value)
+          : `file/${id}/preview`;
+      return (
+        <BlurWrapper defaultBlur={true} className="w-full flex justify-center">
+          <img src={src} className="max-h-[300px]" />
+        </BlurWrapper>
+      );
+    }
+
+    return (
+      <div className="flex flex-col items-center gap-2 text-center">
+        {leftIcon || <Upload className="h-8 w-8 text-muted-foreground" />}
+        <div className="flex flex-col gap-1">
+          {label && isLabelInside && (
+            <FormLabel className="text-base">{label}</FormLabel>
+          )}
+          <p className="text-sm text-muted-foreground">
+            {isDragActive ? "Drop files here..." : placeholder}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {maxSize && `Max size: ${formatFileSize(maxSize)}`}
+            {maxFiles > 1 && ` • Max files: ${maxFiles}`}
+          </p>
+        </div>
+        {rightIcon}
+      </div>
+    );
+  }, []);
+
   return (
     <FormField
       control={control}
@@ -188,24 +222,7 @@ const DropzoneField = <
                   )}
                 >
                   <input {...getInputProps()} />
-                  <div className="flex flex-col items-center gap-2 text-center">
-                    {leftIcon || (
-                      <Upload className="h-8 w-8 text-muted-foreground" />
-                    )}
-                    <div className="flex flex-col gap-1">
-                      {label && isLabelInside && (
-                        <FormLabel className="text-base">{label}</FormLabel>
-                      )}
-                      <p className="text-sm text-muted-foreground">
-                        {isDragActive ? "Drop files here..." : placeholder}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {maxSize && `Max size: ${formatFileSize(maxSize)}`}
-                        {maxFiles > 1 && ` • Max files: ${maxFiles}`}
-                      </p>
-                    </div>
-                    {rightIcon}
-                  </div>
+                  {renderContent(fileArray?.[0])}
                 </div>
 
                 {/* File list */}

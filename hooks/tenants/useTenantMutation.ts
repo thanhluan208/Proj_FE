@@ -4,6 +4,7 @@ import {
   editTenant,
   toggleTenantStatus,
   deleteTenant,
+  updateTenantId,
 } from "@/services/tenants.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -18,6 +19,31 @@ const useTenantMutation = () => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QueryKeys.TENANT_LIST],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.TENANT_PAGING],
+      });
+
+      toast.success(t("messages.createSuccess"));
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message || t("messages.createError");
+      toast.error(message);
+    },
+  });
+
+  const handleUpdateID = useMutation({
+    mutationFn: updateTenantId,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.TENANT_LIST],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.TENANT_PAGING],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.TENANT_DETAIL],
       });
 
       toast.success(t("messages.createSuccess"));
@@ -88,6 +114,7 @@ const useTenantMutation = () => {
     editTenant: handleEdit,
     toggleStatus: handleToggleStatus,
     deleteTenant: handleDelete,
+    updateTenantID: handleUpdateID,
   };
 };
 

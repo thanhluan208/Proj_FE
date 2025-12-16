@@ -218,6 +218,24 @@
     "validation": {
       "nameRequired": "Tenant name is required"
     },
+    "tabs": {
+      "citizenId": {
+        "label": "Citizen ID information"
+      },
+      "generalInfo": {
+        "label": "General information"
+      }
+    },
+    "dialog": {
+      "TENANT_ID": {
+        "title": "Tenant citizen ID information",
+        "description": "Enter or update the tenant's citizen identification details"
+      },
+      "TENANT_INFO": {
+        "title": "Tenant general information",
+        "description": "Provide general personal and contact information for the tenant"
+      }
+    },
     "form": {
       "name": "Full Name",
       "namePlaceholder": "Enter tenant's full name",
@@ -316,7 +334,8 @@
       "cancel": "Cancel"
     },
     "actions": {
-      "delete": "Delete"
+      "delete": "Delete",
+      "addTenant": "Add tenant"
     }
   },
   "contract": {

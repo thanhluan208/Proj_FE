@@ -17,6 +17,7 @@ import ExpenseCard from "./ExpenseCard";
 import ExpenseTable from "./ExpenseTable";
 import ExpenseFilter from "./ExpenseFilter";
 import ExpenseAddOrEditButton from "./ExpenseAddOrEditButton";
+import { IGNORE_FILTERS_LIST } from "@/lib/constant";
 
 interface ExpenseManagementSectionProps {
   roomId: string;
@@ -95,7 +96,7 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
   const hasActiveFilters =
     Object.entries(filters).filter(
       ([key, value]) =>
-        !["page", "pageSize", "sort", "room"].includes(key) && !!value
+        !["room", ...IGNORE_FILTERS_LIST].includes(key) && !!value
     ).length > 0;
 
   const columns = useMasonry(expenses || [], { 0: 1, 768: 2, 1024: 3 });

@@ -39,6 +39,13 @@ export interface CreateTenantDto {
   tenantWorkAt?: string;
 }
 
+export interface UpdateTenantID {
+  id?: string;
+  roomId: string;
+  frontImage?: File;
+  backImage?: File;
+}
+
 export interface GetTenantParams {
   room: string;
   page?: number;
