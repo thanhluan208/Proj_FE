@@ -25,6 +25,7 @@ export interface CreateRoomDto {
   name: string;
   house: string;
   description?: string;
+  size_sq_m?: string;
 }
 
 export interface GetRoomByHouse extends PaginationParams {

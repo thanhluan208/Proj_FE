@@ -82,23 +82,7 @@ const AddRoomForm: FC<AddRoomFormProps> = ({ setIsDialogOpen, houseId }) => {
       name: data.name,
       house: houseId,
       description: data.description,
-      size_sq_m: Number(data.size_sq_m),
-      base_rent: Number(data.base_rent),
-      price_per_electricity_unit: data.price_per_electricity_unit
-        ? Number(data.price_per_electricity_unit)
-        : undefined,
-      price_per_water_unit: data.price_per_water_unit
-        ? Number(data.price_per_water_unit)
-        : undefined,
-      fixed_water_fee: data.fixed_water_fee
-        ? Number(data.fixed_water_fee)
-        : undefined,
-      fixed_electricity_fee: data.fixed_electricity_fee
-        ? Number(data.fixed_electricity_fee)
-        : undefined,
-      living_fee: data.living_fee ? Number(data.living_fee) : undefined,
-      parking_fee: data.parking_fee ? Number(data.parking_fee) : undefined,
-      cleaning_fee: data.cleaning_fee ? Number(data.cleaning_fee) : undefined,
+      size_sq_m: data.size_sq_m,
     };
 
     const response = await createRoom.mutateAsync(payload);
