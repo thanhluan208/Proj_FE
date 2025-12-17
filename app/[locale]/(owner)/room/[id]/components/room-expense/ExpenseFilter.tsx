@@ -1,4 +1,6 @@
 import DatePickerField from "@/components/common/fields/DatePickerField";
+import InputField from "@/components/common/fields/InputField";
+import NumericFormatField from "@/components/common/fields/NumericFormatField";
 import SelectField from "@/components/common/fields/SelectField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -12,23 +14,22 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { usePathname, useRouter } from "@/i18n/routing";
-import { BillingStatusEnum, GetBillingDto } from "@/types/billing.type";
+import { GetBillingDto } from "@/types/billing.type";
+import { GetRoomExpensesDto } from "@/types/rooms.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { Filter } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { isEmpty } from "lodash";
 import {
   expenseFilterKeys,
   expenseFilterPrefix,
 } from "./ExpenseManagementSection";
-import { GetRoomExpensesDto } from "@/types/rooms.type";
-import NumericFormatField from "@/components/common/fields/NumericFormatField";
-import InputField from "@/components/common/fields/InputField";
+import { BOOLEAN_OPTION, IGNORE_FILTERS_LIST } from "@/lib/constant";
+import CheckBoxField from "@/components/common/fields/CheckboxField";
 
 const ExpenseFilter = () => {
   const searchParams = useSearchParams();
@@ -54,7 +55,7 @@ const ExpenseFilter = () => {
 
   const hasActiveFilters =
     Object.entries(filters).filter(
-      ([key, value]) => !["page", "pageSize"].includes(key) && !!value
+      ([key, value]) => ![...IGNORE_FILTERS_LIST].includes(key) && !!value
     ).length > 0;
 
   return (
@@ -108,6 +109,7 @@ const ExpenseFilterContent = ({
     comparison: z.string().optional(),
     search: z.string().optional(),
     amount: z.string().optional(),
+    isAssetHandedOver: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof schema>>({
@@ -118,6 +120,7 @@ const ExpenseFilterContent = ({
       comparison: filters.comparison || "",
       search: filters.search || "",
       amount: filters.amount || "",
+      isAssetHandedOver: filters.isAssetHandedOver || "all",
     },
   });
 
@@ -137,7 +140,7 @@ const ExpenseFilterContent = ({
       if (value) {
         params.append(
           `${expenseFilterPrefix}_${key}`,
-          value instanceof Date ? dayjs(value).toISOString() : value
+          value instanceof Date ? dayjs(value).toISOString() : value.toString()
         );
       } else {
         params.delete(`${expenseFilterPrefix}_${key}`);
@@ -166,6 +169,13 @@ const ExpenseFilterContent = ({
         className="h-full flex flex-col"
       >
         <div className="grid flex-1 auto-rows-min gap-6 px-4 py-6">
+          <SelectField
+            control={form.control}
+            name={`isAssetHandedOver`}
+            label={t("handedOver")}
+            options={BOOLEAN_OPTION}
+          />
+
           <InputField
             control={form.control}
             name="search"

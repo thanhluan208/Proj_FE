@@ -1,20 +1,25 @@
 import { CommonTable } from "@/components/ui/common-table";
-import { formatCurrency } from "@/lib/utils";
-import { Billing, BillingStatusEnum } from "@/types/billing.type";
+import HeaderSort from "@/components/ui/header-sort";
+import { cn, formatCurrency } from "@/lib/utils";
+import {
+  Billing,
+  BillingStatusEnum,
+  BillingTypeEnum,
+} from "@/types/billing.type";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import { useTranslations } from "next-intl";
 import React, { useMemo } from "react";
 import { calculateTotals } from "./Billing.util";
-import { useTranslations } from "next-intl";
-import HeaderSort from "@/components/ui/header-sort";
-import { billingFilterPrefix } from "./BillingHistorySection";
 import BillingAction from "./BillingAction";
+import { recBillFilterPrefix } from "./BillingInfo";
 
 interface BillingTableProps {
   billings: Billing[];
+  type: BillingTypeEnum;
 }
 
-const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
+const BillingTable: React.FC<BillingTableProps> = ({ billings, type }) => {
   const t = useTranslations("bill");
   const tCommon = useTranslations("common");
 
@@ -47,8 +52,8 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
     }
   };
 
-  const columns: ColumnDef<Billing>[] = useMemo(
-    () => [
+  const columns = useMemo(() => {
+    const cols: ColumnDef<Billing>[] = [
       {
         header: t("table.month"),
         accessorKey: "from",
@@ -62,6 +67,7 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
             </div>
           </div>
         ),
+        enablePinning: true,
       },
       {
         header: t("table.tenant"),
@@ -82,12 +88,13 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
             )}
           </>
         ),
+        enablePinning: true,
       },
       {
         header: () => (
           <HeaderSort
             name="electricity_usage"
-            filterPrefix={billingFilterPrefix}
+            filterPrefix={recBillFilterPrefix}
           >
             {t("table.electricity")}
           </HeaderSort>
@@ -95,94 +102,135 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
         id: "electricity",
         cell: ({ row }) => {
           const totalFees = calculateTotals(row.original);
+          const price_per_electricity_unit =
+            row.original?.tenantContract?.contract?.price_per_electricity_unit;
+          const isPricePerUnit = Number(price_per_electricity_unit) > 0;
+          const displayCost =
+            type === BillingTypeEnum.RECURRING || isPricePerUnit;
           return (
             <>
-              <div className="text-sm text-foreground">
-                {formatCurrency(totalFees.totalElectricityCost)}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {row.original.electricity_start_index} →{" "}
-                {row.original.electricity_end_index} kWh
-              </div>
+              {displayCost && (
+                <div className="text-sm text-foreground">
+                  {formatCurrency(totalFees.totalElectricityCost)}
+                </div>
+              )}
+              {type === BillingTypeEnum.USAGE_BASED && (
+                <div
+                  className={cn(
+                    "text-xs text-muted-foreground",
+                    !isPricePerUnit && "text-sm text-foreground"
+                  )}
+                >
+                  {row.original.electricity_start_index} →{" "}
+                  {row.original.electricity_end_index} kWh
+                </div>
+              )}
             </>
           );
         },
       },
       {
         header: () => (
-          <HeaderSort name="water_usage" filterPrefix={billingFilterPrefix}>
+          <HeaderSort name="water_usage" filterPrefix={recBillFilterPrefix}>
             {t("table.water")}
           </HeaderSort>
         ),
         id: "water",
         cell: ({ row }) => {
           const totalFees = calculateTotals(row.original);
+          const price_per_water_unit =
+            row.original?.tenantContract?.contract?.price_per_water_unit;
+          const isPricePerUnit = Number(price_per_water_unit) > 0;
+          const displayCost =
+            type === BillingTypeEnum.RECURRING || isPricePerUnit;
           return (
             <>
-              <div className="text-sm text-foreground">
-                {formatCurrency(totalFees.totalWaterCost)}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {row.original.water_start_index} →{" "}
-                {row.original.water_end_index} m³
-              </div>
+              {displayCost && (
+                <div className="text-sm text-foreground">
+                  {formatCurrency(totalFees.totalWaterCost)}
+                </div>
+              )}
+              {type === BillingTypeEnum.USAGE_BASED && (
+                <div
+                  className={cn(
+                    "text-xs text-muted-foreground",
+                    !isPricePerUnit && "text-sm text-foreground"
+                  )}
+                >
+                  {row.original.water_start_index} →{" "}
+                  {row.original.water_end_index} m³
+                </div>
+              )}
             </>
           );
         },
       },
-      {
-        header: t("table.living"),
-        accessorKey: "tenantContract.contract.living_fee",
-        cell: ({ row }) => (
-          <div className="text-sm text-foreground">
-            {formatCurrency(row.original.tenantContract.contract.living_fee)}
-          </div>
-        ),
-      },
-      {
-        header: t("table.parking"),
-        accessorKey: "tenantContract.contract.parking_fee",
-        cell: ({ row }) => (
-          <div className="text-sm text-foreground">
-            {formatCurrency(row.original.tenantContract.contract.parking_fee)}
-          </div>
-        ),
-      },
-      {
-        header: t("table.cleaning"),
-        accessorKey: "tenantContract.contract.cleaning_fee",
-        cell: ({ row }) => (
-          <div className="text-sm text-foreground">
-            {formatCurrency(row.original.tenantContract.contract.cleaning_fee)}
-          </div>
-        ),
-      },
-      {
-        header: t("table.internet"),
-        accessorKey: "tenantContract.contract.internet_fee",
-        cell: ({ row }) => (
-          <div className="text-sm text-foreground">
-            {formatCurrency(row.original.tenantContract.contract.internet_fee)}
-          </div>
-        ),
-      },
-      {
-        header: t("table.baseRent"),
-        accessorKey: "tenantContract.contract.base_rent",
-        cell: ({ row }) => (
-          <div className="text-sm font-medium text-foreground">
-            {formatCurrency(row.original.tenantContract.contract.base_rent)}
-          </div>
-        ),
-      },
+    ];
+
+    if (type === BillingTypeEnum.RECURRING) {
+      const recurringCols: ColumnDef<Billing>[] = [
+        {
+          header: t("table.living"),
+          accessorKey: "tenantContract.contract.living_fee",
+          cell: ({ row }) => (
+            <div className="text-sm text-foreground">
+              {formatCurrency(row.original.tenantContract.contract.living_fee)}
+            </div>
+          ),
+        },
+        {
+          header: t("table.parking"),
+          accessorKey: "tenantContract.contract.parking_fee",
+          cell: ({ row }) => (
+            <div className="text-sm text-foreground">
+              {formatCurrency(row.original.tenantContract.contract.parking_fee)}
+            </div>
+          ),
+        },
+        {
+          header: t("table.cleaning"),
+          accessorKey: "tenantContract.contract.cleaning_fee",
+          cell: ({ row }) => (
+            <div className="text-sm text-foreground">
+              {formatCurrency(
+                row.original.tenantContract.contract.cleaning_fee
+              )}
+            </div>
+          ),
+        },
+        {
+          header: t("table.internet"),
+          accessorKey: "tenantContract.contract.internet_fee",
+          cell: ({ row }) => (
+            <div className="text-sm text-foreground">
+              {formatCurrency(
+                row.original.tenantContract.contract.internet_fee
+              )}
+            </div>
+          ),
+        },
+        {
+          header: t("table.baseRent"),
+          accessorKey: "tenantContract.contract.base_rent",
+          cell: ({ row }) => (
+            <div className="text-sm font-medium text-foreground">
+              {formatCurrency(row.original.tenantContract.contract.base_rent)}
+            </div>
+          ),
+        },
+      ];
+
+      recurringCols.forEach((elm) => cols.push(elm));
+    }
+
+    const generalInfo: ColumnDef<Billing>[] = [
       {
         header: t("table.total"),
         id: "total",
         cell: ({ row }) => {
-          const totalFees = calculateTotals(row.original);
           return (
             <div className="text-sm font-bold text-primary">
-              {formatCurrency(totalFees.totalAmount)}
+              {formatCurrency(row.original.total_amount)}
             </div>
           );
         },
@@ -221,11 +269,20 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings }) => {
           </div>
         ),
       },
-    ],
-    [t, tCommon]
-  );
+    ];
 
-  return <CommonTable columns={columns} data={billings} />;
+    generalInfo.forEach((elm) => cols.push(elm));
+
+    return cols;
+  }, [t, tCommon, type]);
+
+  return (
+    <CommonTable
+      columns={columns}
+      data={billings}
+      initialState={{ columnPinning: { left: ["from", "tenant"] } }}
+    />
+  );
 };
 
 export default BillingTable;

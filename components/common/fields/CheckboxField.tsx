@@ -1,48 +1,89 @@
-import { ComponentPropsWithoutRef } from "react"
-import { ControllerRenderProps, FieldValues, Path } from "react-hook-form"
+"use client";
 
-import { Checkbox } from "../../ui/checkbox"
+import { Checkbox } from "@/components/ui/checkbox";
 import {
-	FormControl,
-	FormDescription,
-	FormItem,
-	FormLabel,
-	FormMessage
-} from "../../ui/form"
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { ComponentPropsWithoutRef } from "react";
+import {
+  Control,
+  FieldValues,
+  Path,
+  PathValue,
+  useFormContext,
+} from "react-hook-form";
 
 interface CheckBoxFieldProps<
-	TFieldValue extends FieldValues,
-	TName extends Path<TFieldValue>
-> extends ComponentPropsWithoutRef<"input"> {
-	label?: string
-	field: ControllerRenderProps<TFieldValue, TName>
-	description?: string
-	icon?: React.ReactNode
-	onChangeCustomize?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  FormValues extends FieldValues,
+  TName extends Path<FormValues>
+> extends ComponentPropsWithoutRef<typeof Checkbox> {
+  control: Control<FormValues>;
+  name: TName;
+  label?: string;
+  description?: string;
+
+  onCheckedChangeCustomize?: (checked: boolean) => void;
+  afterOnChange?: (value: boolean) => void;
 }
 
 const CheckBoxField = <
-	TFieldValue extends FieldValues,
-	TName extends Path<TFieldValue>
+  FormValues extends FieldValues,
+  TName extends Path<FormValues>
 >({
-	label,
-	field,
-	description
-}: CheckBoxFieldProps<TFieldValue, TName>) => {
-	return (
-		<FormItem>
-			<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4">
-				<FormControl>
-					<Checkbox checked={field.value} onCheckedChange={field.onChange} />
-				</FormControl>
-				<div className="space-y-1 leading-none">
-					{label && <FormLabel htmlFor={field.name}>{label}</FormLabel>}
-					{description && <FormDescription>{description}</FormDescription>}
-				</div>
-			</FormItem>
-			<FormMessage />
-		</FormItem>
-	)
-}
+  control,
+  name,
+  label,
+  description,
+  onCheckedChangeCustomize,
+  afterOnChange,
+  ...otherProps
+}: CheckBoxFieldProps<FormValues, TName>) => {
+  const form = useFormContext<FormValues>();
 
-export default CheckBoxField
+  const handleCheckedChange = (checked: boolean) => {
+    if (onCheckedChangeCustomize) {
+      onCheckedChangeCustomize(checked);
+      return;
+    }
+
+    form.setValue(name, checked as PathValue<FormValues, TName>, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+
+    if (afterOnChange) {
+      afterOnChange(checked);
+    }
+  };
+
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className="flex flex-row items-center space-x-1 space-y-0">
+          <FormControl>
+            <Checkbox
+              checked={field.value}
+              onCheckedChange={handleCheckedChange}
+              {...otherProps}
+            />
+          </FormControl>
+          <div className="space-y-1 leading-none">
+            {label && <FormLabel>{label}</FormLabel>}
+            {description && <FormDescription>{description}</FormDescription>}
+          </div>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+};
+
+export default CheckBoxField;

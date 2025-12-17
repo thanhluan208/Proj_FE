@@ -1,4 +1,4 @@
-import BillingHistorySection from "./components/billing/BillingHistorySection";
+import BillingManagementSection from "./components/billing/BillingManagementSection";
 import ContractManagementSection from "./components/contract/ContractManagementSection";
 import ExpenseManagementSection from "./components/room-expense/ExpenseManagementSection";
 import RoomInfoSection from "./components/room-info/RoomInfoSection";
@@ -18,7 +18,7 @@ const RoomDetailPage = async ({
 
         <TenantManagementSection roomId={id} />
 
-        <BillingHistorySection roomId={id} />
+        <BillingManagementSection roomId={id} />
 
         <ExpenseManagementSection roomId={id} />
 

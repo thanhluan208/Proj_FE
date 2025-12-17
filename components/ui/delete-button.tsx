@@ -74,7 +74,7 @@ const DeleteButton = <T,>({
       </Button>
       <ConfirmationDialog
         isOpen={openConfirm}
-        setOpenConfirm={setOpenConfirm}
+        onCancel={() => setOpenConfirm(false)}
         title={title}
         description={description}
         content={dialogContent}

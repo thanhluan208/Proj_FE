@@ -14,6 +14,12 @@ import { Calendar, DollarSign, Receipt } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import ExpenseActionButton from "./ExpenseActionButton";
+import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 // import ExpenseDeleteButton from "./ExpenseDeleteButton";
 
 interface ExpenseCardProps {
@@ -49,9 +55,25 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ expense }) => {
                   <Receipt className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground">
-                    {expense.name}
-                  </h3>
+                  <div className="flex items-center gap-1">
+                    <h3 className="font-semibold text-foreground">
+                      {expense.name}
+                    </h3>
+                    {expense.isAssetHandedOver && (
+                      <Tooltip>
+                        <TooltipTrigger className="flex items-center">
+                          <Badge className="text-[6px]">
+                            {t("handedOver")}
+                          </Badge>
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-80">
+                          <p className="whitespace-pre-line">
+                            {t("handedOverTooltip")}
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    )}
+                  </div>
                   <div
                     className={cn(
                       "inline-flex justify-start items-center gap-1.5  py-0.5 rounded-full text-xs font-medium mt-1"

@@ -9,7 +9,7 @@ import { capitalize } from "lodash";
 
 import { ScrollArea, ScrollBar } from "./scroll-area";
 
-type Tab = {
+export type Tab = {
   id: string;
   label: string;
   content: ReactNode;
@@ -24,6 +24,8 @@ interface OgImageSectionProps {
   activeTab: string;
   setActiveTab: (value: string) => void;
   contentClassname?: string;
+  containerClassname?: string;
+  customHeader?: (handleTabClick: (id: string) => void) => ReactNode;
 }
 
 function DirectionAwareTabs({
@@ -33,7 +35,9 @@ function DirectionAwareTabs({
   onChange,
   activeTab,
   setActiveTab,
+  customHeader,
   contentClassname,
+  containerClassname,
 }: OgImageSectionProps) {
   const [direction, setDirection] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -72,51 +76,57 @@ function DirectionAwareTabs({
   };
 
   return (
-    <div className="flex flex-col items-center w-full">
-      <div
-        className={cn(
-          "flex border border-none  w-full rounded-lg cursor-pointer  px-[3px] py-[3.2px] shadow-inner-shadow",
-          className,
-          rounded
-        )}
-      >
-        {tabs.map((tab, index) => (
-          <button
-            key={tab.id}
-            onClick={(e) => {
-              e.stopPropagation();
-              !tab.disabled && handleTabClick(tab.id);
-            }}
-            className={cn(
-              "relative  h-[42px] bg-background px-3.5 py-1.5 flex-1 justify-center text-xs sm:text-sm font-medium  transition  flex gap-2 items-center ",
-              tab?.disabled && "opacity-50",
-              index === 0 && "rounded-l-lg",
-              index === tabs.length - 1 && "rounded-r-lg",
-              rounded,
-              activeTab === tab.id && "text-white"
-            )}
-            style={{ WebkitTapHighlightColor: "transparent" }}
-            disabled={tab.disabled}
-          >
-            {activeTab === tab.id && (
-              <motion.span
-                layoutId="bubble"
-                className="absolute rounded-lg inset-0 z-10 bg-primary text-white   "
-                transition={{ type: "spring", bounce: 0.19, duration: 0.5 }}
-              />
-            )}
+    <div
+      className={cn("flex flex-col items-center w-full", containerClassname)}
+    >
+      {customHeader ? (
+        customHeader(handleTabClick)
+      ) : (
+        <div
+          className={cn(
+            "flex border border-none  w-full rounded-lg cursor-pointer  px-[3px] py-[3.2px] shadow-inner-shadow",
+            className,
+            rounded
+          )}
+        >
+          {tabs.map((tab, index) => (
+            <button
+              key={tab.id}
+              onClick={(e) => {
+                e.stopPropagation();
+                !tab.disabled && handleTabClick(tab.id);
+              }}
+              className={cn(
+                "relative  h-[42px] bg-background px-3.5 py-1.5 flex-1 justify-center text-xs sm:text-sm font-medium  transition  flex gap-2 items-center ",
+                tab?.disabled && "opacity-50",
+                index === 0 && "rounded-l-lg",
+                index === tabs.length - 1 && "rounded-r-lg",
+                rounded,
+                activeTab === tab.id && "text-white"
+              )}
+              style={{ WebkitTapHighlightColor: "transparent" }}
+              disabled={tab.disabled}
+            >
+              {activeTab === tab.id && (
+                <motion.span
+                  layoutId="bubble"
+                  className="absolute rounded-lg inset-0 z-10 bg-primary text-white"
+                  transition={{ type: "spring", bounce: 0.19, duration: 0.5 }}
+                />
+              )}
 
-            <p className="z-20">{capitalize(tab.label)}</p>
-          </button>
-        ))}
-      </div>
+              <p className="z-20">{capitalize(tab.label)}</p>
+            </button>
+          ))}
+        </div>
+      )}
       <MotionConfig transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}>
         <motion.div
           className="relative mx-auto w-full h-full overflow-hidden"
           initial={false}
           animate={{ height: bounds.height + 10 }}
         >
-          <div className={cn("p-1 ", contentClassname)} ref={ref}>
+          <div className={cn(contentClassname)} ref={ref}>
             <AnimatePresence
               custom={direction}
               mode="popLayout"

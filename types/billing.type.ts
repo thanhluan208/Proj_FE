@@ -42,6 +42,7 @@ export interface GetBillingDto extends PaginationParams {
   room: string;
 
   status?: BillingStatusEnum;
+  type: BillingTypeEnum;
 
   from?: string; // ISO date string (e.g. "2023-10-01")
   to?: string; // ISO date string
@@ -62,6 +63,7 @@ export interface Billing {
   total_amount: number;
 
   status: BillingStatusEnum;
+  type: BillingTypeEnum;
 
   payment_date: string | null;
 
@@ -77,4 +79,9 @@ interface TenantContracts {
   tenant: Tenant;
   isMainTenant?: boolean;
   contract: Contract;
+}
+
+export enum BillingTypeEnum {
+  RECURRING = "RECURRING",
+  USAGE_BASED = "USAGE_BASED",
 }

@@ -50,6 +50,7 @@ export interface RoomExpense {
   room: Room; // Related room entity
   name: string;
   notes?: string;
+  isAssetHandedOver: boolean;
   receipt?: FileMetadata;
   amount: string;
   date: string; // YYYY-MM-DD
@@ -69,6 +70,7 @@ export interface GetRoomExpensesDto extends PaginationParams {
   to?: string;
   search?: string;
   amount?: string;
+  isAssetHandedOver?: string;
   comparison?: ComparisonEnum;
   sortBy?: string;
   sortOrder?: SortOrder;

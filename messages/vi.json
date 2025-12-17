@@ -407,6 +407,10 @@
       "PENDING_TENANT_PAYMENT": "Chờ Thanh Toán",
       "PENDING_OWNER_REVIEW": "Chờ Duyệt"
     },
+    "tabs": {
+      "recurring": "Định kỳ",
+      "usageBased": "Theo mức sử dụng"
+    },
     "filter": {
       "buttonText": "Lọc",
       "title": "Lọc Hóa Đơn",
@@ -551,6 +555,8 @@
     "totalExpenses": "Tổng chi phí",
     "averageExpense": "Chi phí trung bình",
     "noData": "Không có dữ liệu",
+    "handedOver": "Tài sản Bàn Giao",
+    "handedOverTooltip": "Nếu tài sản này được đánh dấu là tài sản bàn giao.\n Điều này có nghĩa là nó sẽ được đưa vào hợp đồng giữa chủ nhà và người thuê.",
     "validation": {
       "nameRequired": "Tên chi phí là bắt buộc",
       "amountRequired": "Số tiền là bắt buộc",

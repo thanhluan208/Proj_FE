@@ -21,11 +21,9 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import {
-  billingFilterKeys,
-  billingFilterPrefix,
-} from "./BillingHistorySection";
+import { billingFilterKeys, recBillFilterPrefix } from "./BillingInfo";
 import { isEmpty } from "lodash";
+import { IGNORE_FILTERS_LIST } from "@/lib/constant";
 
 const BillingFilter = () => {
   const searchParams = useSearchParams();
@@ -38,7 +36,7 @@ const BillingFilter = () => {
       (prev: Record<string, string | undefined>, cur) => {
         if (!cur) return prev;
         const filterValue = searchParams.get(
-          `${billingFilterPrefix}_${cur.key}`
+          `${recBillFilterPrefix}_${cur.key}`
         );
         return {
           ...prev,
@@ -53,7 +51,8 @@ const BillingFilter = () => {
 
   const hasActiveFilters =
     Object.entries(filters).filter(
-      ([key, value]) => !["page", "pageSize"].includes(key) && !!value
+      ([key, value]) =>
+        !["type", ...IGNORE_FILTERS_LIST].includes(key) && !!value
     ).length > 0;
 
   return (
@@ -131,11 +130,11 @@ const BillingFilterContent = ({
     Object.entries(data).forEach(([key, value]) => {
       if (value) {
         params.append(
-          `${billingFilterPrefix}_${key}`,
+          `${recBillFilterPrefix}_${key}`,
           value instanceof Date ? dayjs(value).toISOString() : value
         );
       } else {
-        params.delete(`${billingFilterPrefix}_${key}`);
+        params.delete(`${recBillFilterPrefix}_${key}`);
       }
     });
 
@@ -146,8 +145,8 @@ const BillingFilterContent = ({
   const handleReset = () => {
     const params = new URLSearchParams(searchParams.toString());
     billingFilterKeys.forEach((key) => {
-      console.log("delete", `${billingFilterPrefix}_${key}`);
-      params.delete(`${billingFilterPrefix}_${key.key}`);
+      console.log("delete", `${recBillFilterPrefix}_${key}`);
+      params.delete(`${recBillFilterPrefix}_${key.key}`);
     });
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     setOpen(false);

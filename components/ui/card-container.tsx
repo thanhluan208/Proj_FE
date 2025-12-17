@@ -1,11 +1,12 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import {
   ComponentPropsWithoutRef,
   FC,
   ReactNode,
   useEffect,
-  useId,
   useState,
 } from "react";
 import {
@@ -14,7 +15,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./accordion";
-import { useTranslations } from "next-intl";
 
 interface CardContainerProps extends ComponentPropsWithoutRef<"div"> {
   cardTitle?: ReactNode;
@@ -31,6 +31,7 @@ const CardContainer: FC<CardContainerProps> = ({
   children,
   defaultOpen,
   name,
+  className,
 }) => {
   const tCommon = useTranslations("common");
 
@@ -58,7 +59,9 @@ const CardContainer: FC<CardContainerProps> = ({
       value={value}
     >
       <AccordionItem value={name}>
-        <div className="bg-card  rounded-2xl p-6 md:p-8 shadow-sm border border-border">
+        <div
+          className={cn("bg-card shadow-sm p-6 md:p-8 rounded-2xl", className)}
+        >
           <div className="flex flex-col cursor-pointer items-start sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
               <div className="h-12 w-1 bg-primary rounded-full" />

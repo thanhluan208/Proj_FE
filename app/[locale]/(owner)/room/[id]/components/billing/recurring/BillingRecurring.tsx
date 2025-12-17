@@ -6,20 +6,20 @@ import {
   useGetTotalBilling,
 } from "@/hooks/bills/useGetListBill";
 import { useMasonry } from "@/hooks/useMasonry";
-import { GetBillingDto } from "@/types/billing.type";
+import { BillingTypeEnum, GetBillingDto } from "@/types/billing.type";
 import { Filter, LayoutGrid, List } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useMemo, useState } from "react";
-import BillingCard from "./BillingCard";
-import BillingFilter from "./BillingFilter";
+import BillingCard from "../BillingCard";
+import BillingFilter from "../BillingFilter";
 import BillingTable from "./BillingTable";
 import { useRouter } from "@/i18n/routing";
 import CardContainer from "@/components/ui/card-container";
-import BillingAddButton from "./BillingAddOrEditButton";
+import BillingAddButton from "../BillingAddOrEditButton";
 import { SortOrder } from "@/types";
 import { IGNORE_FILTERS_LIST } from "@/lib/constant";
 
-interface BillingHistorySectionProps {
+interface BillingRecurringProps {
   roomId: string;
 }
 
@@ -31,13 +31,12 @@ export const billingFilterKeys = [
   { key: "page", defaultValue: "1" },
   { key: "from", defaultValue: undefined },
   { key: "to", defaultValue: undefined },
+  { key: "type", defaultValue: BillingTypeEnum.RECURRING },
 ];
 
-export const billingFilterPrefix = "bills";
+export const recBillFilterPrefix = "rec_bills";
 
-const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
-  roomId,
-}) => {
+const BillingRecurring: React.FC<BillingRecurringProps> = ({ roomId }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -49,7 +48,7 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
       (prev: Record<string, string | undefined>, cur) => {
         if (!cur) return prev;
         const filterValue = searchParams.get(
-          `${billingFilterPrefix}_${cur.key}`
+          `${recBillFilterPrefix}_${cur.key}`
         );
         return {
           ...prev,
@@ -62,7 +61,7 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
       }
     ) as unknown as GetBillingDto;
 
-    const sort = searchParams.get(`${billingFilterPrefix}_sort`);
+    const sort = searchParams.get(`${recBillFilterPrefix}_sort`);
 
     if (sort) {
       const [sortName, sortDirect] = sort.split(":");
@@ -81,7 +80,7 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
   const hasActiveFilters =
     Object.entries(filters).filter(
       ([key, value]) =>
-        !["room", ...IGNORE_FILTERS_LIST].includes(key) && !!value
+        !["room", "type", ...IGNORE_FILTERS_LIST].includes(key) && !!value
     ).length > 0;
 
   // Masonry layout for card view
@@ -90,7 +89,8 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
   return (
     <CardContainer
       name="billing"
-      cardTitle="Billing History"
+      cardTitle="Recurring Bill"
+      className="shadow-none"
       subTitle={
         <p className="text-sm text-muted-foreground">
           {bills.length} record
@@ -139,8 +139,8 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
               onClick={() => {
                 const params = new URLSearchParams(searchParams.toString());
                 billingFilterKeys.forEach((key) => {
-                  console.log("delete", `${billingFilterPrefix}_${key}`);
-                  params.delete(`${billingFilterPrefix}_${key.key}`);
+                  console.log("delete", `${recBillFilterPrefix}_${key}`);
+                  params.delete(`${recBillFilterPrefix}_${key.key}`);
                 });
                 router.replace(`${pathname}?${params.toString()}`, {
                   scroll: false,
@@ -175,4 +175,4 @@ const BillingHistorySection: React.FC<BillingHistorySectionProps> = ({
   );
 };
 
-export default BillingHistorySection;
+export default BillingRecurring;

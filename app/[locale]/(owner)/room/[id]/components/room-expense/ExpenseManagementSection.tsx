@@ -29,6 +29,7 @@ export const expenseFilterKeys = [
   { key: "search", defaultValue: undefined },
   { key: "amount", defaultValue: undefined },
   { key: "comparison", defaultValue: undefined },
+  { key: "isAssetHandedOver", defaultValue: undefined },
   { key: "pageSize", defaultValue: "10" },
   { key: "page", defaultValue: "1" },
 ];

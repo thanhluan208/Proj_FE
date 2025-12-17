@@ -1,3 +1,4 @@
+import CheckBoxField from "@/components/common/fields/CheckboxField";
 import DatePickerField from "@/components/common/fields/DatePickerField";
 import DropzoneField from "@/components/common/fields/DropzoneField";
 import InputField from "@/components/common/fields/InputField";
@@ -35,6 +36,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
     expenses: z.array(
       z.object({
         name: z.string().min(1, { message: t("validation.nameRequired") }),
+        isAssetHandedOver: z.boolean().optional(),
         amount: z
           .string()
           .refine((value) => !!Number(value), t("validation.amountRequired")),
@@ -62,6 +64,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
               name: data.name,
               amount: String(data.amount),
               date: new Date(data.date),
+              isAssetHandedOver: data.isAssetHandedOver,
               notes: data.notes || "",
               receipt: data.receipt ? [data.receipt as unknown as File] : [],
             },
@@ -70,6 +73,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
             {
               name: "",
               amount: "0",
+              isAssetHandedOver: false,
               notes: "",
               date: new Date(),
               receipt: [],
@@ -91,6 +95,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
         amount: expense.amount,
         date: expense.date.toISOString(),
         notes: expense.notes,
+        isAssetHandedOver: expense.isAssetHandedOver,
         receipt: expense.receipt?.[0],
       })),
     };
@@ -102,6 +107,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
         roomId: roomId,
         name: submitData.expenses[0].name,
         amount: submitData.expenses[0].amount,
+        isAssetHandedOver: submitData.expenses[0].isAssetHandedOver,
         date: submitData.expenses[0].date.toISOString(),
         notes: submitData.expenses[0].notes,
         hasFile: !!submitData.expenses[0].receipt?.[0],
@@ -130,6 +136,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
     append({
       name: "",
       amount: "0",
+      isAssetHandedOver: false,
       date: new Date(),
       notes: "",
       receipt: [],
@@ -167,6 +174,12 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
               )}
 
               <div className="grid grid-cols-1 gap-4">
+                <CheckBoxField
+                  control={form.control}
+                  name={`expenses.${index}.isAssetHandedOver`}
+                  label={t("isAssetHandedOver")}
+                />
+
                 <InputField
                   control={form.control}
                   name={`expenses.${index}.name`}

@@ -407,6 +407,10 @@
       "PENDING_TENANT_PAYMENT": "Pending Payment",
       "PENDING_OWNER_REVIEW": "Pending Review"
     },
+    "tabs": {
+      "recurring": "Recurring",
+      "usageBased": "Usage-based"
+    },
     "filter": {
       "buttonText": "Filter",
       "title": "Filter Billings",
@@ -551,6 +555,8 @@
     "totalExpenses": "Total Expenses",
     "averageExpense": "Average Expense",
     "noData": "No data available",
+    "handedOver": "Asset Handed Over",
+    "handedOverTooltip": "If this asset is marked as asset handed over.\n This means it will be included in the contract between owner and tenants.",
     "validation": {
       "nameRequired": "Expense name is required",
       "amountRequired": "Amount is required",

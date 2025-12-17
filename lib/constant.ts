@@ -85,3 +85,18 @@ export const LOCAL_STORAGE_KEY = {
   USER_ID: "USER_ID",
   USER_DATA: "USER_DATA",
 };
+
+export const BOOLEAN_OPTION = [
+  {
+    label: "all",
+    value: "all",
+  },
+  {
+    label: "yes",
+    value: "true",
+  },
+  {
+    label: "no",
+    value: "false",
+  },
+];

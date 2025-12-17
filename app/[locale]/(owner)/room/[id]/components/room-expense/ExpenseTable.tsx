@@ -9,6 +9,12 @@ import { useTranslations } from "next-intl";
 import React, { useMemo } from "react";
 import ExpenseActionButton from "./ExpenseActionButton";
 import { expenseFilterPrefix } from "./ExpenseManagementSection";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 interface ExpenseTableProps {
   expenses: RoomExpense[];
@@ -68,6 +74,24 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({ expenses, total }) => {
                 {row.original.notes}
               </div>
             )}
+          </div>
+        ),
+      },
+      {
+        header: () => (
+          <Tooltip>
+            <TooltipTrigger className="flex items-center">
+              {t("handedOver")}
+            </TooltipTrigger>
+            <TooltipContent className="max-w-80">
+              <p className="whitespace-pre-line">{t("handedOverTooltip")}</p>
+            </TooltipContent>
+          </Tooltip>
+        ),
+        accessorKey: "isAssetHandedOver",
+        cell: ({ row }) => (
+          <div className="flex justify-center">
+            {row.original.isAssetHandedOver ? "✅" : "❌"}
           </div>
         ),
       },
