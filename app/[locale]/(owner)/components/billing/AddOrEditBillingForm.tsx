@@ -1,3 +1,4 @@
+import CheckBoxField from "@/components/common/fields/CheckboxField";
 import DatePickerField from "@/components/common/fields/DatePickerField";
 import InputField from "@/components/common/fields/InputField";
 import {
@@ -10,7 +11,11 @@ import ButtonCancel from "@/components/ui/button-cancel";
 import ButtonSubmit from "@/components/ui/button-submit";
 import { Form } from "@/components/ui/form";
 import useBillMutation from "@/hooks/bills/useBillMutation";
-import { Billing, CreateBillingDto } from "@/types/billing.type";
+import {
+  Billing,
+  BillingTypeEnum,
+  CreateBillingDto,
+} from "@/types/billing.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
@@ -37,97 +42,98 @@ const AddOrEditBillingForm: FC<AddOrEditBillingFormProps> = ({
 
   const handleCancel = () => setIsDialogOpen(false);
 
-  const schema = z.object({
-    from: z.date(),
-    to: z.date(),
-    notes: z.string().optional(),
-
-    houseAddress: z.string().optional(),
-    houseOwner: z.string().optional(),
-    houseOwnerPhoneNumber: z.string().optional(),
-    houseOwnerBackupPhoneNumber: z.string().optional(),
-
-    bankAccountName: z.string().optional(),
-    bankAccountNumber: z.string().optional(),
-    bankName: z.string().optional(),
-
-    electricity_start_index: z
-      .string()
-      .refine(
-        (value) => !!Number(value),
-        tCommon("requiredField", { field: t("form.electricity_start_index") })
-      ),
-    electricity_end_index: z
-      .string()
-      .refine(
-        (value) => !!Number(value),
-        tCommon("requiredField", { field: t("form.electricity_end_index") })
-      ),
-    water_start_index: z
-      .string()
-      .refine(
-        (value) => !!Number(value),
-        tCommon("requiredField", { field: t("form.water_start_index") })
-      ),
-    water_end_index: z
-      .string()
-      .refine(
-        (value) => !!Number(value),
-        tCommon("requiredField", { field: t("form.water_end_index") })
-      ),
-  });
+  const schema = z
+    .object({
+      from: z.date(),
+      to: z.date(),
+      notes: z.string().optional(),
+      isUsageBase: z.boolean(),
+      electricity_start_index: z.string().optional(),
+      electricity_end_index: z.string().optional(),
+      water_start_index: z.string().optional(),
+      water_end_index: z.string().optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (data.isUsageBase) {
+        if (!Number(data.electricity_start_index)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: tCommon("requiredField", {
+              field: t("form.electricity_start_index"),
+            }),
+            path: ["electricity_start_index"],
+          });
+        }
+        if (!Number(data.electricity_end_index)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: tCommon("requiredField", {
+              field: t("form.electricity_end_index"),
+            }),
+            path: ["electricity_end_index"],
+          });
+        }
+        if (!Number(data.water_start_index)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: tCommon("requiredField", {
+              field: t("form.water_start_index"),
+            }),
+            path: ["water_start_index"],
+          });
+        }
+        if (!Number(data.water_end_index)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: tCommon("requiredField", {
+              field: t("form.water_end_index"),
+            }),
+            path: ["water_end_index"],
+          });
+        }
+      }
+    });
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      from: new Date(),
-      to: new Date(),
-      houseAddress: "",
-      houseOwner: "",
-      houseOwnerPhoneNumber: "",
-      houseOwnerBackupPhoneNumber: "",
-      bankAccountName: "",
-      bankAccountNumber: "",
-      bankName: "",
+      from: data ? dayjs(data.from).toDate() : new Date(),
+      to: data ? dayjs(data.to).toDate() : new Date(),
       electricity_start_index: `${data?.electricity_start_index || 0}`,
       electricity_end_index: `${data?.electricity_end_index || 0}`,
       water_start_index: `${data?.water_start_index || 0}`,
       water_end_index: `${data?.water_end_index || 0}`,
       notes: "",
+      isUsageBase: data ? data.type === BillingTypeEnum.USAGE_BASED : true,
     },
   });
 
+  const isUsageBase = form.watch("isUsageBase");
+
   const onSubmit = (value: z.infer<typeof schema>) => {
-    const {
-      from,
-      to,
-      houseAddress,
-      houseOwner,
-      bankName,
-      houseOwnerPhoneNumber,
-      houseOwnerBackupPhoneNumber,
-      bankAccountName,
-      bankAccountNumber,
-      ...rest
-    } = value;
+    const { from, to, isUsageBase, ...rest } = value;
 
     const payload: CreateBillingDto = {
       roomId,
       from: from.toISOString(),
       to: to.toISOString(),
-      houseInfo: {
-        houseAddress,
-        houseOwner,
-        houseOwnerPhoneNumber,
-        houseOwnerBackupPhoneNumber,
-      },
-      bankInfo: {
-        bankAccountName,
-        bankAccountNumber,
-        bankName,
-      },
-      ...rest,
+      type: isUsageBase
+        ? BillingTypeEnum.USAGE_BASED
+        : BillingTypeEnum.RECURRING,
+      // Default to "0" to satisfy TS; validation ensures valid values if isUsageBase is true
+      // and if isUsageBase is false, these are deleted below.
+      electricity_start_index: rest.electricity_start_index ?? "0",
+      electricity_end_index: rest.electricity_end_index ?? "0",
+      water_start_index: rest.water_start_index ?? "0",
+      water_end_index: rest.water_end_index ?? "0",
+      notes: rest.notes,
     };
+
+    if (!isUsageBase) {
+      Object.keys(payload).forEach((key) => {
+        if (key.includes("index")) delete payload[key as keyof typeof payload];
+      });
+    }
 
     if (data) {
       updateBill.mutate({
@@ -183,109 +189,49 @@ const AddOrEditBillingForm: FC<AddOrEditBillingFormProps> = ({
             </AccordionContent>
           </AccordionItem>
 
-          {/* HOUSE INFO */}
-          <AccordionItem value="houseInfo">
-            <AccordionTrigger className="text-lg hover:no-underline mt-0">
-              {t("sections.houseInfo")}
-            </AccordionTrigger>
-            <AccordionContent className="px-4 pt-2">
-              <div className="grid sm:grid-cols-2 gap-3 px-2">
-                <InputField
-                  control={form.control}
-                  name="houseAddress"
-                  label={t("form.houseAddress")}
-                  placeholder={t("form.houseAddressPlaceholder")}
-                />
-                <InputField
-                  control={form.control}
-                  name="houseOwner"
-                  label={t("form.houseOwner")}
-                  placeholder={t("form.houseOwnerPlaceholder")}
-                />
-                <InputField
-                  control={form.control}
-                  name="houseOwnerPhoneNumber"
-                  label={t("form.houseOwnerPhoneNumber")}
-                  placeholder={t("form.houseOwnerPhoneNumberPlaceholder")}
-                  type="number"
-                />
-                <InputField
-                  control={form.control}
-                  name="houseOwnerBackupPhoneNumber"
-                  label={t("form.houseOwnerBackupPhoneNumber")}
-                  placeholder={t("form.houseOwnerBackupPhoneNumberPlaceholder")}
-                  type="number"
-                />
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          {/* BANK INFO */}
-          <AccordionItem value="bankInfo">
-            <AccordionTrigger className="text-lg hover:no-underline mt-0">
-              {t("sections.bankInfo")}
-            </AccordionTrigger>
-            <AccordionContent className="px-4 pt-2">
-              <div className="grid sm:grid-cols-2 gap-3 px-2">
-                <InputField
-                  control={form.control}
-                  name="bankAccountName"
-                  label={t("form.bankAccountName")}
-                  placeholder={t("form.bankAccountNamePlaceholder")}
-                />
-                <InputField
-                  control={form.control}
-                  name="bankAccountNumber"
-                  label={t("form.bankAccountNumber")}
-                  placeholder={t("form.bankAccountNumberPlaceholder")}
-                  type="number"
-                />
-                <div className="col-span-2">
+          <div className="mt-4">
+            <CheckBoxField
+              control={form.control}
+              name="isUsageBase"
+              label={t("tabs.usageBased")}
+            />
+          </div>
+          {/* BILL INFO */}
+          {isUsageBase && (
+            <AccordionItem value="billInfo">
+              <AccordionTrigger className="text-lg hover:no-underline mt-0">
+                {t("sections.billInfo")}
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pt-2">
+                <div className="grid sm:grid-cols-2 gap-3 px-2">
                   <InputField
                     control={form.control}
-                    name="bankName"
-                    label={t("form.bankName")}
-                    placeholder={t("form.bankNamePlaceholder")}
+                    name="electricity_start_index"
+                    label={t("form.electricity_start_index")}
+                    placeholder={t("form.electricity_start_indexPlaceholder")}
+                  />
+                  <InputField
+                    control={form.control}
+                    name="electricity_end_index"
+                    label={t("form.electricity_end_index")}
+                    placeholder={t("form.electricity_end_indexPlaceholder")}
+                  />
+                  <InputField
+                    control={form.control}
+                    name="water_start_index"
+                    label={t("form.water_start_index")}
+                    placeholder={t("form.water_start_indexPlaceholder")}
+                  />
+                  <InputField
+                    control={form.control}
+                    name="water_end_index"
+                    label={t("form.water_end_index")}
+                    placeholder={t("form.water_end_indexPlaceholder")}
                   />
                 </div>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          {/* BILL INFO */}
-          <AccordionItem value="billInfo">
-            <AccordionTrigger className="text-lg hover:no-underline mt-0">
-              {t("sections.billInfo")}
-            </AccordionTrigger>
-            <AccordionContent className="px-4 pt-2">
-              <div className="grid sm:grid-cols-2 gap-3 px-2">
-                <InputField
-                  control={form.control}
-                  name="electricity_start_index"
-                  label={t("form.electricity_start_index")}
-                  placeholder={t("form.electricity_start_indexPlaceholder")}
-                />
-                <InputField
-                  control={form.control}
-                  name="electricity_end_index"
-                  label={t("form.electricity_end_index")}
-                  placeholder={t("form.electricity_end_indexPlaceholder")}
-                />
-                <InputField
-                  control={form.control}
-                  name="water_start_index"
-                  label={t("form.water_start_index")}
-                  placeholder={t("form.water_start_indexPlaceholder")}
-                />
-                <InputField
-                  control={form.control}
-                  name="water_end_index"
-                  label={t("form.water_end_index")}
-                  placeholder={t("form.water_end_indexPlaceholder")}
-                />
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+              </AccordionContent>
+            </AccordionItem>
+          )}
         </Accordion>
 
         <div className="flex gap-3 pb-6 mt-6 sticky bottom-0 bg-neutral-100">

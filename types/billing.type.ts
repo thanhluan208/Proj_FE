@@ -28,14 +28,13 @@ export interface CreateBillingDto {
 
   notes?: string;
 
+  type: BillingTypeEnum;
+
   electricity_start_index: string;
   electricity_end_index: string;
 
   water_start_index: string;
   water_end_index: string;
-
-  houseInfo: HouseInfo;
-  bankInfo: BankInfo;
 }
 
 export interface GetBillingDto extends PaginationParams {
