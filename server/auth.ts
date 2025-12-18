@@ -101,5 +101,10 @@ export const refreshTokenAction = apiUtils.createServerAction<
   refreshAuth: true,
 });
 
-export const getUserData =
-  apiUtils.createServerFetcher<Profile>("/user/profile");
+export const getUserData = async () => {
+  return apiUtils.createServerFetcher<Profile>("/user/profile")({
+    next: {
+      tags: ["profile"],
+    },
+  });
+};

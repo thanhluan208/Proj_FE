@@ -35,7 +35,7 @@ const OwnerLayout = async ({
 
   const commonRoute = [
     {
-      href: Routes.DASHBOARD,
+      href: Routes.ROOT,
       label: "Dashboard",
       icon: MonitorDot,
     },
@@ -90,9 +90,9 @@ const OwnerLayout = async ({
                 height={32}
               />
               <div className="hidden lg:block">
-                <p className="text-sm font-semibold">{`${
-                  userProfile?.firstName || ""
-                } ${userProfile?.lastName || ""}`}</p>
+                <Link href={Routes.PROFILE} className="text-sm font-semibold">
+                  <p>{userProfile?.fullName || ""}</p>
+                </Link>
                 <p className="text-xs text-neutral-400 max-w-[180px] truncate">
                   {userProfile?.email || ""}
                 </p>

@@ -63,8 +63,7 @@
     "register": {
       "title": "Create your account",
       "subtitle": "Join our property management platform",
-      "firstName": "First Name",
-      "lastName": "Last Name",
+      "fullName": "Full Name",
       "email": "Email",
       "password": "Password",
       "confirmPassword": "Confirm Password",
@@ -77,8 +76,7 @@
       "haveAccount": "Already have an account?",
       "signIn": "Sign in",
       "placeholders": {
-        "firstName": "Enter your first name",
-        "lastName": "Enter your last name",
+        "fullName": "Enter your full name",
         "email": "Enter your email address",
         "password": "Create a strong password",
         "confirmPassword": "Confirm your password",
@@ -94,12 +92,9 @@
       "passwordRequired": "Password is required",
       "confirmPasswordRequired": "Confirm password is required",
       "passwordsDoNotMatch": "Passwords do not match",
-      "firstNameRequired": "First name is required",
-      "firstNameLength": "First name must be between 1 and 50 characters",
-      "firstNamePattern": "First name can only contain letters, spaces, hyphens and apostrophes",
-      "lastNameRequired": "Last name is required",
-      "lastNameLength": "Last name must be between 1 and 50 characters",
-      "lastNamePattern": "Last name can only contain letters, spaces, hyphens and apostrophes",
+      "fullNameRequired": "Full name is required",
+      "fullNameLength": "Full name must be between 1 and 100 characters",
+      "fullNamePattern": "Full name can only contain letters, spaces, hyphens and apostrophes",
       "phoneNumberPattern": "Please provide a valid phone number",
       "loginFailed": "Login failed",
       "registrationFailed": "Registration failed",
@@ -615,5 +610,53 @@
         "smaller": "Less than"
       }
     }
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {name}",
+    "stats": {
+      "totalProperties": "Total Properties",
+      "totalUnits": "Total Units",
+      "occupancyRate": "Occupancy Rate",
+      "monthlyRevenue": "Monthly Revenue",
+      "properties": "properties",
+      "units": "units",
+      "activeContracts": "Active Contracts"
+    },
+    "activity": {
+      "title": "Recent Activity",
+      "noActivity": "No recent activity",
+      "viewAll": "View all",
+      "types": {
+        "PAYMENT": "Payment Received",
+        "NEW_CONTRACT": "New Contract",
+        "MAINTENANCE": "Maintenance Alert",
+        "EXPIRING_SOON": "Contract Expiring Soon"
+      }
+    },
+    "propertyOverview": {
+      "title": "Property Overview",
+      "vacant": "Vacant",
+      "occupied": "Occupied",
+      "maintenance": "Maintenance"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your personal information",
+    "personalInfo": "Personal Information",
+    "bankInfo": "Bank Information",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+    "email": "Email",
+    "phoneNumber": "Phone Number",
+    "phoneNumberPlaceholder": "Enter your phone number",
+    "bankAccountName": "Bank Account Name",
+    "bankAccountNamePlaceholder": "Enter bank account name",
+    "bankAccountNumber": "Bank Account Number",
+    "bankAccountNumberPlaceholder": "Enter bank account number",
+    "bankName": "Bank Name",
+    "bankNamePlaceholder": "Enter bank name",
+    "save": "Save Changes",
+    "cancel": "Cancel"
   }
 }

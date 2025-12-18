@@ -51,25 +51,16 @@ const Register = () => {
         .string()
         .min(1, { message: t("validation.confirmPasswordRequired") }),
 
-      // First name validation with trimming and pattern matching
-      firstName: z
+      // Full name validation with trimming and pattern matching
+      fullName: z
         .string()
         .trim()
-        .min(1, { message: t("validation.firstNameRequired") })
-        .min(1, { message: t("validation.firstNameLength") })
-        .max(50, { message: t("validation.firstNameLength") })
+        .min(1, { message: t("validation.fullNameRequired") })
+        .min(1, { message: t("validation.fullNameLength") })
+        .max(100, { message: t("validation.fullNameLength") })
         .regex(/^[a-zA-Z\s'-]+$/, {
-          message: t("validation.firstNamePattern"),
+          message: t("validation.fullNamePattern"),
         }),
-
-      // Last name validation with trimming and pattern matching
-      lastName: z
-        .string()
-        .trim()
-        .min(1, { message: t("validation.lastNameRequired") })
-        .min(1, { message: t("validation.lastNameLength") })
-        .max(50, { message: t("validation.lastNameLength") })
-        .regex(/^[a-zA-Z\s'-]+$/, { message: t("validation.lastNamePattern") }),
 
       // Optional phone number validation with space removal and international format
     })
@@ -95,8 +86,7 @@ const Register = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      firstName: "",
-      lastName: "",
+      fullName: "",
     },
   });
 
@@ -108,8 +98,7 @@ const Register = () => {
         const payload = {
           email: data.email.toLowerCase().trim(),
           password: data.password,
-          firstName: data.firstName.trim(),
-          lastName: data.lastName.trim(),
+          fullName: data.fullName.trim(),
           // Remove spaces from phone number if provided
           provider: "email", // Default provider as per DTO
         };
@@ -159,18 +148,12 @@ const Register = () => {
           </div>
 
           {/* Name fields in a responsive grid layout */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <InputField
               control={registerForm.control}
-              name="firstName"
-              label={t("register.firstName")}
-              placeholder={t("register.placeholders.firstName")}
-            />
-            <InputField
-              control={registerForm.control}
-              name="lastName"
-              label={t("register.lastName")}
-              placeholder={t("register.placeholders.lastName")}
+              name="fullName"
+              label={t("register.fullName")}
+              placeholder={t("register.placeholders.fullName")}
             />
           </div>
 

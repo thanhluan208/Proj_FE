@@ -21,8 +21,7 @@ export interface UserDataLogin {
 export interface RegisterPayload {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
 }
 
 export interface VerifyOtpPayload {
@@ -44,8 +43,11 @@ export interface RefreshResponse {
 
 export interface Profile {
   email: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
+  phoneNumber?: string;
+  bankAccountName?: string;
+  bankAccountNumber?: string;
+  bankName?: string;
   createdAt: string;
   updatedAt: string;
 }

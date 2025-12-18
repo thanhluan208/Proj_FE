@@ -24,6 +24,7 @@ export const Routes = {
   SCHEDULER: "/scheduler",
   BILLS: "/bills",
   HISTORY: "/history",
+  PROFILE: "/profile",
 
   house: (houseId = "houseId") => `/house/${houseId}`,
   room: (roomId = "roomId") => `/room/${roomId}`,

@@ -52,8 +52,7 @@
     "register": {
       "title": "Tạo tài khoản của bạn",
       "subtitle": "Tham gia nền tảng quản lý bất động sản của chúng tôi",
-      "firstName": "Tên",
-      "lastName": "Họ",
+      "fullName": "Họ và Tên",
       "email": "Email",
       "password": "Mật khẩu",
       "confirmPassword": "Xác nhận mật khẩu",
@@ -66,8 +65,7 @@
       "haveAccount": "Đã có tài khoản?",
       "signIn": "Đăng nhập",
       "placeholders": {
-        "firstName": "Nhập tên của bạn",
-        "lastName": "Nhập họ của bạn",
+        "fullName": "Nhập họ và tên của bạn",
         "email": "Nhập địa chỉ email của bạn",
         "password": "Tạo mật khẩu mạnh",
         "confirmPassword": "Xác nhận mật khẩu của bạn",
@@ -94,12 +92,9 @@
       "passwordRequired": "Mật khẩu là bắt buộc",
       "confirmPasswordRequired": "Xác nhận mật khẩu là bắt buộc",
       "passwordsDoNotMatch": "Mật khẩu không khớp",
-      "firstNameRequired": "Tên là bắt buộc",
-      "firstNameLength": "Tên phải có từ 1 đến 50 ký tự",
-      "firstNamePattern": "Tên chỉ có thể chứa chữ cái, khoảng trắng, dấu gạch ngang và dấu nháy",
-      "lastNameRequired": "Họ là bắt buộc",
-      "lastNameLength": "Họ phải có từ 1 đến 50 ký tự",
-      "lastNamePattern": "Họ chỉ có thể chứa chữ cái, khoảng trắng, dấu gạch ngang và dấu nháy",
+      "fullNameRequired": "Họ và tên là bắt buộc",
+      "fullNameLength": "Họ và tên phải có từ 1 đến 100 ký tự",
+      "fullNamePattern": "Họ và tên chỉ có thể chứa chữ cái, khoảng trắng, dấu gạch ngang và dấu nháy",
       "phoneNumberPattern": "Vui lòng cung cấp số điện thoại hợp lệ",
       "loginFailed": "Đăng nhập thất bại",
       "registrationFailed": "Đăng ký thất bại",
@@ -615,5 +610,53 @@
         "smaller": "Nhỏ hơn"
       }
     }
+  },
+  "dashboard": {
+    "welcome": "Chào mừng trở lại, {name}",
+    "stats": {
+      "totalProperties": "Tổng số bất động sản",
+      "totalUnits": "Tổng số phòng",
+      "occupancyRate": "Tỷ lệ lấp đầy",
+      "monthlyRevenue": "Doanh thu hàng tháng",
+      "properties": "bất động sản",
+      "units": "phòng",
+      "activeContracts": "Hợp đồng hiệu lực"
+    },
+    "activity": {
+      "title": "Hoạt động gần đây",
+      "noActivity": "Không có hoạt động gần đây",
+      "viewAll": "Xem tất cả",
+      "types": {
+        "PAYMENT": "Đã nhận thanh toán",
+        "NEW_CONTRACT": "Hợp đồng mới",
+        "MAINTENANCE": "Thông báo bảo trì",
+        "EXPIRING_SOON": "Hợp đồng sắp hết hạn"
+      }
+    },
+    "propertyOverview": {
+      "title": "Tổng quan bất động sản",
+      "vacant": "Trống",
+      "occupied": "Đã thuê",
+      "maintenance": "Bảo trì"
+    }
+  },
+  "profile": {
+    "title": "Hồ sơ",
+    "subtitle": "Quản lý thông tin cá nhân của bạn",
+    "personalInfo": "Thông tin cá nhân",
+    "bankInfo": "Thông tin ngân hàng",
+    "fullName": "Họ và tên",
+    "fullNamePlaceholder": "Nhập họ và tên của bạn",
+    "email": "Email",
+    "phoneNumber": "Số điện thoại",
+    "phoneNumberPlaceholder": "Nhập số điện thoại của bạn",
+    "bankAccountName": "Tên tài khoản ngân hàng",
+    "bankAccountNamePlaceholder": "Nhập tên tài khoản ngân hàng",
+    "bankAccountNumber": "Số tài khoản ngân hàng",
+    "bankAccountNumberPlaceholder": "Nhập số tài khoản ngân hàng",
+    "bankName": "Tên ngân hàng",
+    "bankNamePlaceholder": "Nhập tên ngân hàng",
+    "save": "Lưu thay đổi",
+    "cancel": "Hủy"
   }
 }
