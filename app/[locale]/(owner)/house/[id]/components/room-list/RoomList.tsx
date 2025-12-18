@@ -4,7 +4,7 @@ import RoomCard from "./RoomCard";
 import { useMasonry } from "@/hooks/useMasonry";
 import { useParams } from "next/navigation";
 import { useGetListRoom } from "@/hooks/rooms/useGetListRoom";
-import AddRoomButton from "./AddRoomButton";
+import AddRoomButton from "./RoomAddOrEditButton";
 import { isString } from "lodash";
 
 const RoomList = () => {

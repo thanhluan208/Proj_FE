@@ -16,6 +16,8 @@ import {
 import { format } from "date-fns";
 import { Link, useRouter } from "@/i18n/routing";
 import { Routes } from "@/lib/constant";
+import RoomAddOrEditButton from "./RoomAddOrEditButton";
+import { useParams } from "next/navigation";
 
 interface RoomCardProps {
   room: Room;
@@ -23,10 +25,11 @@ interface RoomCardProps {
 
 const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
   const router = useRouter();
+  const params = useParams();
+
+  const houseId = String(params.houseId || "");
 
   const currentContract = room?.contracts?.[0] || {};
-
-  console.log("current", room);
 
   const formatCurrency = (value: number | string) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -118,12 +121,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
   return (
     <div className="rounded-xl p-5 cursor-pointer hover:shadow-lg transition-all shadow-sm duration-300 bg-accent/30 hover:bg-accent/50 group relative overflow-hidden">
       <div className="absolute top-4 right-4 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-        <button
-          className="p-1.5 hover:bg-background rounded-full text-muted-foreground hover:text-primary transition-colors"
-          title="Edit Room"
-        >
-          <Edit2 className="w-3.5 h-3.5" />
-        </button>
+        <RoomAddOrEditButton houseId={houseId} data={room} />
         <button
           className="p-1.5 hover:bg-red-100 rounded-full text-muted-foreground hover:text-red-500 transition-colors"
           title="Delete Room"

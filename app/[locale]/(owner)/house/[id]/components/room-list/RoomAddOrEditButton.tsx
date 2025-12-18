@@ -1,38 +1,24 @@
 "use client";
 
+import AddOrEditRoomForm from "@/app/[locale]/(owner)/components/rooms/AddOrEditRoomForm";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Pencil } from "lucide-react";
+import { Room } from "@/types/rooms.type";
+import { Edit2, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import AddRoomForm from "../rooms/AddOrEditRoomForm";
 
-interface CreateRoomDto {
-  name: string;
-  house: string;
-  description?: string;
-  size_sq_m: number;
-  base_rent: number;
-  price_per_electricity_unit?: number;
-  price_per_water_unit?: number;
-  fixed_water_fee?: number;
-  fixed_electricity_fee?: number;
-  living_fee?: number;
-  parking_fee?: number;
-  cleaning_fee?: number;
-}
-
-interface AddRoomButtonProps {
+interface RoomAddOrEditButtonProps {
   houseId: string;
-  buttonText?: string;
-  variant?: "default" | "outline" | "ghost";
+  data?: Room;
 }
 
-const AddRoomButton = ({ houseId }: AddRoomButtonProps) => {
+const RoomAddOrEditButton = ({ houseId, data }: RoomAddOrEditButtonProps) => {
   const t = useTranslations("room");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -42,14 +28,25 @@ const AddRoomButton = ({ houseId }: AddRoomButtonProps) => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={onOpenChange}>
-      <Pencil
+      <Button
+        variant={data?.id ? "ghost" : "default"}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           setIsDialogOpen(true);
         }}
-        className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary-60"
-      />
+      >
+        {data?.id ? (
+          <>
+            <Edit2 className="w-3.5 h-3.5" />
+          </>
+        ) : (
+          <>
+            <Plus className="w-4 h-4" />
+            Add Room
+          </>
+        )}
+      </Button>
 
       <DialogContent
         className="sm:max-w-[unset] w-fit max-h-[90vh] overflow-y-auto"
@@ -59,10 +56,14 @@ const AddRoomButton = ({ houseId }: AddRoomButtonProps) => {
           <DialogTitle>{t("addRoom.title")}</DialogTitle>
         </DialogHeader>
 
-        <AddRoomForm houseId={houseId} setIsDialogOpen={setIsDialogOpen} />
+        <AddOrEditRoomForm
+          houseId={houseId}
+          setIsDialogOpen={setIsDialogOpen}
+          data={data}
+        />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default AddRoomButton;
+export default RoomAddOrEditButton;
