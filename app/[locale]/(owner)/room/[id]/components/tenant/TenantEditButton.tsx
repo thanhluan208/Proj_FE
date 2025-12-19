@@ -26,11 +26,6 @@ const TenantEditButton: FC<TenantEditButtonProps> = ({ data }) => {
 
   const [open, setOpen] = React.useState(false);
 
-  const roomData = queryClient.getQueryData([
-    QueryKeys.ROOM_DETAIL,
-    params.id,
-  ]) as Room;
-
   return (
     <>
       <button
@@ -54,7 +49,6 @@ const TenantEditButton: FC<TenantEditButtonProps> = ({ data }) => {
           {open && (
             <AddOrEditTenantForm
               setIsDialogOpen={setOpen}
-              houseId={roomData?.house?.id}
               roomId={String(params.id)}
               data={data}
             />

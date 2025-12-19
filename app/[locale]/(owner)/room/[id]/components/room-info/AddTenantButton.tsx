@@ -10,13 +10,20 @@ import {
 } from "@/components/ui/dialog";
 import { DirectionAwareTabs } from "@/components/ui/direction-aware-tabs";
 import { UserPlus } from "lucide-react";
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, {
+  ComponentPropsWithoutRef,
+  FC,
+  Fragment,
+  useEffect,
+  useState,
+} from "react";
 import { useTranslations } from "next-intl";
 import { Tenant } from "@/types/tenants.type";
+import { cn } from "@/lib/utils";
 
-interface AddTenantButtonProps {
-  houseId: string;
+interface AddTenantButtonProps extends ComponentPropsWithoutRef<"div"> {
   roomId: string;
+  isGhost?: boolean;
 }
 
 enum Tabs {
@@ -24,7 +31,11 @@ enum Tabs {
   TENANT_INFO = "TENANT_INFO",
 }
 
-const AddTenantButton: FC<AddTenantButtonProps> = ({ houseId, roomId }) => {
+const AddTenantButton: FC<AddTenantButtonProps> = ({
+  roomId,
+  isGhost,
+  className,
+}) => {
   const t = useTranslations("tenant");
   const [open, setOpen] = useState(false);
   const [currentTab, setCurrentTab] = useState<string>(Tabs.TENANT_ID);
@@ -48,7 +59,6 @@ const AddTenantButton: FC<AddTenantButtonProps> = ({ houseId, roomId }) => {
       content: (
         <AddOrEditTenantForm
           setIsDialogOpen={setOpen}
-          houseId={houseId}
           roomId={roomId}
           data={idResult}
         />
@@ -65,10 +75,10 @@ const AddTenantButton: FC<AddTenantButtonProps> = ({ houseId, roomId }) => {
   return (
     <Fragment>
       <Button
-        variant="ghost"
+        variant={isGhost ? "ghost" : "default"}
         onClick={() => setOpen(true)}
         size="sm"
-        className="justify-start gap-2 w-full"
+        className={cn("justify-start gap-2 w-full", className)}
       >
         <UserPlus className="w-4 h-4" />
         {t("actions.addTenant")}

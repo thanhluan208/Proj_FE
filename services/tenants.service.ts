@@ -6,6 +6,7 @@ import {
   Tenant,
   UpdateTenantID,
 } from "@/types/tenants.type";
+import { AxiosResponse } from "axios";
 
 export const createTenant = async (data: CreateTenantDto): Promise<any> => {
   return api.post("/tenant/create", data).then((res) => res.data);
@@ -56,4 +57,10 @@ export const deleteTenant = async (
   id: string
 ): Promise<{ success: boolean; message: string }> => {
   return api.delete(`/tenant/${id}`).then((res) => res.data);
+};
+
+export const downloadTenantIdCards = async (
+  id: string
+): Promise<AxiosResponse<Blob>> => {
+  return api.get(`/tenant/${id}/download-id-cards`, { responseType: "blob" });
 };

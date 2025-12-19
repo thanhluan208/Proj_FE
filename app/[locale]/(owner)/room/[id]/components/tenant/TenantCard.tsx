@@ -5,6 +5,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Tenant } from "@/types/tenants.type";
 import dayjs from "dayjs";
@@ -13,6 +18,7 @@ import {
   Calendar,
   ChevronDown,
   CreditCard,
+  Download,
   MapPin,
   Phone,
   Power,
@@ -31,7 +37,7 @@ interface TenantCardProps {
 
 const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
   const t = useTranslations("tenant");
-  const { toggleStatus } = useTenantMutation();
+  const { toggleStatus, downloadIdCards } = useTenantMutation();
 
   const isPending = toggleStatus.isPending;
 
@@ -60,6 +66,43 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
 
   const handleToggleStatus = () => {
     toggleStatus.mutate(tenant.id);
+  };
+
+  const handleDownloadIdCards = async () => {
+    try {
+      const response = await downloadIdCards.mutateAsync(tenant.id);
+
+      // Get filename from Content-Disposition header
+      const disposition = response.headers["content-disposition"];
+      let filename = "tenant-id-cards.zip";
+
+      if (disposition) {
+        const match = disposition.match(/filename="(.+)"/);
+        if (match?.[1]) {
+          filename = match[1];
+        }
+      }
+
+      // Create blob URL
+      const url = window.URL.createObjectURL(
+        new Blob([response.data], {
+          type: response.headers["content-type"],
+        })
+      );
+
+      // Trigger download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+
+      // Cleanup
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Failed to download ID cards:", error);
+    }
   };
 
   return (
@@ -117,6 +160,26 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
             <span className="text-foreground">
               {tenant.citizenId || t("card.notAvailable")}
             </span>
+            {tenant.citizenId && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={handleDownloadIdCards}
+                    disabled={downloadIdCards.isPending}
+                    className="ml-auto p-1 hover:bg-accent rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {downloadIdCards.isPending ? (
+                      <SpinIcon />
+                    ) : (
+                      <Download className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                    )}
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{t("card.downloadIdCards")}</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
           </div>
 
           <div className="flex items-start gap-2 text-sm">

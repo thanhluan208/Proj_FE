@@ -5,6 +5,7 @@ import {
   toggleTenantStatus,
   deleteTenant,
   updateTenantId,
+  downloadTenantIdCards,
 } from "@/services/tenants.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -109,12 +110,17 @@ const useTenantMutation = () => {
     },
   });
 
+  const handleDownloadIdCards = useMutation({
+    mutationFn: downloadTenantIdCards,
+  });
+
   return {
     createTenant: handleCreate,
     editTenant: handleEdit,
     toggleStatus: handleToggleStatus,
     deleteTenant: handleDelete,
     updateTenantID: handleUpdateID,
+    downloadIdCards: handleDownloadIdCards,
   };
 };
 

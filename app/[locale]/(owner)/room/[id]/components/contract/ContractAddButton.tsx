@@ -7,11 +7,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { FilePlus } from "lucide-react";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
 
-const ContractAddButton = () => {
+interface ContractAddButtonProps extends ComponentPropsWithoutRef<"div"> {
+  isGhost?: boolean;
+}
+
+const ContractAddButton = ({ isGhost, className }: ContractAddButtonProps) => {
   const params = useParams();
 
   const [open, setOpen] = useState(false);
@@ -20,9 +25,9 @@ const ContractAddButton = () => {
     <>
       <Button
         onClick={() => setOpen(true)}
-        variant="ghost"
+        variant={isGhost ? "ghost" : "default"}
         size="sm"
-        className="justify-start gap-2 w-full"
+        className={cn("justify-start gap-2 w-full", className)}
       >
         <FilePlus className="w-4 h-4" />
         Create Contract

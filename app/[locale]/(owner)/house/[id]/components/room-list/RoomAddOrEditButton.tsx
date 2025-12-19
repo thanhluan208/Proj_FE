@@ -43,7 +43,7 @@ const RoomAddOrEditButton = ({ houseId, data }: RoomAddOrEditButtonProps) => {
         ) : (
           <>
             <Plus className="w-4 h-4" />
-            Add Room
+            {t("addRoom.buttonText")}
           </>
         )}
       </Button>
@@ -53,7 +53,9 @@ const RoomAddOrEditButton = ({ houseId, data }: RoomAddOrEditButtonProps) => {
         onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle>{t("addRoom.title")}</DialogTitle>
+          <DialogTitle>
+            {data?.id ? t("editRoom.title") : t("addRoom.title")}
+          </DialogTitle>
         </DialogHeader>
 
         <AddOrEditRoomForm

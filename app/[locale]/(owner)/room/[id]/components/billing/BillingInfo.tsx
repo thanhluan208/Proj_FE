@@ -14,7 +14,7 @@ import { BillingTypeEnum, GetBillingDto } from "@/types/billing.type";
 import { LayoutGrid, List } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useMemo, useState } from "react";
-import BillingAddButton from "./BillingAddOrEditButton";
+import BillingAddOrEditButton from "./BillingAddOrEditButton";
 import BillingCard from "./BillingCard";
 import BillingFilter from "./BillingFilter";
 import BillingTable from "./BillingTable";
@@ -134,7 +134,7 @@ const BillingInfo: React.FC<BillingInfoProps> = ({ roomId, type }) => {
           </div>
 
           <BillingFilter />
-          <BillingAddButton className="w-fit" />
+          <BillingAddOrEditButton className="w-fit" />
         </>
       }
     >

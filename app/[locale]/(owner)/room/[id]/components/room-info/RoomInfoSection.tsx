@@ -131,9 +131,9 @@ const RoomInfoSection = () => {
             <div className="flex flex-col gap-1">
               <BillingAddOrEditButton isGhost />
               <ExpenseAddOrEditButton isGhost />
-              <ContractAddButton />
+              <ContractAddButton isGhost />
               <div className="pt-1 border-t border-border">
-                <AddTenantButton houseId={room.house.id} roomId={room.id} />
+                <AddTenantButton isGhost roomId={room.id} />
               </div>
             </div>
           </PopoverContent>

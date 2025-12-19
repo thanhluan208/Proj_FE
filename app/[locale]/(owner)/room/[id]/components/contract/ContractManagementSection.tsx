@@ -13,6 +13,7 @@ import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { FC, useMemo, useState } from "react";
 import ContractCard from "./ContractCard";
+import ContractAddButton from "./ContractAddButton";
 
 interface ContractManagementSectionProps {
   roomId: string;
@@ -164,6 +165,8 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
 
           {/* Filter Button */}
           {/* <TenantFilter /> */}
+
+          <ContractAddButton className="w-fit" />
         </>
       }
     >

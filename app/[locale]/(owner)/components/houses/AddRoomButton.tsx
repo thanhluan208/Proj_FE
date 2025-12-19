@@ -10,6 +10,7 @@ import { Pencil } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import AddRoomForm from "../rooms/AddOrEditRoomForm";
+import { House } from "@/types/houses.type";
 
 interface CreateRoomDto {
   name: string;
@@ -28,11 +29,10 @@ interface CreateRoomDto {
 
 interface AddRoomButtonProps {
   houseId: string;
-  buttonText?: string;
-  variant?: "default" | "outline" | "ghost";
+  data?: House;
 }
 
-const AddRoomButton = ({ houseId }: AddRoomButtonProps) => {
+const AddRoomButton = ({ houseId, data }: AddRoomButtonProps) => {
   const t = useTranslations("room");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -51,10 +51,7 @@ const AddRoomButton = ({ houseId }: AddRoomButtonProps) => {
         className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary-60"
       />
 
-      <DialogContent
-        className="sm:max-w-[unset] w-fit max-h-[90vh] overflow-y-auto"
-        onInteractOutside={(e) => e.preventDefault()}
-      >
+      <DialogContent onInteractOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>{t("addRoom.title")}</DialogTitle>
         </DialogHeader>

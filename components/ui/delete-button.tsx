@@ -23,6 +23,7 @@ interface DeleteButtonProps<T> extends ComponentPropsWithoutRef<"button"> {
   title: string;
   description?: string;
   dialogContent?: ReactNode;
+  enableConfirmText?: boolean;
 }
 
 const DeleteButton = <T,>({
@@ -32,6 +33,7 @@ const DeleteButton = <T,>({
   title,
   dialogContent,
   description,
+  enableConfirmText,
   className,
 }: DeleteButtonProps<T>) => {
   const t = useTranslations("common");
@@ -40,6 +42,7 @@ const DeleteButton = <T,>({
   const isPending = action.isPending;
 
   const handleConfirm = () => {
+    console.log("submit");
     if (!id) return;
     action.mutate(id, {
       onSuccess: () => setOpenConfirm(false),
@@ -80,6 +83,7 @@ const DeleteButton = <T,>({
         content={dialogContent}
         onConfirm={handleConfirm}
         isLoading={isPending}
+        enableConfirmText={enableConfirmText}
       />
     </>
   );

@@ -25,7 +25,7 @@ interface InputFieldProps<
 > extends InputProps {
   control: Control<FormValues, any>;
   name: TName;
-  label: string;
+  label: ReactNode;
 
   onChangeCustomize?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   afterOnChange?: (value: string) => void;

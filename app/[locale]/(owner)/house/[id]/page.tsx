@@ -1,52 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import {
-  House,
-  Room,
-  MonthlyFinancial,
-  getHouseDetail,
-  getRooms,
-  getFinancialSummary,
-} from "./mock-data";
-import HouseInfoCard from "./components/HouseInfoCard";
-import FinancialSummary from "./components/FinancialSummary";
+import { useGetHouseDetail } from "@/hooks/houses/useGetHouseDetail";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import FinancialSummary from "./components/FinancialSummary";
+import HouseInfoCard from "./components/HouseInfoCard";
 import RoomList from "./components/room-list/RoomList";
+import { MonthlyFinancial } from "./mock-data";
+import { useParams } from "next/navigation";
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function HouseDetailPage({ params }: PageProps) {
-  const [house, setHouse] = useState<House | null>(null);
+export default function HouseDetailPage() {
   const [financials, setFinancials] = useState<MonthlyFinancial[]>([]);
-  const [loading, setLoading] = useState(true);
+  const params = useParams();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [houseData, roomsData, financialData] = await Promise.all([
-          getHouseDetail(params.slug),
-          getRooms(params.slug),
-          getFinancialSummary(params.slug),
-        ]);
+  const { data: house, isFetching } = useGetHouseDetail(String(params.id));
 
-        setHouse(houseData);
-        setFinancials(financialData);
-      } catch (error) {
-        console.error("Failed to fetch house details:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [params.slug]);
-
-  if (loading) {
+  if (isFetching) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />

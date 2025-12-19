@@ -12,13 +12,14 @@ export interface Room {
   updatedAt: string;
   deletedAt: string | null;
 
-  contracts: Contract[];
+  contracts?: Contract[];
   house: House;
   totalExpenses: number;
   totalIncome: number;
   totalTenants: number;
   paymentDate: string;
   base_rent: number;
+  maxTenant?: number;
 }
 
 export interface CreateRoomDto {
@@ -26,6 +27,7 @@ export interface CreateRoomDto {
   house: string;
   description?: string;
   size_sq_m?: string;
+  maxTenant: string;
 }
 
 export interface GetRoomByHouse extends PaginationParams {

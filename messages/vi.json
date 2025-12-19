@@ -119,7 +119,9 @@
       "descriptionPlaceholder": "Mô tả các tính năng, vị trí, tiện nghi của ngôi nhà, v.v. (tùy chọn)",
       "characters": "ký tự",
       "cancel": "Hủy",
-      "addButton": "Thêm Nhà"
+      "addButton": "Thêm Nhà",
+      "address": "Địa chỉ",
+      "addressPlaceholder": "Nhập địa chỉ"
     },
     "messages": {
       "houseAddedSuccess": "Nhà đã được thêm thành công!",
@@ -148,7 +150,8 @@
       "otherFeeInvalid": "Phí khác phải là số hợp lệ",
       "otherFeeMinimum": "Phí khác phải lớn hơn hoặc bằng 0",
       "otherFeeMaximum": "Phí khác không được vượt quá 999.999.999 VND",
-      "addRoomFailed": "Thêm phòng thất bại. Vui lòng thử lại."
+      "addRoomFailed": "Thêm phòng thất bại. Vui lòng thử lại.",
+      "maxTenant": "Số lượng người thuê tối đa là bắt buộc"
     },
     "addRoom": {
       "buttonText": "Thêm Phòng",
@@ -183,11 +186,17 @@
       "waterFeePlaceholder": "Nhập phí nước",
       "otherFee": "Phí Khác (VND)",
       "otherFeePlaceholder": "Nhập phí khác (tùy chọn)",
+      "maxTenant": "Số Người Thuê Tối Đa",
+      "maxTenantPlaceholder": "Nhập số lượng người thuê tối đa",
       "cancel": "Hủy",
       "addButton": "Thêm Phòng"
     },
     "messages": {
       "roomAddedSuccess": "Phòng đã được thêm thành công!"
+    },
+    "editRoom": {
+      "buttonText": "Chỉnh Sửa Phòng",
+      "title": "Chỉnh Sửa Phòng"
     },
     "info": {
       "title": "Chi Tiết Phòng",
@@ -249,7 +258,8 @@
       "joined": "Đã tham gia",
       "activate": "Kích hoạt",
       "deactivate": "Hủy kích hoạt",
-      "editLabel": "Chỉnh sửa người thuê"
+      "editLabel": "Chỉnh sửa người thuê",
+      "downloadIdCards": "Tải xuống CMND/CCCD"
     },
     "editDialog": {
       "title": "Chỉnh sửa thông tin {name}",
@@ -331,7 +341,8 @@
     "actions": {
       "delete": "Xóa",
       "addTenant": "Thêm người thuê"
-    }
+    },
+    "overTenantWarning": "Phòng này hiện có {count} người thuê, vượt quá giới hạn tối đa {maxTenant} người. Phí thuê bổ sung sẽ được tính hàng tháng cho những người thuê vượt quá."
   },
   "contract": {
     "title": "Quản lý hợp đồng",

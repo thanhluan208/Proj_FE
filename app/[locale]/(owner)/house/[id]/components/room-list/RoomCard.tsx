@@ -29,7 +29,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
 
   const houseId = String(params.houseId || "");
 
-  const currentContract = room?.contracts?.[0] || {};
+  const currentContract = room?.contracts?.[0] || null;
 
   const formatCurrency = (value: number | string) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -39,6 +39,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
   };
 
   const getElectricityFee = () => {
+    if (!currentContract) return 0;
     if (Number(currentContract.fixed_electricity_fee) > 0) {
       return `${formatCurrency(currentContract.fixed_electricity_fee || 0)}`;
     }
@@ -48,6 +49,8 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
   };
 
   const getWaterFee = () => {
+    if (!currentContract) return 0;
+
     if (Number(currentContract.fixed_water_fee) > 0) {
       return `${formatCurrency(currentContract.fixed_water_fee || 0)}`;
     }
@@ -55,7 +58,13 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
   };
 
   const getStatusConfig = () => {
-    if (room?.contracts?.length > 0) {
+    if (!currentContract)
+      return {
+        label: "New",
+        className: "bg-primary text-primary-foreground",
+      };
+
+    if (currentContract) {
       return {
         label: "Renting",
         className: "bg-green-100 text-green-700",
@@ -85,22 +94,22 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
       {
         icon: Wrench,
         label: "Service",
-        value: formatCurrency(currentContract.living_fee || 0),
+        value: formatCurrency(currentContract?.living_fee || 0),
       },
       {
         icon: Wrench,
         label: "Cleaning",
-        value: formatCurrency(currentContract.cleaning_fee || 0),
+        value: formatCurrency(currentContract?.cleaning_fee || 0),
       },
       {
         icon: Wifi,
         label: "Internet",
-        value: formatCurrency(currentContract.internet_fee || 0),
+        value: formatCurrency(currentContract?.internet_fee || 0),
       },
       {
         icon: LucideBike,
         label: "Parking",
-        value: formatCurrency(currentContract.parking_fee || 0), // <- I assume parking_fee?
+        value: formatCurrency(currentContract?.parking_fee || 0), // <- I assume parking_fee?
       },
     ];
 
@@ -157,10 +166,12 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
           <Ruler className="w-3.5 h-3.5 mr-1" />
           <span>{room.size_sq_m} m²</span>
         </div>
-        <div className="flex items-center font-medium text-primary">
-          <DollarSign className="w-3.5 h-3.5 mr-1" />
-          <span>{formatCurrency(currentContract.base_rent)}</span>
-        </div>
+        {currentContract && (
+          <div className="flex items-center font-medium text-primary">
+            <DollarSign className="w-3.5 h-3.5 mr-1" />
+            <span>{formatCurrency(currentContract?.base_rent)}</span>
+          </div>
+        )}
       </div>
 
       <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
@@ -168,13 +179,15 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
           <Calendar className="w-3.5 h-3.5 mr-1" />
           <span>Created: {format(new Date(room.createdAt), "dd/MM/yyyy")}</span>
         </div>
-        <div className="flex items-center text-muted-foreground">
-          <Calendar className="w-3.5 h-3.5 mr-1" />
-          <span>
-            Payment date:{" "}
-            {format(new Date(currentContract.startDate), "dd/MM/yyyy")}
-          </span>
-        </div>
+        {currentContract && (
+          <div className="flex items-center text-muted-foreground">
+            <Calendar className="w-3.5 h-3.5 mr-1" />
+            <span>
+              Payment date:{" "}
+              {format(new Date(currentContract.startDate), "dd/MM/yyyy")}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Fees Section (Expand on Hover) */}

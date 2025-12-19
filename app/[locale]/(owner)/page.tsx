@@ -17,7 +17,7 @@ export default async function DashboardPage() {
   const userName = userData.data?.fullName || "Owner";
 
   return (
-    <div className="flex-1 space-y-8 p-8 pt-6">
+    <div className="flex-1 space-y-8 px-4 ">
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">
           {t("welcome", { name: userName })}
@@ -53,7 +53,7 @@ export default async function DashboardPage() {
         />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-7">
         <PropertyOverview properties={MOCK_PROPERTIES} />
         <ActivityFeed activities={MOCK_ACTIVITIES} />
       </div>

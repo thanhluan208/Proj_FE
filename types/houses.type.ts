@@ -1,3 +1,5 @@
+import { RecordStatus } from ".";
+
 export interface House {
   id: string;
   name: string;
@@ -9,9 +11,11 @@ export interface House {
   };
   createdAt: Date;
   updatedAt: Date;
+  status: RecordStatus;
 }
 
 export interface CreateHouseDTO {
   name: string;
   description?: string;
+  address?: string;
 }

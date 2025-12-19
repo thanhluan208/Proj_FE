@@ -9,6 +9,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { TriangleAlert } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React, { ComponentPropsWithoutRef, useCallback, useId } from "react";
 import {
   Control,
@@ -40,6 +42,7 @@ interface ComboBoxTenantFieldProps<
   isMultiple?: boolean;
 
   name: TName;
+  maxTenant?: number;
 }
 
 const ComboBoxTenantField = <
@@ -57,8 +60,10 @@ const ComboBoxTenantField = <
   roomId,
   isMultiple,
   name,
+  maxTenant,
 }: ComboBoxTenantFieldProps<TFieldValue, TName>) => {
   const id = useId();
+  const t = useTranslations("tenant");
 
   const form = useFormContext<TFieldValue>();
 
@@ -116,9 +121,18 @@ const ComboBoxTenantField = <
         const { value } = field;
         const isError = !!fieldState.error;
 
+        const isOverTenant = maxTenant && value?.length > maxTenant;
+
         return (
           <FormItem id={id} className="flex flex-col gap-1">
-            {label && <FormLabel>{label}</FormLabel>}
+            {label && (
+              <FormLabel>
+                {label}
+                {isOverTenant && (
+                  <TriangleAlert className="h-4 w-4 text-warning" />
+                )}
+              </FormLabel>
+            )}
             <FormControl>
               <ComboBoxTenant
                 roomId={roomId}
@@ -131,6 +145,14 @@ const ComboBoxTenantField = <
                 isError={isError}
               />
             </FormControl>
+            {isOverTenant && (
+              <FormDescription>
+                {t("overTenantWarning", {
+                  count: value?.length,
+                  maxTenant: maxTenant,
+                })}
+              </FormDescription>
+            )}
             <FormMessage />
           </FormItem>
         );

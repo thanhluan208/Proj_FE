@@ -67,3 +67,13 @@ export enum SortOrder {
   ASC = "ASC",
   DESC = "DESC",
 }
+
+export interface RecordStatus {
+  id: RecordStatusEnum;
+  name: string;
+}
+
+export enum RecordStatusEnum {
+  ACTIVE = "1",
+  INACTIVE = "2",
+}

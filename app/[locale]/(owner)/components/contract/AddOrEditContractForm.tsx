@@ -12,7 +12,12 @@ import ButtonCancel from "@/components/ui/button-cancel";
 import ButtonSubmit from "@/components/ui/button-submit";
 import { Form } from "@/components/ui/form";
 import useContractMutation from "@/hooks/contracts/useContractMutation";
+import { QueryKeys } from "@/lib/constant";
+import useUserStore from "@/stores/user-profile.store";
+import { House } from "@/types/houses.type";
+import { Room } from "@/types/rooms.type";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { FC, memo, useEffect } from "react";
@@ -32,6 +37,18 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
   const roomTrans = useTranslations("room");
   const tCommon = useTranslations("common");
   const { createContract } = useContractMutation();
+  const queryClient = useQueryClient();
+
+  const roomData = queryClient.getQueryData([
+    QueryKeys.ROOM_DETAIL,
+    roomId,
+  ]) as Room;
+
+  console.log("roo", roomData);
+
+  const houseInfo = roomData?.house;
+
+  const profile = useUserStore((state) => state.profile);
 
   const isPending = createContract.isPending;
 
@@ -158,14 +175,14 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
       startDate: new Date(),
       endDate: dayjs().add(1, "year").toDate(),
       tenants: [],
-      houseAddress: "",
-      houseOwner: "",
-      houseOwnerPhoneNumber: "",
+      houseAddress: houseInfo?.address || "",
+      houseOwner: profile?.fullName || "",
+      houseOwnerPhoneNumber: profile?.phoneNumber || "",
       houseOwnerBackupPhoneNumber: "",
       overRentalFee: "0",
-      bankAccountName: "",
-      bankAccountNumber: "",
-      bankName: "",
+      bankAccountName: profile?.bankAccountName || "",
+      bankAccountNumber: profile?.bankAccountNumber || "",
+      bankName: profile?.bankName || "",
       base_rent: "0",
       cleaning_fee: "0",
       fixed_electricity_fee: "0",
@@ -236,6 +253,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
                   placeholder={t("form.tenantsPlaceholder")}
                   label={t("form.tenants")}
                   isMultiple
+                  maxTenant={roomData.maxTenant}
                 />
 
                 <DatePickerField

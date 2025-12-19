@@ -110,7 +110,7 @@
       "descriptionMaxLength": "Description must not exceed 512 characters",
       "addHouseFailed": "Failed to add house. Please try again."
     },
-    "addHouse": {
+    "form": {
       "title": "Add New House",
       "subtitle": "Create a new property listing",
       "name": "House Name",
@@ -119,7 +119,9 @@
       "descriptionPlaceholder": "Describe the house features, location, amenities, etc. (optional)",
       "characters": "characters",
       "cancel": "Cancel",
-      "addButton": "Add House"
+      "addButton": "Add House",
+      "address": "Address",
+      "addressPlaceholder": "Enter full address"
     },
     "messages": {
       "houseAddedSuccess": "House has been added successfully!",
@@ -148,7 +150,8 @@
       "otherFeeInvalid": "Other fee must be a valid number",
       "otherFeeMinimum": "Other fee must be greater than or equal to 0",
       "otherFeeMaximum": "Other fee must not exceed 999,999,999 VND",
-      "addRoomFailed": "Failed to add room. Please try again."
+      "addRoomFailed": "Failed to add room. Please try again.",
+      "maxTenant": "Maximum tenant is required"
     },
     "addRoom": {
       "buttonText": "Add Room",
@@ -183,11 +186,17 @@
       "waterFeePlaceholder": "Enter water fee",
       "otherFee": "Other Fee (VND)",
       "otherFeePlaceholder": "Enter other fee (optional)",
+      "maxTenant": "Maximum Tenants",
+      "maxTenantPlaceholder": "Enter maximum number of tenants",
       "cancel": "Cancel",
       "addButton": "Add Room"
     },
     "messages": {
       "roomAddedSuccess": "Room has been added successfully!"
+    },
+    "editRoom": {
+      "buttonText": "Edit Room",
+      "title": "Edit Room"
     },
     "info": {
       "title": "Room Details",
@@ -267,7 +276,8 @@
       "joined": "Joined",
       "activate": "Activate",
       "deactivate": "Deactivate",
-      "editLabel": "Edit tenant"
+      "editLabel": "Edit tenant",
+      "downloadIdCards": "Download ID Cards"
     },
     "editDialog": {
       "title": "Edit {name} info",
@@ -331,7 +341,8 @@
     "actions": {
       "delete": "Delete",
       "addTenant": "Add tenant"
-    }
+    },
+    "overTenantWarning": "This room currently has {count} tenants, exceeding the maximum limit of {maxTenant}. An additional rental fee will be charged monthly for the extra tenants."
   },
   "contract": {
     "title": "Contract Management",

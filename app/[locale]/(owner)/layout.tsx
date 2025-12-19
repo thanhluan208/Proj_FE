@@ -65,22 +65,22 @@ const OwnerLayout = async ({
     <div
       className={cn(
         "pt-2 p-3",
-        "bg-neutral-90  lg:pt-5 flex min-h-screen w-screen"
+        "bg-neutral-90  xl:pt-5 flex min-h-screen w-screen"
       )}
     >
       <div
         className={cn(
           "w-[56px]",
-          "max-h-[cacl(100vh-32px)] lg:w-[280px] no-scrollbar overflow-y-auto"
+          "max-h-[cacl(100vh-32px)] xl:w-[280px] no-scrollbar overflow-y-auto"
         )}
       >
         <div
           className={cn(
             "bg-neutral-100 rounded-xl",
-            "lg:bg-transparent flex flex-col lg:gap-5 "
+            "xl:bg-transparent flex flex-col xl:gap-5 "
           )}
         >
-          <div className="rounded-xl p-3 items-center flex-col lg:flex-row flex gap-2 justify-between bg-neutral-100">
+          <div className="rounded-xl p-3 items-center flex-col xl:flex-row flex gap-2 justify-between bg-neutral-100">
             <div className="items-center flex gap-2">
               <Image
                 src="/images/mascot/avatar.png"
@@ -89,7 +89,7 @@ const OwnerLayout = async ({
                 width={32}
                 height={32}
               />
-              <div className="hidden lg:block">
+              <div className="hidden xl:block">
                 <Link href={Routes.PROFILE} className="text-sm font-semibold">
                   <p>{userProfile?.fullName || ""}</p>
                 </Link>
@@ -109,23 +109,23 @@ const OwnerLayout = async ({
                   key={route.href}
                   className={cn(
                     "p-3 justify-center",
-                    "flex items-center relative lg:justify-between group gap-2.5 w-full text-sm lg:py-3.5 lg:px-3 lg:pl-6 hover:bg-neutral-90/60 hover:text-primary-60",
+                    "flex items-center relative xl:justify-between group gap-2.5 w-full text-sm xl:py-3.5 xl:px-3 xl:pl-6 hover:bg-neutral-90/60 hover:text-primary-60",
                     index !== 0 && "border-t border-neutral-90/20"
                   )}
                 >
                   <div className="flex items-center gap-2.5">
                     <Tooltip>
                       <TooltipTrigger>
-                        <route.icon className="w-4 h-4 lg:w-4 lg:h-4" />
+                        <route.icon className="w-4 h-4 xl:w-4 xl:h-4" />
                       </TooltipTrigger>
-                      <TooltipContent side="right" className="lg:hidden">
+                      <TooltipContent side="right" className="xl:hidden">
                         <p>{route.label}</p>
                       </TooltipContent>
                     </Tooltip>
-                    <p className="hidden lg:inline">{route.label}</p>
+                    <p className="hidden xl:inline">{route.label}</p>
                   </div>
 
-                  <p className="hidden lg:inline text-neutral-400 group-hover:text-primary-60 text-xs">
+                  <p className="hidden xl:inline text-neutral-400 group-hover:text-primary-60 text-xs">
                     {Math.floor(Math.random() * 100)}
                   </p>
                 </Link>
@@ -135,7 +135,7 @@ const OwnerLayout = async ({
 
           <SidebarHouseList />
 
-          <div className="rounded-xl  items-center flex-col flex bg-neutral-100 overflow-hidden ">
+          {/* <div className="rounded-xl  items-center flex-col flex bg-neutral-100 overflow-hidden ">
             <div className="flex items-center relative text-neutral-400 justify-between group gap-2.5 w-full text-sm py-3.5 px-3 pl-6 hover:bg-neutral-90/60 hover:text-primary-60">
               <p className="text-sm ">Tenant</p>
               <UserRoundPlus className="w-4 h-4 " />
@@ -160,7 +160,7 @@ const OwnerLayout = async ({
                 </Link>
               );
             })}
-          </div>
+          </div> */}
         </div>
       </div>
       <StoreProvider profile={response.data}>{children}</StoreProvider>

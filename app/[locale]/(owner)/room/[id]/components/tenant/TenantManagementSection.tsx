@@ -16,6 +16,7 @@ import TenantFilter, { TenantFilterValues } from "./TenantFilter";
 import TenantTable from "./TenantTable";
 import { ViewMode } from "@/types";
 import { IGNORE_FILTERS_LIST } from "@/lib/constant";
+import AddTenantButton from "../room-info/AddTenantButton";
 
 interface TenantManagementSectionProps {
   roomId: string;
@@ -136,6 +137,7 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
 
           {/* Filter Button */}
           <TenantFilter />
+          <AddTenantButton roomId={roomId} className="w-fit" />
         </>
       }
     >

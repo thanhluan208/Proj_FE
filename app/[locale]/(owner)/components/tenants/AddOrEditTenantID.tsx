@@ -74,7 +74,7 @@ const AddOrEditTenantID: FC<AddOrEditTenantIDProps> = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 mt-4 justify-between h-full"
+        className="flex flex-col gap-4 mt-4 justify-around h-full"
       >
         <DropzoneField
           control={form.control}

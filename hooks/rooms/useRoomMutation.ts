@@ -25,6 +25,26 @@ const useRoomMutation = () => {
     },
   });
 
+  const handleUpdate = useMutation({
+    mutationFn: RoomsService.updateRoom,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.ROOM_DETAIL],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.ROOM_LIST],
+      });
+
+      toast.success(translation("messages.updateSuccess"));
+    },
+    onError: (error: any) => {
+      console.log("error", error);
+      const message =
+        error?.response?.data?.message || translation("messages.updateError");
+      toast.error(message);
+    },
+  });
+
   const handleCreateExpense = useMutation({
     mutationFn: RoomExpenseService.createRoomExpense,
     onSuccess: async () => {
@@ -93,6 +113,7 @@ const useRoomMutation = () => {
 
   return {
     createRoom: handleCreate,
+    updateRoom: handleUpdate,
     createRoomExpense: handleCreateExpense,
     updateRoomExpense: handleUpdateExpense,
     deleteRoomExpense: handleDeleteExpense,

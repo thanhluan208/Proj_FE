@@ -1,3 +1,4 @@
+import DatePickerField from "@/components/common/fields/DatePickerField";
 import InputField from "@/components/common/fields/InputField";
 import SelectField from "@/components/common/fields/SelectField";
 import { SpinIcon } from "@/components/icons";
@@ -12,8 +13,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import useTenantMutation from "@/hooks/tenants/useTenantMutation";
+import { QueryKeys } from "@/lib/constant";
+import { Room } from "@/types/rooms.type";
 import { CreateTenantDto, Tenant } from "@/types/tenants.type";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
@@ -21,20 +25,26 @@ import { z } from "zod";
 
 interface AddTenantFormProps {
   setIsDialogOpen: (open: boolean) => void;
-  houseId: string;
   roomId: string;
   data?: Tenant;
 }
 
 const AddOrEditTenantForm: FC<AddTenantFormProps> = ({
   setIsDialogOpen,
-  houseId,
   roomId,
   data,
 }) => {
   const t = useTranslations("tenant");
   const { createTenant, editTenant } = useTenantMutation();
   const isPending = createTenant.isPending;
+  const queryClient = useQueryClient();
+
+  const roomData = queryClient.getQueryData([
+    QueryKeys.ROOM_DETAIL,
+    roomId,
+  ]) as Room;
+
+  const houseId = roomData?.house.id || "";
 
   const addTenantSchema = z.object({
     name: z.string().min(1, { message: t("validation.nameRequired") }),
@@ -119,22 +129,11 @@ const AddOrEditTenantForm: FC<AddTenantFormProps> = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
+          <DatePickerField
             name="dob"
-            render={({ field }) => (
-              <FormItem className="flex flex-col gap-1">
-                <FormLabel>{t("form.dob")}</FormLabel>
-                <FormControl>
-                  <DatePicker
-                    date={field.value}
-                    setDate={field.onChange}
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            control={form.control}
+            label={t("form.dob")}
+            placeholder={t("form.dob")}
           />
 
           <SelectField

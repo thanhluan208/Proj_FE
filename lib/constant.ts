@@ -36,6 +36,7 @@ export const Routes = {
 
 export const QueryKeys = {
   HOUSE_LIST: "HOUSE_LIST",
+  HOUSE_DETAIL: "HOUSE_DETAIL",
 
   ROOM_LIST: "ROOM_LIST",
   ROOM_DETAIL: "ROOM_DETAIL",
