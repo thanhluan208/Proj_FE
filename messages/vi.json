@@ -346,6 +346,15 @@
   },
   "contract": {
     "title": "Quản lý hợp đồng",
+    "table": {
+      "id": "Mã Hợp Đồng",
+      "status": "Trạng Thái",
+      "startDate": "Ngày Bắt Đầu",
+      "endDate": "Ngày Kết Thúc",
+      "mainTenant": "Khách Thuê Chính",
+      "baseRent": "Giá Thuê Cơ Bản",
+      "action": "Hành Động"
+    },
     "count": "{count} hợp đồng",
     "countPlural": "{count} hợp đồng",
     "all": "Tất cả",

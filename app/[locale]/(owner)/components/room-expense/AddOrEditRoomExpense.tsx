@@ -159,7 +159,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
           {fields.map((field, index) => (
             <div
               key={field.id}
-              className="border border-gray-200 rounded-lg p-4 relative"
+              className="border border-border rounded-lg p-4 relative"
             >
               {!data && fields.length > 1 && (
                 <Button
@@ -177,7 +177,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
                 <CheckBoxField
                   control={form.control}
                   name={`expenses.${index}.isAssetHandedOver`}
-                  label={t("isAssetHandedOver")}
+                  label={t("handedOver")}
                 />
 
                 <InputField

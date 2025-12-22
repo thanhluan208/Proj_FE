@@ -80,21 +80,21 @@ const RoomInfoSection = () => {
       icon: Users,
       label: t("info.stats.totalTenants"),
       value: room.totalTenants?.toString(),
-      bgColor: "bg-secondary-10 dark:bg-secondary-90",
+      bgColor: "bg-secondary-10 dark:bg-neutral-800",
       iconColor: "text-secondary",
     },
     {
       icon: TrendingUp,
       label: t("info.stats.totalIncome"),
       value: formatCurrency(room.totalIncome),
-      bgColor: "bg-primary-10 dark:bg-primary-90",
+      bgColor: "bg-primary-10 dark:bg-neutral-800",
       iconColor: "text-primary",
     },
     {
       icon: DollarSign,
       label: t("info.stats.totalExpenses"),
       value: formatCurrency(room.totalExpenses),
-      bgColor: "bg-warning/10 dark:bg-warning/20",
+      bgColor: "bg-warning/10 dark:bg-neutral-800",
       iconColor: "text-warning",
     },
     {
@@ -103,13 +103,13 @@ const RoomInfoSection = () => {
       value: room.paymentDate
         ? format(new Date(room.paymentDate), "dd/MM/yyyy")
         : t("info.na"),
-      bgColor: "bg-accent dark:bg-accent/50",
+      bgColor: "bg-accent dark:bg-neutral-800",
       iconColor: "text-accent-foreground",
     },
   ];
 
   return (
-    <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm border border-border">
+    <div className="bg-neutral-100 rounded-2xl p-6 md:p-8 shadow-sm border border-border">
       {/* Header with green accent */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">

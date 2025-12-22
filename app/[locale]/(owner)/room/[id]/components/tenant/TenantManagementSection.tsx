@@ -31,7 +31,7 @@ const filterKeys = [
   { key: "search", defaultValue: undefined },
 ];
 
-const filterPrefix = "tenant";
+export const tenantFilterPrefix = "tenant";
 
 const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
   roomId,
@@ -48,7 +48,9 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
     return filterKeys.reduce(
       (prev: Record<string, string | undefined>, cur) => {
         if (!cur) return prev;
-        const filterValue = searchParams.get(`${filterPrefix}_${cur.key}`);
+        const filterValue = searchParams.get(
+          `${tenantFilterPrefix}_${cur.key}`
+        );
         return {
           ...prev,
           [cur.key]: filterValue || cur.defaultValue,
@@ -92,7 +94,7 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
     ).length > 0;
 
   // Masonry layout for card view
-  const columns = useMasonry(tenants, { 0: 1, 768: 2, 1024: 3 });
+  const columns = useMasonry(tenants, { 0: 1, 768: 2, 1280: 3 });
 
   return (
     <CardContainer
@@ -164,10 +166,10 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
           ))}
         </div>
       ) : (
-        <TenantTable tenants={tenants} />
+        <TenantTable tenants={tenants} total={totalTenants?.total} />
       )}
 
-      <Pagination total={totalTenants?.total} />
+      {viewMode === "card" && <Pagination total={totalTenants?.total} />}
     </CardContainer>
   );
 };

@@ -45,6 +45,9 @@ const useBillMutation = () => {
       await queryClient.invalidateQueries({
         queryKey: [QueryKeys.BILLING_PAGING],
       });
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.ROOM_DETAIL],
+      });
 
       toast.success(t("messages.deleteSuccess"));
     },

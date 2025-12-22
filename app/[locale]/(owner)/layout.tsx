@@ -1,3 +1,8 @@
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Link } from "@/i18n/routing";
 import { Routes } from "@/lib/constant";
 import { cn } from "@/lib/utils";
@@ -7,23 +12,14 @@ import {
   Banknote,
   CalendarCheck2,
   FolderClock,
-  Home,
   LogOut,
   MonitorDot,
-  Pencil,
-  Plus,
   ReceiptText,
-  User,
-  UserRoundPlus,
 } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import SidebarHouseList from "./components/houses";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { SettingsToggle } from "./components/settings-toggle";
 
 const OwnerLayout = async ({
   children,
@@ -135,32 +131,7 @@ const OwnerLayout = async ({
 
           <SidebarHouseList />
 
-          {/* <div className="rounded-xl  items-center flex-col flex bg-neutral-100 overflow-hidden ">
-            <div className="flex items-center relative text-neutral-400 justify-between group gap-2.5 w-full text-sm py-3.5 px-3 pl-6 hover:bg-neutral-90/60 hover:text-primary-60">
-              <p className="text-sm ">Tenant</p>
-              <UserRoundPlus className="w-4 h-4 " />
-            </div>
-
-            {[1, 2, 3, 4].map((_, index) => {
-              return (
-                <Link
-                  href={`${Routes.house(String(index))}`}
-                  key={index}
-                  className={cn(
-                    "flex items-center relative justify-between group gap-2.5 w-full text-sm py-3.5 px-3 pl-8 hover:bg-neutral-90/60 hover:text-primary-60",
-                    index !== 0 && "border-t border-neutral-90/20"
-                  )}
-                >
-                  <div className="flex items-center gap-2.5">
-                    {<User className="w-4 h-4" />}
-                    <p>{`Tenant ${index + 1}`}</p>
-                  </div>
-
-                  <Pencil className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary-60" />
-                </Link>
-              );
-            })}
-          </div> */}
+          <SettingsToggle />
         </div>
       </div>
       <StoreProvider profile={response.data}>{children}</StoreProvider>

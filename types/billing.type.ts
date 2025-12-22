@@ -1,4 +1,4 @@
-import { PaginationParams, SortOrder } from ".";
+import { FileMetadata, PaginationParams, SortOrder } from ".";
 import { Contract } from "./contract.type";
 import { Tenant } from "./tenants.type";
 
@@ -71,6 +71,7 @@ export interface Billing {
   deletedAt: string | null;
 
   tenantContract: TenantContracts;
+  proof: FileMetadata;
 }
 
 interface TenantContracts {

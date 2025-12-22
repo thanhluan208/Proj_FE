@@ -1,18 +1,17 @@
 import { Button } from "@/components/ui/button";
+import DeleteButton from "@/components/ui/delete-button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import useBillMutation from "@/hooks/bills/useBillMutation";
+import { Billing, BillingStatusEnum } from "@/types/billing.type";
 import { MoreVertical } from "lucide-react";
-import React from "react";
-import BillingPayButton from "./BillingPayButton";
+import { useTranslations } from "next-intl";
 import BillingAddOrEditButton from "./BillingAddOrEditButton";
 import BillingDownloadFile from "./BillingDownloadFile";
-import DeleteButton from "@/components/ui/delete-button";
-import { Billing, BillingStatusEnum } from "@/types/billing.type";
-import useBillMutation from "@/hooks/bills/useBillMutation";
-import { useTranslations } from "next-intl";
+import BillingPayButton from "./BillingPayButton";
 
 interface BillingActionProps {
   data: Billing;
@@ -45,18 +44,21 @@ const BillingAction = ({ data }: BillingActionProps) => {
 
         <BillingDownloadFile id={data.id} isBillFile />
 
-        {data.status == BillingStatusEnum.PAID && (
+        {data.status == BillingStatusEnum.PAID && !!data.proof && (
           <BillingDownloadFile id={data.id} />
         )}
-        {data.status !== BillingStatusEnum.PAID && (
-          <DeleteButton
-            action={deleteBill}
-            id={data.id}
-            title={t("deleteTitle")}
-            description={t("deleteDescription")}
-            className="justify-start"
-          />
-        )}
+        <DeleteButton
+          action={deleteBill}
+          id={data.id}
+          title={t("deleteTitle")}
+          description={t("deleteDescription")}
+          className="justify-start"
+          dialogContent={
+            <div className="mt-3">
+              This bill has already been paid. Do you really want to delete it?
+            </div>
+          }
+        />
       </PopoverContent>
     </Popover>
   );

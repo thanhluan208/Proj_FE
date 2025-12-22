@@ -30,7 +30,7 @@ const CardSplitTab = ({
       return (
         <div
           className={cn(
-            "w-full bg-card flex relative justify-center items-center",
+            "w-full bg-neutral-100 flex relative justify-center items-center",
             className
           )}
         >
@@ -39,8 +39,8 @@ const CardSplitTab = ({
               "py-3 px-5 text-sm rounded-b-xl flex items-center relative justify-between bg-neutral-90 w-fit gap-5"
             )}
           >
-            <div className="w-5 bg-neutral-90 -left-5 h-full absolute after:content-[''] after:absolute after:w-full after:h-full after:bg-card after:rounded-tr-xl " />
-            <div className="w-5 bg-neutral-90 -right-5 h-full absolute after:content-[''] after:absolute after:w-full after:h-full after:bg-card after:rounded-tl-xl " />
+            <div className="w-5 bg-neutral-90 -left-5 h-full absolute after:content-[''] after:absolute after:w-full after:h-full after:bg-neutral-100 after:rounded-tr-xl " />
+            <div className="w-5 bg-neutral-90 -right-5 h-full absolute after:content-[''] after:absolute after:w-full after:h-full after:bg-neutral-100 after:rounded-tl-xl " />
             {tabs.map((elm) => {
               return (
                 <p
@@ -70,7 +70,7 @@ const CardSplitTab = ({
         setActiveTab={setActiveTab}
         customHeader={renderCustomHeader}
         containerClassname={cn(
-          "rounded-2xl overflow-hidden bg-card",
+          "rounded-2xl overflow-hidden bg-neutral-100",
           containerClassname
         )}
       />

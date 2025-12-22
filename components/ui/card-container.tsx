@@ -60,7 +60,10 @@ const CardContainer: FC<CardContainerProps> = ({
     >
       <AccordionItem value={name}>
         <div
-          className={cn("bg-card shadow-sm p-6 md:p-8 rounded-2xl", className)}
+          className={cn(
+            "bg-neutral-100 shadow-sm p-6 md:p-8 rounded-2xl",
+            className
+          )}
         >
           <div className="flex flex-col cursor-pointer items-start sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">

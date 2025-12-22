@@ -346,6 +346,16 @@
   },
   "contract": {
     "title": "Contract Management",
+    "table": {
+      "id": "Contract ID",
+      "status": "Status",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "mainTenant": "Main Tenant",
+      "baseRent": "Base Rent",
+      "action": "Action"
+    },
+    "filtered": "filtered",
     "count": "{count} contract",
     "countPlural": "{count} contracts",
     "all": "All",

@@ -195,7 +195,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
     },
   });
 
-  const onSubmit = (value: z.infer<typeof contractSchema>) => {
+  const onSubmit = async (value: z.infer<typeof contractSchema>) => {
     const payload = {
       roomId: roomId,
       startDate: value.startDate.toISOString(),
@@ -227,7 +227,9 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
       },
     };
 
-    createContract.mutate(payload);
+    await createContract.mutateAsync(payload);
+
+    setIsDialogOpen(false);
   };
 
   return (

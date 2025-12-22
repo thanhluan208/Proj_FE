@@ -14,6 +14,8 @@ import { useSearchParams } from "next/navigation";
 import { FC, useMemo, useState } from "react";
 import ContractCard from "./ContractCard";
 import ContractAddButton from "./ContractAddButton";
+import ContractTable from "./ContractTable";
+import { IGNORE_FILTERS_LIST } from "@/lib/constant";
 
 interface ContractManagementSectionProps {
   roomId: string;
@@ -24,7 +26,7 @@ const filterKeys = [
   { key: "pageSize", defaultValue: "10" },
   { key: "page", defaultValue: "1" },
 ];
-const filterPrefix = "contracts";
+export const contractFilterPrefix = "contracts";
 
 const ContractManagementSection: FC<ContractManagementSectionProps> = ({
   roomId,
@@ -39,7 +41,9 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
     return filterKeys.reduce(
       (prev: Record<string, string | undefined>, cur) => {
         if (!cur) return prev;
-        const filterValue = searchParams.get(`${filterPrefix}_${cur.key}`);
+        const filterValue = searchParams.get(
+          `${contractFilterPrefix}_${cur.key}`
+        );
         return {
           ...prev,
           [cur.key]: filterValue || cur.defaultValue,
@@ -52,8 +56,6 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
     ) as unknown as QueryContracts;
   }, [roomId, searchParams]);
 
-  console.log("filters", filters);
-
   const { data } = useGetListContract(filters);
   const { data: totalContract } = useGetTotalContract(filters);
 
@@ -65,13 +67,21 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
     filterKeys.forEach((cur) => {
       const filterValue = newFilters[cur.key as keyof QueryContracts];
       if (filterValue) {
-        params.set(`${filterPrefix}_${cur.key}`, String(filterValue));
+        params.set(`${contractFilterPrefix}_${cur.key}`, String(filterValue));
       } else {
-        params.delete(`${filterPrefix}_${cur.key}`);
+        params.delete(`${contractFilterPrefix}_${cur.key}`);
       }
     });
 
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const handleClearFilters = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    filterKeys.forEach((key) => {
+      params.delete(`${contractFilterPrefix}_${key.key}`);
+    });
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const handleQuickFilter = (status: "all" | "active" | "inactive") => {
@@ -85,9 +95,13 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
     updateFilters(newFilters);
   };
 
-  const hasActiveFilters = false;
+  const hasActiveFilters =
+    Object.entries(filters).filter(
+      ([key, value]) =>
+        !["room", ...IGNORE_FILTERS_LIST].includes(key) && !!value
+    ).length > 0;
 
-  const columns = useMasonry(contracts || [], { 0: 1, 768: 2, 1024: 3 });
+  const columns = useMasonry(contracts || [], { 0: 1, 1024: 2, 1280: 3 });
 
   return (
     <CardContainer
@@ -98,7 +112,7 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
           {totalContract?.total === 1
             ? t("count", { count: totalContract?.total })
             : t("countPlural", { count: "0" })}
-          {/* {hasActiveFilters && t("filtered")} */}
+          {hasActiveFilters && ` • ${t("filtered")}`}
         </>
       }
       actions={
@@ -175,7 +189,7 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
           <p className="text-muted-foreground">{t("noTenantsFound")}</p>
           {hasActiveFilters && (
             <button
-              onClick={() => handleFilterApply({})}
+              onClick={handleClearFilters}
               className="mt-2 text-primary hover:underline"
             >
               {t("clearFilters")}
@@ -183,7 +197,7 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
           )}
         </div>
       ) : viewMode === "card" ? (
-        <div className="flex gap-4 items-start">
+        <div className="flex gap-1 lg:gap-4 items-start">
           {columns.map((column, colIndex) => (
             <div key={colIndex} className="flex-1 space-y-4">
               {column.map((contract) => (
@@ -192,8 +206,9 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
             </div>
           ))}
         </div>
-      ) : // <TenantTable tenants={tenants} />
-      null}
+      ) : (
+        <ContractTable contracts={contracts} total={totalContract?.total} />
+      )}
     </CardContainer>
   );
 };

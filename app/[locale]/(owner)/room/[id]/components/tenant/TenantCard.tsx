@@ -37,6 +37,7 @@ interface TenantCardProps {
 
 const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
   const t = useTranslations("tenant");
+  const tCommon = useTranslations("common");
   const { toggleStatus, downloadIdCards } = useTenantMutation();
 
   const isPending = toggleStatus.isPending;
@@ -124,6 +125,16 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
                   <h3 className="text-base max-w-[120px] sm:max-w-[200px] text-ellipsis font-bold text-foreground group-hover:text-primary transition-colors">
                     {tenant.name}
                   </h3>
+                  {tenant.status && (
+                    <span
+                      className={cn(
+                        "px-3 py-1 rounded-full text-xs font-semibold text-white",
+                        getStatusColor(tenant.status)
+                      )}
+                    >
+                      {tenant.status.name}
+                    </span>
+                  )}
                   {/* Edit Button */}
                   {!isPending && <TenantEditButton data={tenant} />}
                 </div>
@@ -133,23 +144,6 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
                 </p>
               </div>
             </div>
-
-            <div className="flex items-center gap-2">
-              {/* Status Badge - Hidden on hover */}
-              {tenant.status && (
-                <span
-                  className={cn(
-                    "px-3 py-1 rounded-full text-xs font-semibold text-white transition-opacity duration-200 group-hover:opacity-0 group-hover:invisible",
-                    getStatusColor(tenant.status)
-                  )}
-                >
-                  {tenant.status.name}
-                </span>
-              )}
-            </div>
-          </div>
-          <div className="absolute top-4 right-4">
-            <AccordionTrigger className="p-1 hover:bg-accent/50 rounded-full transition-all opacity-0 invisible group-hover:opacity-100 group-hover:visible data-[state=open]:rotate-180" />
           </div>
         </div>
 
@@ -285,6 +279,12 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
             </div>
           </div>
         </AccordionContent>
+
+        <div className="px-5 pb-2 flex justify-center">
+          <AccordionTrigger className="pt-0 pb-2 hover:no-underline text-xs text-muted-foreground hover:text-primary transition-colors">
+            <span className="mr-1">{tCommon("viewDetails")}</span>
+          </AccordionTrigger>
+        </div>
       </AccordionItem>
     </Accordion>
   );

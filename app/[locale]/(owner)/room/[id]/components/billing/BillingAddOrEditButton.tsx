@@ -52,7 +52,7 @@ const BillingAddOrEditButton = ({
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-[min(90vw,1150px)]! max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-[min(90vw,750px)]! max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {data ? t("dialog.editTitle") : t("dialog.createTitle")}
