@@ -56,7 +56,7 @@ const DeleteButton = <T,>({
 
     return (
       <>
-        <Trash2 className="w-4 h-4 mr-2" />
+        <Trash2 className="w-4 h-4" />
         Delete
       </>
     );

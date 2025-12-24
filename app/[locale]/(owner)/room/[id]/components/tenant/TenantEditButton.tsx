@@ -1,4 +1,5 @@
 import AddOrEditTenantForm from "@/app/[locale]/(owner)/components/tenants/AddOrEditTenantForm";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,35 +7,35 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { QueryKeys } from "@/lib/constant";
-import { Room } from "@/types/rooms.type";
+import { cn } from "@/lib/utils";
 import { Tenant } from "@/types/tenants.type";
-import { useQueryClient } from "@tanstack/react-query";
-import { Edit } from "lucide-react";
+import { Edit2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import React, { FC, useState } from "react";
+import React, { ComponentPropsWithoutRef, FC } from "react";
 
-interface TenantEditButtonProps {
+interface TenantEditButtonProps extends ComponentPropsWithoutRef<"button"> {
   data: Tenant;
 }
 
-const TenantEditButton: FC<TenantEditButtonProps> = ({ data }) => {
+const TenantEditButton: FC<TenantEditButtonProps> = ({ data, className }) => {
   const t = useTranslations("tenant");
+  const tCommon = useTranslations("common");
   const params = useParams();
-  const queryClient = useQueryClient();
 
   const [open, setOpen] = React.useState(false);
 
   return (
     <>
-      <button
+      <Button
         onClick={() => setOpen(true)}
-        className="p-1 hover:bg-accent/50 rounded-full cursor-pointer transition-colors opacity-0 invisible group-hover:opacity-100 group-hover:visible"
-        aria-label={t("card.editLabel")}
+        variant="ghost"
+        size="sm"
+        className={cn("justify-start gap-2 w-full", className)}
       >
-        <Edit className="w-3.5 h-3.5 text-muted-foreground" />
-      </button>
+        <Edit2 className="w-4 h-4" />
+        {tCommon("edit")}
+      </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-[700px]! max-h-[90vh]! overflow-y-auto">
           <DialogHeader className="sticky top-0 z-10 bg-neutral-100 -mx-4 -mt-3 px-4 py-3 border-b border-border">

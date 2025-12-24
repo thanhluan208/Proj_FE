@@ -1,4 +1,5 @@
 "use client";
+import { SpinIcon } from "@/components/icons";
 import {
   Accordion,
   AccordionContent,
@@ -10,25 +11,22 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import useTenantMutation from "@/hooks/tenants/useTenantMutation";
 import { cn } from "@/lib/utils";
 import { Tenant } from "@/types/tenants.type";
 import dayjs from "dayjs";
 import {
   Briefcase,
   Calendar,
-  ChevronDown,
   CreditCard,
   Download,
   MapPin,
   Phone,
-  Power,
   User,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React from "react";
-import TenantEditButton from "./TenantEditButton";
-import useTenantMutation from "@/hooks/tenants/useTenantMutation";
-import { SpinIcon } from "@/components/icons";
+import TenantAction from "./TenantAction";
 import TenantDeleteButton from "./TenantDeleteButton";
 
 interface TenantCardProps {
@@ -61,12 +59,6 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
       default:
         return "bg-gray-500";
     }
-  };
-
-  const isActive = tenant.status?.name?.toLowerCase() === "active";
-
-  const handleToggleStatus = () => {
-    toggleStatus.mutate(tenant.id);
   };
 
   const handleDownloadIdCards = async () => {
@@ -135,8 +127,6 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
                       {tenant.status.name}
                     </span>
                   )}
-                  {/* Edit Button */}
-                  {!isPending && <TenantEditButton data={tenant} />}
                 </div>
                 <p className="text-sm text-muted-foreground flex items-center gap-1">
                   <Phone className="w-3 h-3 " />
@@ -144,6 +134,7 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
                 </p>
               </div>
             </div>
+            <TenantAction tenant={tenant} />
           </div>
         </div>
 
@@ -249,33 +240,6 @@ const TenantCard: React.FC<TenantCardProps> = ({ tenant }) => {
               <span>
                 {t("card.joined")} {formatDate(tenant.createdAt)}
               </span>
-            </div>
-
-            {/* Action Buttons - Only visible when accordion is open */}
-            <div className="flex items-center gap-2 pt-2 border-t border-border">
-              <button
-                onClick={handleToggleStatus}
-                className={cn(
-                  "flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors",
-                  isActive
-                    ? "bg-orange-500/10 text-orange-600 hover:bg-orange-500/20"
-                    : "bg-green-500/10 text-green-600 hover:bg-green-500/20"
-                )}
-              >
-                <div className="flex items-center justify-center gap-2">
-                  <Power className="w-4 h-4" />
-                  <span>
-                    {isPending ? (
-                      <SpinIcon />
-                    ) : isActive ? (
-                      t("card.deactivate")
-                    ) : (
-                      t("card.activate")
-                    )}
-                  </span>
-                </div>
-              </button>
-              <TenantDeleteButton data={tenant} isLoading={isPending} />
             </div>
           </div>
         </AccordionContent>

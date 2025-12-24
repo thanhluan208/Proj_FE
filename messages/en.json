@@ -302,7 +302,8 @@
       "citizenId": "Citizen ID",
       "job": "Job",
       "status": "Status",
-      "joinedDate": "Joined Date"
+      "joinedDate": "Joined Date",
+      "action": "Action"
     },
     "management": {
       "title": "Tenant Management",

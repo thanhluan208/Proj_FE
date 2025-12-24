@@ -284,7 +284,8 @@
       "citizenId": "CMND/CCCD",
       "job": "Nghề nghiệp",
       "status": "Trạng thái",
-      "joinedDate": "Ngày tham gia"
+      "joinedDate": "Ngày tham gia",
+      "action": "Hành Động"
     },
     "management": {
       "title": "Quản lý người thuê",

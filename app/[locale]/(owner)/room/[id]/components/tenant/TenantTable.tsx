@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 import React, { useMemo } from "react";
 import { tenantFilterPrefix } from "./TenantManagementSection";
+import TenantAction from "./TenantAction";
 
 interface TenantTableProps {
   tenants: Tenant[];
@@ -121,6 +122,15 @@ const TenantTable: React.FC<TenantTableProps> = ({ tenants, total }) => {
           <p className="text-sm text-foreground">
             {format(new Date(row.original.createdAt), "dd/MM/yyyy")}
           </p>
+        ),
+      },
+      {
+        header: t("action"),
+        accessorKey: "action",
+        cell: ({ row }) => (
+          <div className="flex justify-center items-center">
+            <TenantAction tenant={row.original} />
+          </div>
         ),
       },
     ],
