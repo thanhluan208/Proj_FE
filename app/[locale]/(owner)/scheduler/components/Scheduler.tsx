@@ -44,11 +44,13 @@ const Scheduler = () => {
     const firstMonday = currentDate.startOf("month").startOf("isoWeek");
     const lastSunday = currentDate.endOf("month").endOf("isoWeek");
 
-    const eventMap = new Map<string, SchedulerType>();
+    const eventMap = new Map<string, SchedulerType[]>();
 
     if (schedulers) {
       schedulers.forEach((elm) => {
-        eventMap.set(dayjs(elm.startDate).date().toString(), elm);
+        const events = eventMap.get(elm.cronDay.toString()) || [];
+        events.push(elm);
+        eventMap.set(elm.cronDay.toString(), events);
       });
     }
 
@@ -74,10 +76,10 @@ const Scheduler = () => {
               key={week[0].toString()}
             >
               {week.map((day) => {
-                const event = eventMap.get(day.date().toString());
+                const events = eventMap.get(day.date().toString());
 
                 return (
-                  <MonthDay date={day} key={day.toString()} event={event} />
+                  <MonthDay date={day} key={day.toString()} events={events} />
                 );
               })}
             </div>

@@ -21,7 +21,7 @@ import {
 
 interface MonthDayProps {
   date: Dayjs;
-  event?: Scheduler;
+  events?: Scheduler[];
 }
 
 enum Tabs {
@@ -29,7 +29,7 @@ enum Tabs {
   HOUSE_EXPENSE = "HOUSE_EXPENSE",
 }
 
-const MonthDay = ({ date, event }: MonthDayProps) => {
+const MonthDay = ({ date, events }: MonthDayProps) => {
   const searchParams = useSearchParams();
 
   const [open, setOpen] = useState(false);
@@ -40,7 +40,7 @@ const MonthDay = ({ date, event }: MonthDayProps) => {
     ? dayjs(currentDateSearch)
     : dayjs();
 
-  const eventType = event?.metadata?.jobType;
+  const isNotSameMonth = !date.isSame(currentDate, "month");
 
   const tabs = useMemo(
     () => [
@@ -70,7 +70,7 @@ const MonthDay = ({ date, event }: MonthDayProps) => {
             "bg-card border border-border shadow-md",
             "hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-xl hover:shadow-primary/50 hover:-translate-y-1",
           ],
-          eventType === SchedulerType.BILL && [
+          !!events && [
             "bg-secondary text-secondary-foreground border-transparent shadow-lg shadow-secondary/30",
             "hover:bg-secondary/90 hover:shadow-xl hover:shadow-secondary/40 hover:-translate-y-1",
           ]
@@ -80,28 +80,35 @@ const MonthDay = ({ date, event }: MonthDayProps) => {
           className={cn(
             "text-sm font-bold transition-colors duration-200",
             !event && "text-secondary group-hover:text-primary-foreground",
-            eventType === SchedulerType.BILL && "text-secondary-foreground"
+            !!events && "text-secondary-foreground"
           )}
         >
-          {date.format("D")}
+          {date.format(isNotSameMonth ? "D/MM" : "D")}
         </span>
-        {event && eventType === SchedulerType.BILL && (
+        {!!events && (
           <div className="flex flex-col gap-1.5 mt-auto">
             <div className="flex items-center gap-1.5">
-              <div className="p-1 rounded-md bg-secondary-foreground/20">
-                <Tooltip>
-                  <TooltipTrigger>
-                    <ReceiptText className="w-3.5 h-3.5" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <div>
-                      <p className="font-extrabold">Bill</p>
-                      <p>Room: {event.room.name}</p>
-                      <p>Type: {event.metadata?.type}</p>
-                    </div>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
+              {events.map((event) => {
+                return (
+                  <div
+                    className="px-1 rounded-md bg-secondary-foreground/20"
+                    key={event.id}
+                  >
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <ReceiptText className="w-3.5 h-3.5" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <div>
+                          <p className="font-extrabold">Bill</p>
+                          <p>Room: {event.room.name}</p>
+                          <p>Type: {event.metadata?.type}</p>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

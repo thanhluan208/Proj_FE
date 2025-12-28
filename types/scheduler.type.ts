@@ -16,7 +16,7 @@ export interface GetSchedulersDto {
 export interface Scheduler {
   id: string;
   name: string;
-  cronExpression: string;
+  cronDay: number;
   description?: string;
   isActive: boolean;
   metadata?: {
