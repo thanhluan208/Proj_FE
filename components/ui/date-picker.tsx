@@ -58,7 +58,7 @@ export function DatePicker({
 
   return (
     <Popover>
-      <PopoverTrigger disabled={disabled} ref={triggerRef}>
+      <PopoverTrigger disabled={disabled} ref={triggerRef} className="w-full">
         <div
           className={cn(
             "text-left font-normal hover:border-primary text-sm focus-within:border-primary hover:bg-transparent w-full flex border border-border rounded-lg px-4 py-2 justify-start items-center bg-transparent",

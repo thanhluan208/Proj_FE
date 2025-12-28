@@ -9,7 +9,7 @@ export const useGetListRoom = (params?: GetRoomByHouse) => {
   const page = params?.page || 1;
 
   return useQuery({
-    queryKey: [QueryKeys.ROOM_LIST, pageSize, page],
+    queryKey: [QueryKeys.ROOM_LIST, pageSize, page, params?.house],
     queryFn: () => RoomsService.getRooms(params),
   });
 };

@@ -1,12 +1,9 @@
-import ComboBoxTenant from "@/components/ui/combo-box-tenant";
-import { FormDescription } from "@/components/ui/form";
-import { TriangleAlert } from "lucide-react";
-import { useTranslations } from "next-intl";
+import ComboBoxHouse from "@/components/ui/combo-box-house";
 import React, { ComponentPropsWithoutRef } from "react";
-import { Control, FieldValues, Path, useFormContext } from "react-hook-form";
+import { Control, FieldValues, Path } from "react-hook-form";
 import ComboBoxField from "./ComboBoxField";
 
-interface ComboBoxTenantFieldProps<
+interface ComboBoxHouseFieldProps<
   TFieldValue extends FieldValues,
   TName extends Path<TFieldValue>
 > extends ComponentPropsWithoutRef<"div"> {
@@ -21,43 +18,23 @@ interface ComboBoxTenantFieldProps<
   onDeselectCustomize?: (cur: string[] | string, value: string) => void;
   afterOnDeselect?: (cur: string[] | string, value: string) => void;
 
-  roomId: string;
   disabled?: boolean;
   required?: boolean;
   isMultiple?: boolean;
 
   name: TName;
-  maxTenant?: number;
 }
 
-const ComboBoxTenantField = <
+const ComboBoxHouseField = <
   TFieldValue extends FieldValues,
   TName extends Path<TFieldValue>
 >({
-  label,
   placeholder,
-  roomId,
-  maxTenant,
   ...props
-}: ComboBoxTenantFieldProps<TFieldValue, TName>) => {
-  const t = useTranslations("tenant");
-  const form = useFormContext<TFieldValue>();
-  const value = form.watch(props.name);
-
-  const isOverTenant = maxTenant && value?.length > maxTenant;
-
-  const customLabel = label ? (
-    <>
-      {label}
-      {isOverTenant && <TriangleAlert className="h-4 w-4 text-warning" />}
-    </>
-  ) : undefined;
-
+}: ComboBoxHouseFieldProps<TFieldValue, TName>) => {
   return (
     <ComboBoxField
       {...props}
-      label={customLabel}
-      placeholder={placeholder}
       renderContent={({
         handleSelect,
         handleRemove,
@@ -65,8 +42,7 @@ const ComboBoxTenantField = <
         isError,
         disabled,
       }) => (
-        <ComboBoxTenant
-          roomId={roomId}
+        <ComboBoxHouse
           handleRemove={handleRemove}
           handleSelect={handleSelect}
           placeholder={placeholder}
@@ -76,18 +52,8 @@ const ComboBoxTenantField = <
           isError={isError}
         />
       )}
-      renderBottomMessage={() =>
-        isOverTenant && (
-          <FormDescription>
-            {t("overTenantWarning", {
-              count: value?.length,
-              maxTenant: maxTenant,
-            })}
-          </FormDescription>
-        )
-      }
     />
   );
 };
 
-export default ComboBoxTenantField;
+export default ComboBoxHouseField;

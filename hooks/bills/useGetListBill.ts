@@ -5,7 +5,7 @@ import { QueryKeys } from "@/lib/constant";
 import { GetBillingDto } from "@/types/billing.type";
 import { getBills, getTotalBill } from "@/services/bill.service";
 
-export const useGetListBilling = (params: GetBillingDto) => {
+export const useGetListBilling = (params: GetBillingDto, enabled = true) => {
   return useQuery({
     queryKey: [
       QueryKeys.BILLING_LIST,
@@ -20,7 +20,7 @@ export const useGetListBilling = (params: GetBillingDto) => {
       params.type,
     ],
     queryFn: () => getBills(params),
-    enabled: !!params.room,
+    enabled: !!params.room && enabled,
     placeholderData: keepPreviousData,
   });
 };

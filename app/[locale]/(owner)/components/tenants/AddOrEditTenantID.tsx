@@ -53,8 +53,6 @@ const AddOrEditTenantID: FC<AddOrEditTenantIDProps> = ({
   const onSubmit = async (submitData: z.infer<typeof addTenantSchema>) => {
     if (!roomId) return;
 
-    console.log("submit", submitData);
-
     const response = await updateTenantID.mutateAsync({
       roomId,
       id: data?.id,

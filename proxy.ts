@@ -15,7 +15,13 @@ const AUTHEN_ROUTES = [
   "/forgot-password",
   "/reset-password",
 ];
-const PRIVATE_ROUTES = ["/dashboard", "/room", "/house", "/profile"];
+const PRIVATE_ROUTES = [
+  "/dashboard",
+  "/room",
+  "/house",
+  "/profile",
+  "/scheduler",
+];
 
 // Token names
 
