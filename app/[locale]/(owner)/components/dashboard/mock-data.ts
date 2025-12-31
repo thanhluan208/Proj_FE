@@ -1,3 +1,4 @@
+import { RecordStatusEnum } from "@/types";
 import { ActivityItem, DashboardStats, PropertySummary } from "./types";
 
 export const MOCK_STATS: DashboardStats = {
@@ -50,6 +51,10 @@ export const MOCK_PROPERTIES: PropertySummary[] = [
     totalRooms: 15,
     occupiedRooms: 14,
     maintenanceRooms: 0,
+    status: {
+      id: RecordStatusEnum.ACTIVE,
+      name: "Active",
+    },
   },
   {
     id: "h2",
@@ -61,6 +66,10 @@ export const MOCK_PROPERTIES: PropertySummary[] = [
     totalRooms: 10,
     occupiedRooms: 8,
     maintenanceRooms: 1,
+    status: {
+      id: RecordStatusEnum.ACTIVE,
+      name: "Active",
+    },
   },
   {
     id: "h3",
@@ -72,5 +81,9 @@ export const MOCK_PROPERTIES: PropertySummary[] = [
     totalRooms: 20,
     occupiedRooms: 16,
     maintenanceRooms: 2,
+    status: {
+      id: RecordStatusEnum.ACTIVE,
+      name: "Active",
+    },
   },
 ];
