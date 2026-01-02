@@ -133,21 +133,6 @@ export default function NotFound() {
                 <span>Back to Home</span>
               </Link>
             </Button>
-
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="group hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
-            >
-              <Link
-                href="javascript:history.back()"
-                className="flex items-center gap-2"
-              >
-                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                <span>Go Back</span>
-              </Link>
-            </Button>
           </motion.div>
 
           {/* Additional help text */}

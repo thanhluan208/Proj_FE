@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { PropertySummary } from "./types";
 import { Building2, Home } from "lucide-react";
+import { Link } from "@/i18n/routing";
+import { Routes } from "@/lib/constant";
 
 export function PropertyOverview({
   properties,
@@ -28,9 +30,12 @@ export function PropertyOverview({
                   <Building2 className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium leading-none">
+                  <Link
+                    href={Routes.house(property.id)}
+                    className="text-sm font-medium hover:underline leading-none"
+                  >
                     {property.name}
-                  </p>
+                  </Link>
                   <p className="text-xs text-muted-foreground mt-1">
                     {property.address}
                   </p>
