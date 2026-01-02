@@ -90,10 +90,10 @@ const Login = () => {
 
   return (
     <Form {...loginForm}>
-      <div className="sm:w-[500px] sm:m-auto sm:max-w-[500px] backdrop:blur-sm rounded-xl p-3 bg-[rgba(255,255,255,0.1)] shadow-2xl">
+      <div className="w-full max-w-[500px] backdrop-blur-md rounded-2xl p-4 bg-white/10 shadow-2xl mx-auto border border-white/20">
         <form
           onSubmit={loginForm.handleSubmit(onSubmit)}
-          className="w-full bg-[rgba(255,255,255,0.5)] backdrop:blur-sm rounded-[14px] p-5 pt-10 flex flex-col gap-5"
+          className="w-full bg-white/40 backdrop-blur-lg rounded-xl p-6 pt-10 flex flex-col gap-5"
         >
           {/* Login form header with localized title and subtitle */}
           <div>
@@ -156,11 +156,11 @@ const Login = () => {
         </form>
 
         {/* Sign up link with localized text */}
-        <p className="mt-5 text-center">
+        <p className="mt-5 text-center text-white/90">
           {t("login.noAccount")}{" "}
           <Link
             href={Routes.REGISTER}
-            className="text-secondary-50 hover:underline"
+            className="text-primary-50 hover:underline font-semibold"
           >
             {t("login.signUp")}
           </Link>

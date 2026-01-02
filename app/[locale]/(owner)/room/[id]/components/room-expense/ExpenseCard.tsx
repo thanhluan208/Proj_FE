@@ -121,7 +121,7 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ expense }) => {
                     </h4>
                     <img />
                     <ImageDialog
-                      src={`/api/doorly/files/${expense.receipt.id}/preview`}
+                      src={`/api/valetum/files/${expense.receipt.id}/preview`}
                       alt={expense.name}
                     />
                   </div>

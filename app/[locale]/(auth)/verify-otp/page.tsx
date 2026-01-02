@@ -140,8 +140,8 @@ const VerifyOtp = () => {
   }
 
   return (
-    <div className="sm:w-[500px] sm:m-auto sm:max-w-[500px] backdrop:blur-sm rounded-xl p-3 bg-[rgba(255,255,255,0.1)] shadow-2xl">
-      <div className="w-full bg-[rgba(255,255,255,0.5)] backdrop:blur-sm rounded-[14px] p-5 pt-10 flex flex-col gap-6">
+    <div className="w-full max-w-[500px] backdrop-blur-md rounded-2xl p-4 bg-white/10 shadow-2xl mx-auto border border-white/20">
+      <div className="w-full bg-white/40 backdrop-blur-lg rounded-xl p-6 pt-10 flex flex-col gap-6">
         {/* OTP verification header with localized title and subtitle */}
         <div className="text-center">
           <p className="text-2xl font-semibold mb-2">{t("verifyOtp.title")}</p>
@@ -160,12 +160,12 @@ const VerifyOtp = () => {
             {/* 6-digit OTP input using shadcn InputOTP component */}
             <InputOTP maxLength={6} value={otpValue} onChange={handleOtpChange}>
               <InputOTPGroup className="gap-2">
-                <InputOTPSlot className="border-secondary" index={0} />
-                <InputOTPSlot className="border-secondary" index={1} />
-                <InputOTPSlot className="border-secondary" index={2} />
-                <InputOTPSlot className="border-secondary" index={3} />
-                <InputOTPSlot className="border-secondary" index={4} />
-                <InputOTPSlot className="border-secondary" index={5} />
+                <InputOTPSlot className="border-secondary border" index={0} />
+                <InputOTPSlot className="border-secondary border" index={1} />
+                <InputOTPSlot className="border-secondary border" index={2} />
+                <InputOTPSlot className="border-secondary border" index={3} />
+                <InputOTPSlot className="border-secondary border" index={4} />
+                <InputOTPSlot className="border-secondary border" index={5} />
               </InputOTPGroup>
             </InputOTP>
 
@@ -214,7 +214,7 @@ const VerifyOtp = () => {
         <div className="text-center">
           <Link
             href={Routes.LOGIN}
-            className="text-secondary-50 text-sm hover:underline"
+            className="text-primary-50 text-sm hover:underline font-semibold"
           >
             {t("verifyOtp.backToLogin")}
           </Link>

@@ -17,7 +17,7 @@ export default async function DashboardPage() {
   const userName = userData.data?.fullName || "Owner";
 
   return (
-    <div className="flex-1 space-y-8 px-4 ">
+    <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">
           {t("welcome", { name: userName })}

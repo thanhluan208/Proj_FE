@@ -66,7 +66,7 @@ const MonthDay = ({ date, events }: MonthDayProps) => {
           "min-h-32 rounded-2xl p-4 flex cursor-pointer flex-col gap-2 transition-all duration-200 ease-in-out relative group text-left outline-none",
           "active:scale-95 active:shadow-none active:translate-y-0",
           date.isSame(currentDate, "month") ? "opacity-100" : "opacity-40",
-          !event && [
+          !events && [
             "bg-card border border-border shadow-md",
             "hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-xl hover:shadow-primary/50 hover:-translate-y-1",
           ],
@@ -79,7 +79,7 @@ const MonthDay = ({ date, events }: MonthDayProps) => {
         <span
           className={cn(
             "text-sm font-bold transition-colors duration-200",
-            !event && "text-secondary group-hover:text-primary-foreground",
+            !events && "text-secondary group-hover:text-primary-foreground",
             !!events && "text-secondary-foreground"
           )}
         >

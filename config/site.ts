@@ -1,5 +1,4 @@
 export const siteConfig = {
-	title: "Doorly",
-	description:''
-	
-}
+  title: "Valetum",
+  description: "",
+};

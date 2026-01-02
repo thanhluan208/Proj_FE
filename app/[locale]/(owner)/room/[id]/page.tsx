@@ -12,8 +12,8 @@ const RoomDetailPage = async ({
   const { id } = await params;
 
   return (
-    <div className="flex-1 mx-auto pb-8 px-4 space-y-8">
-      <div className="xl:max-w-[calc(100vw-336px)] mx-auto space-y-6 max-w-[calc(100vw-112px)]">
+    <>
+      <div className=" mx-auto space-y-6 max-w-7xl">
         <RoomInfoSection />
 
         <TenantManagementSection roomId={id} />
@@ -24,7 +24,7 @@ const RoomDetailPage = async ({
 
         <ContractManagementSection roomId={id} />
       </div>
-    </div>
+    </>
   );
 };
 

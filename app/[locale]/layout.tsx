@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 
 import { Providers } from "@/providers";
 
@@ -9,13 +9,10 @@ import "../globals.css";
 
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { notFound } from "next/navigation";
 
 import { Toaster } from "@/components/ui/toaster";
-import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "@/providers/themeProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { twJoin } from "tailwind-merge";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -37,31 +34,25 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  console.log(routing, locale);
-  if (!routing.locales.includes(locale as any)) {
-    notFound();
-  }
 
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className={twJoin(poppins.variable)}>
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem={false}
-            disableTransitionOnChange
-          >
-            <Providers>
-              <SpeedInsights />
-              <main className="font-poppins">{children}</main>
-            </Providers>
-          </ThemeProvider>
-        </NextIntlClientProvider>
-        <Toaster />
-      </body>
-    </html>
+    <>
+      <NextIntlClientProvider messages={messages}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <Providers>
+            <SpeedInsights />
+            <main className="font-poppins">{children}</main>
+          </Providers>
+        </ThemeProvider>
+      </NextIntlClientProvider>
+      <Toaster />
+    </>
   );
 }

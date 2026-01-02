@@ -22,7 +22,7 @@ class HttpServices {
 
   constructor() {
     this.axios = axios.create({
-      baseURL: "/api/doorly", // Route all requests through Next.js proxy
+      baseURL: "/api/valetum", // Route all requests through Next.js proxy
     });
 
     this.setupDefaultHeaders();
@@ -73,7 +73,9 @@ class HttpServices {
         // Log successful responses in development
         if (process.env.NODE_ENV === "development") {
           console.log(
-            `✅ ${response.config.method?.toUpperCase()} ${response.config.url} - ${response.status}`
+            `✅ ${response.config.method?.toUpperCase()} ${
+              response.config.url
+            } - ${response.status}`
           );
         }
         return response;
@@ -83,7 +85,9 @@ class HttpServices {
 
         // Log errors
         console.error(
-          `❌ ${config?.method?.toUpperCase()} ${config?.url} - ${response?.status || "Network Error"}`,
+          `❌ ${config?.method?.toUpperCase()} ${config?.url} - ${
+            response?.status || "Network Error"
+          }`,
           {
             error: response?.data || error.message,
             requestId: response?.data?.requestId,

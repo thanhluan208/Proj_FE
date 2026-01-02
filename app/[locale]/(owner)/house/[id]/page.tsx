@@ -32,7 +32,7 @@ export default function HouseDetailPage() {
   }
 
   return (
-    <div className="flex-1 mx-auto pb-8 px-4 space-y-8">
+    <div className="flex flex-col gap-4">
       <HouseInfoCard house={house} />
       <RoomList />
       <FinancialSummary data={financials} />

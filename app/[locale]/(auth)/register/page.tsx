@@ -57,10 +57,7 @@ const Register = () => {
         .trim()
         .min(1, { message: t("validation.fullNameRequired") })
         .min(1, { message: t("validation.fullNameLength") })
-        .max(100, { message: t("validation.fullNameLength") })
-        .regex(/^[a-zA-Z\s'-]+$/, {
-          message: t("validation.fullNamePattern"),
-        }),
+        .max(100, { message: t("validation.fullNameLength") }),
 
       // Optional phone number validation with space removal and international format
     })
@@ -132,10 +129,10 @@ const Register = () => {
 
   return (
     <Form {...registerForm}>
-      <div className="sm:w-[500px] sm:m-auto sm:max-w-[500px] backdrop:blur-sm rounded-xl p-3 bg-[rgba(255,255,255,0.1)] shadow-2xl">
+      <div className="w-full max-w-[500px] backdrop-blur-md rounded-2xl p-4 bg-white/10 shadow-2xl mx-auto border border-white/20">
         <form
           onSubmit={registerForm.handleSubmit(onSubmit)}
-          className="w-full bg-[rgba(255,255,255,0.5)] backdrop:blur-sm rounded-[14px] p-5 pt-10 flex flex-col gap-5"
+          className="w-full bg-white/40 backdrop-blur-lg rounded-xl p-6 pt-10 flex flex-col gap-5"
         >
           {/* Registration form header with localized title and subtitle */}
           <div>
@@ -210,11 +207,11 @@ const Register = () => {
         </form>
 
         {/* Sign in link with localized text */}
-        <p className="mt-5 text-center">
+        <p className="mt-5 text-center text-white/90">
           {t("register.haveAccount")}{" "}
           <Link
             href={Routes.LOGIN}
-            className="text-secondary-50 hover:underline"
+            className="text-primary-50 hover:underline font-semibold"
           >
             {t("register.signIn")}
           </Link>
