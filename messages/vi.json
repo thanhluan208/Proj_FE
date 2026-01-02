@@ -26,7 +26,8 @@
       "updateSuccess": "Cập nhật thành công",
       "updateError": "Cập nhật thất bại. Vui lòng thử lại.",
       "deleteSuccess": "Xóa thành công",
-      "deleteError": "Xóa thất bại. Vui lòng thử lại."
+      "deleteError": "Xóa thất bại. Vui lòng thử lại.",
+      "downloadError": "Tải xuống thất bại. Vui lòng thử lại."
     }
   },
   "auth": {
@@ -126,6 +127,14 @@
     "messages": {
       "houseAddedSuccess": "Nhà đã được thêm thành công!",
       "houseAddedError": "Đã xảy ra lỗi khi thêm nhà. Vui lòng thử lại."
+    },
+    "form": {
+      "name": "Tên Nhà",
+      "namePlaceholder": "Nhập tên nhà (ví dụ: Villa Hoàng Hôn, Căn Hộ Trung Tâm)",
+      "description": "Mô Tả",
+      "descriptionPlaceholder": "Mô tả các tính năng, vị trí, tiện nghi của ngôi nhà, v.v. (tùy chọn)",
+      "address": "Địa chỉ",
+      "addressPlaceholder": "Nhập địa chỉ"
     }
   },
   "room": {
@@ -365,12 +374,29 @@
     "tableView": "Xem dạng bảng",
     "noTenantsFound": "Không tìm thấy hợp đồng nào",
     "clearFilters": "Xóa bộ lọc",
+    "status": {
+      "active": "Hoạt động",
+      "inactive": "Không hoạt động",
+      "deleted": "Đã xóa",
+      "upcoming": "Sắp tới",
+      "expired": "Hết hạn"
+    },
     "actions": {
-      "delete": "Xóa"
+      "delete": "Xóa",
+      "create": "Tạo hợp đồng",
+      "deactivate": "Hủy kích hoạt",
+      "activate": "Kích hoạt",
+      "download": "Tải xuống tệp"
     },
     "dialog": {
       "deleteTitle": "Xóa hợp đồng",
-      "deleteDescription": "Bạn có chắc chắn muốn xóa hợp đồng này không?"
+      "deleteDescription": "Bạn có chắc chắn muốn xóa hợp đồng này không?",
+      "deactivateTitle": "Hủy kích hoạt hợp đồng",
+      "deactivateDescription": "Bạn có chắc chắn muốn hủy kích hoạt hợp đồng này không?",
+      "activateTitle": "Kích hoạt hợp đồng",
+      "activateDescription": "Bạn có chắc chắn muốn kích hoạt hợp đồng này không?",
+      "createTitle": "Thêm hợp đồng mới",
+      "createDescription": "Thêm một hợp đồng mới cho phòng này"
     },
     "validation": {
       "minTenant": "Phải chọn ít nhất 1 người thuê",
@@ -410,6 +436,27 @@
       "endDatePlaceholder": "Chọn ngày kết thúc",
       "internet_fee": "Phí Internet",
       "internet_feePlaceholder": "Nhập phí Internet"
+    },
+    "card": {
+      "contractNumber": "Hợp đồng số",
+      "mainTenantTitle": "Khách thuê chính",
+      "mainTenantDescription": "Vì là khách thuê chính, tên của người thuê này sẽ xuất hiện trên hợp đồng chính thức và tất cả các hồ sơ thanh toán.",
+      "updateMainTenantTitle": "Cập nhật khách thuê chính",
+      "updateMainTenantDescription": "Cập nhật người thuê này trở thành Khách thuê chính",
+      "monthlyFees": "Chi phí & Lệ phí hàng tháng",
+      "createdAt": "Ngày tạo",
+      "updatedAt": "Ngày cập nhật",
+      "viewDetails": "Xem chi tiết",
+      "baseRent": "Giá thuê cơ bản",
+      "fees": {
+        "electricity": "Tiền điện",
+        "water": "Tiền nước",
+        "internet": "Internet",
+        "parking": "Phí gửi xe",
+        "cleaning": "Phí vệ sinh",
+        "living": "Phí sinh hoạt/Dịch vụ",
+        "overRentalFee": "Phí thuê quá người"
+      }
     }
   },
   "bill": {

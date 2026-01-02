@@ -59,6 +59,7 @@ interface ContractCardProps {
 const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
   const t = useTranslations("contract");
 
+  console.log("contract", contract);
   const { deleteContract } = useContractMutation();
 
   const formatCurrency = (value: number | string) => {
@@ -83,24 +84,32 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
 
     if (contract.deletedAt)
       return {
-        label: "Deleted",
+        label: t("status.deleted"),
         color: "bg-red-100 text-red-700",
         icon: Trash2,
       };
+
+    if (contract.status?.id === 2)
+      return {
+        label: t("status.inactive"),
+        color: "bg-gray-100 text-gray-700",
+        icon: AlertCircle,
+      };
+
     if (now < start)
       return {
-        label: "Upcoming",
+        label: t("status.upcoming"),
         color: "bg-blue-100 text-blue-700",
         icon: Clock,
       };
     if (now > end)
       return {
-        label: "Expired",
+        label: t("status.expired"),
         color: "bg-gray-100 text-gray-700",
         icon: AlertCircle,
       };
     return {
-      label: "Active",
+      label: t("status.active"),
       color: "bg-green-100 text-green-700",
       icon: CheckCircle2,
     };
@@ -111,7 +120,7 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
 
   const fees = [
     {
-      label: "Electricity",
+      label: t("card.fees.electricity"),
       value:
         Number(contract.fixed_electricity_fee) > 0
           ? formatCurrency(contract.fixed_electricity_fee)
@@ -119,7 +128,7 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
       icon: Zap,
     },
     {
-      label: "Water",
+      label: t("card.fees.water"),
       value:
         Number(contract.fixed_water_fee) > 0
           ? formatCurrency(contract.fixed_water_fee)
@@ -127,27 +136,27 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
       icon: Droplets,
     },
     {
-      label: "Internet",
+      label: t("card.fees.internet"),
       value: formatCurrency(contract.internet_fee),
       icon: Wifi,
     },
     {
-      label: "Parking",
+      label: t("card.fees.parking"),
       value: formatCurrency(contract.parking_fee),
       icon: Car,
     },
     {
-      label: "Cleaning",
+      label: t("card.fees.cleaning"),
       value: formatCurrency(contract.cleaning_fee),
       icon: Sparkles,
     },
     {
-      label: "Living/Service",
+      label: t("card.fees.living"),
       value: formatCurrency(contract.living_fee),
       icon: Armchair,
     },
     {
-      label: "Over Rental Fee",
+      label: t("card.fees.overRentalFee"),
       value: formatCurrency(contract.overRentalFee),
       icon: AlertCircle,
     },
@@ -170,7 +179,7 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">
-                    Contract #{contract.id.slice(0, 8)}
+                    {t("card.contractNumber")} {contract.id.slice(0, 8)}
                   </h3>
                   <div
                     className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium mt-1 ${status.color}`}
@@ -187,7 +196,7 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
             <div className="grid grid-cols-3  mb-4">
               <div className="space-y-1">
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
-                  <Calendar className="w-3 h-3" /> Start Date
+                  <Calendar className="w-3 h-3" /> {t("form.startDate")}
                 </p>
                 <p className="text-sm font-medium">
                   {formatDate(contract.startDate)}
@@ -195,7 +204,7 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
-                  <Calendar className="w-3 h-3" /> End Date
+                  <Calendar className="w-3 h-3" /> {t("form.endDate")}
                 </p>
                 <p className="text-sm font-medium">
                   {formatDate(contract.endDate)}
@@ -203,7 +212,7 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
-                  <User className="w-3 h-3" /> Tenants
+                  <User className="w-3 h-3" /> {t("form.tenants")}
                 </p>
                 <div className="flex gap-1 flex-col flex-wrap">
                   {contract.tenantContracts &&
@@ -251,21 +260,18 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
                             <TooltipContent className="max-w-52">
                               {elm.isMainTenant ? (
                                 <p>
-                                  <strong>Main tenant</strong>
+                                  <strong>{t("card.mainTenantTitle")}</strong>
                                   <br />
-                                  <span>
-                                    As being a main tenant, this tenant's will
-                                    appear on the official contract and all
-                                    billing records.
-                                  </span>
+                                  <span>{t("card.mainTenantDescription")}</span>
                                 </p>
                               ) : (
                                 <p>
-                                  <strong>Update Main Tenant</strong>
+                                  <strong>
+                                    {t("card.updateMainTenantTitle")}
+                                  </strong>
                                   <br />
                                   <span>
-                                    Update this tenant to be{" "}
-                                    <strong>Main Tenant</strong>
+                                    {t("card.updateMainTenantDescription")}
                                   </span>
                                 </p>
                               )}
@@ -279,7 +285,9 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
             </div>
 
             <div className="flex items-center justify-between p-3 bg-accent/50 rounded-lg border border-border/50">
-              <span className="text-sm text-muted-foreground">Base Rent</span>
+              <span className="text-sm text-muted-foreground">
+                {t("card.baseRent")}
+              </span>
               <span className="text-lg font-bold text-primary">
                 {formatCurrency(contract.base_rent)}
               </span>
@@ -291,7 +299,7 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
             <div className="px-5 pb-5 pt-0">
               <div className="border-t border-border pt-4">
                 <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-                  Monthly Fees & Charges
+                  {t("card.monthlyFees")}
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2">
                   {fees.map((fee, index) => (
@@ -314,9 +322,13 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
               </div>
 
               <div className="mt-4 pt-4 border-t border-border flex justify-between items-center text-xs text-muted-foreground">
-                <span>Created: {formatDate(contract.createdAt)}</span>
+                <span>
+                  {t("card.createdAt")}: {formatDate(contract.createdAt)}
+                </span>
                 {contract.updatedAt && (
-                  <span>Updated: {formatDate(contract.updatedAt)}</span>
+                  <span>
+                    {t("card.updatedAt")}: {formatDate(contract.updatedAt)}
+                  </span>
                 )}
               </div>
             </div>
@@ -324,7 +336,7 @@ const ContractCard: React.FC<ContractCardProps> = ({ contract, onEdit }) => {
 
           <div className="px-5 pb-2 flex justify-center">
             <AccordionTrigger className="pt-0 pb-2 hover:no-underline text-xs text-muted-foreground hover:text-primary transition-colors">
-              <span className="mr-1">View Details</span>
+              <span className="mr-1">{t("card.viewDetails")}</span>
             </AccordionTrigger>
           </div>
         </AccordionItem>

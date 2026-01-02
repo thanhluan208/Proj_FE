@@ -6,6 +6,7 @@ export interface Contract {
   createdDate: string; // ISO timestamp
   startDate: string; // ISO timestamp
   endDate: string; // ISO timestamp
+  status: { id: number; name?: string };
 
   base_rent: string;
   internet_fee: string;

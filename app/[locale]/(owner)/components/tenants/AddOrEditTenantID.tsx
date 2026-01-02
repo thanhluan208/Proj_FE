@@ -72,33 +72,35 @@ const AddOrEditTenantID: FC<AddOrEditTenantIDProps> = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 mt-4 justify-around h-full"
+        className="flex flex-col gap-4 pt-5 h-full pb-5"
       >
-        <DropzoneField
-          control={form.control}
-          name="frontImage"
-          label="Front ID"
-          placeholder="Drop a file here or click to browse"
-          maxFiles={1}
-          maxSize={5 * 1024 * 1024} // 5MB
-          accept={{
-            "image/*": [".png", ".jpg", ".jpeg"],
-          }}
-        />
+        <div className="grid grid-cols-2 gap-2 flex-1">
+          <DropzoneField
+            control={form.control}
+            name="frontImage"
+            label="Front ID"
+            placeholder="Drop a file here or click to browse"
+            maxFiles={1}
+            maxSize={5 * 1024 * 1024} // 5MB
+            accept={{
+              "image/*": [".png", ".jpg", ".jpeg"],
+            }}
+          />
 
-        <DropzoneField
-          control={form.control}
-          name="backImage"
-          label="Back ID"
-          placeholder="Drop a file here or click to browse"
-          maxFiles={1}
-          maxSize={5 * 1024 * 1024} // 5MB
-          accept={{
-            "image/*": [".png", ".jpg", ".jpeg"],
-          }}
-        />
+          <DropzoneField
+            control={form.control}
+            name="backImage"
+            label="Back ID"
+            placeholder="Drop a file here or click to browse"
+            maxFiles={1}
+            maxSize={5 * 1024 * 1024} // 5MB
+            accept={{
+              "image/*": [".png", ".jpg", ".jpeg"],
+            }}
+          />
+        </div>
 
-        <div className="flex gap-3 mt-6 pb-6 sticky bottom-0 bg-neutral-100 ">
+        <div className="flex gap-3 pb-6 sticky bottom-0 bg-neutral-100 ">
           <Button
             type="button"
             variant="outline"

@@ -7,8 +7,9 @@ import {
 } from "@/components/ui/popover";
 import useContractMutation from "@/hooks/contracts/useContractMutation";
 import { Contract } from "@/types/contract.type";
-import { MoreVertical } from "lucide-react";
+import { Ban, CircleCheck, MoreVertical } from "lucide-react";
 import { useTranslations } from "next-intl";
+import ContractDownloadFile from "./ContractDownloadFile";
 
 interface ContractActionProps {
   data: Contract;
@@ -17,7 +18,8 @@ interface ContractActionProps {
 const ContractAction = ({ data }: ContractActionProps) => {
   const t = useTranslations("contract");
 
-  const { deleteContract } = useContractMutation();
+  const { deleteContract, toggleContractStatus } = useContractMutation();
+  const isActive = data.status?.id === 1;
 
   return (
     <Popover>
@@ -31,10 +33,37 @@ const ContractAction = ({ data }: ContractActionProps) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="flex flex-col w-48 p-1">
-        {/* <DropdownMenuItem onClick={() => onEdit?.(contract)}>
-          <Edit2 className="w-4 h-4 mr-2" />
-          Edit
-        </DropdownMenuItem> */}
+        <ContractDownloadFile id={data.id} />
+        <DeleteButton
+          id={data.id}
+          action={toggleContractStatus}
+          title={
+            isActive ? t("dialog.deactivateTitle") : t("dialog.activateTitle")
+          }
+          description={
+            isActive
+              ? t("dialog.deactivateDescription")
+              : t("dialog.activateDescription")
+          }
+          buttonContent={
+            isActive ? (
+              <>
+                <Ban className="w-4 h-4 mr-2" />
+                {t("actions.deactivate")}
+              </>
+            ) : (
+              <>
+                <CircleCheck className="w-4 h-4 mr-2" />
+                {t("actions.activate")}
+              </>
+            )
+          }
+          className={
+            isActive
+              ? "justify-start text-orange-600 hover:text-orange-700 focus:text-orange-700"
+              : "justify-start text-green-600 hover:text-green-700 focus:text-green-700"
+          }
+        />
         <DeleteButton
           id={data.id}
           action={deleteContract}

@@ -51,9 +51,7 @@ const AddOrEditRoomForm: FC<AddOrEditRoomFormProps> = ({
         message: t("validation.descriptionMaxLength"),
       })
       .optional(),
-    size_sq_m: z.string().refine((value) => value !== "", {
-      message: t("validation.sizeRequired"),
-    }),
+    size_sq_m: z.string().optional(),
     maxTenant: z.string().refine((value) => value !== "", {
       message: t("validation.maxTenant"),
     }),

@@ -9,13 +9,16 @@ import useRoomMutation from "@/hooks/rooms/useRoomMutation";
 import { Tenant } from "@/types/tenants.type";
 import { MoreVertical } from "lucide-react";
 import TenantEditButton from "./TenantEditButton";
+import useTenantMutation from "@/hooks/tenants/useTenantMutation";
+import { useTranslations } from "next-intl";
 
 interface TenantActionProps {
   tenant: Tenant;
 }
 
 const TenantAction = ({ tenant }: TenantActionProps) => {
-  const { deleteRoomExpense } = useRoomMutation();
+  const t = useTranslations("tenant");
+  const { deleteTenant } = useTenantMutation();
 
   return (
     <Popover>
@@ -33,9 +36,9 @@ const TenantAction = ({ tenant }: TenantActionProps) => {
 
         <DeleteButton
           id={tenant.id}
-          action={deleteRoomExpense}
-          title="Delete room expense"
-          description="Are you sure you want to delete this room expense ?"
+          action={deleteTenant}
+          title={t("deleteConfirmation.title")}
+          description={t("deleteConfirmation.description")}
           className="justify-start"
         />
       </PopoverContent>

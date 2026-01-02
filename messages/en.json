@@ -26,7 +26,8 @@
       "updateSuccess": "Updated successfully",
       "updateError": "Failed to update. Please try again.",
       "deleteSuccess": "Deleted successfully",
-      "deleteError": "Failed to delete. Please try again."
+      "deleteError": "Failed to delete. Please try again.",
+      "downloadError": "Failed to download. Please try again."
     }
   },
   "auth": {
@@ -366,6 +367,13 @@
     "tableView": "Table View",
     "noTenantsFound": "No contracts found",
     "clearFilters": "Clear filters",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "deleted": "Deleted",
+      "upcoming": "Upcoming",
+      "expired": "Expired"
+    },
     "validation": {
       "minTenant": "Must select at least 1 tenant",
       "required": "This field is required",
@@ -376,11 +384,21 @@
       "eitherFieldGreaterThanZero": "Either {fieldA} or {fieldB} must be greater than 0"
     },
     "actions": {
-      "delete": "Delete"
+      "delete": "Delete",
+      "create": "Create Contract",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "download": "Download file"
     },
     "dialog": {
       "deleteTitle": "Delete contract",
-      "deleteDescription": "Are you sure you want to delete this contract?"
+      "deleteDescription": "Are you sure you want to delete this contract?",
+      "deactivateTitle": "Deactivate contract",
+      "deactivateDescription": "Are you sure you want to delete / deactivate this contract?",
+      "activateTitle": "Activate contract",
+      "activateDescription": "Are you sure you want to activate this contract?",
+      "createTitle": "Add new contract",
+      "createDescription": "Add a new contract to this room"
     },
     "form": {
       "houseInfo": "House Info",
@@ -411,6 +429,27 @@
       "endDatePlaceholder": "Select end date",
       "internet_fee": "Internet Fee",
       "internet_feePlaceholder": "Enter internet fee"
+    },
+    "card": {
+      "contractNumber": "Contract #",
+      "mainTenantTitle": "Main tenant",
+      "mainTenantDescription": "As being a main tenant, this tenant's name will appear on the official contract and all billing records.",
+      "updateMainTenantTitle": "Update Main Tenant",
+      "updateMainTenantDescription": "Update this tenant to be Main Tenant",
+      "monthlyFees": "Monthly Fees & Charges",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "viewDetails": "View Details",
+      "baseRent": "Base Rent",
+      "fees": {
+        "electricity": "Electricity",
+        "water": "Water",
+        "internet": "Internet",
+        "parking": "Parking",
+        "cleaning": "Cleaning",
+        "living": "Living/Service",
+        "overRentalFee": "Over Rental Fee"
+      }
     }
   },
   "bill": {

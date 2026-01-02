@@ -50,6 +50,7 @@ const AddTenantButton: FC<AddTenantButtonProps> = ({
           setIsDialogOpen={setOpen}
           roomId={roomId}
           setIdResult={setIdResult}
+          key={JSON.stringify(idResult)}
         />
       ),
     },
@@ -84,7 +85,16 @@ const AddTenantButton: FC<AddTenantButtonProps> = ({
         {t("actions.addTenant")}
       </Button>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={(open) => {
+          setOpen(open);
+          if (!open) {
+            setIdResult(undefined);
+            setCurrentTab(Tabs.TENANT_ID);
+          }
+        }}
+      >
         <DialogContent
           className="max-w-[700px]! max-h-[90vh]! overflow-y-auto"
           onInteractOutside={(e) => e.preventDefault()}

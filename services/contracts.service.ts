@@ -30,3 +30,13 @@ export const getTotalContract = async (
 export const deleteContract = async (id: string): Promise<Contract> => {
   return api.delete(`/contracts/${id}`).then((res) => res.data);
 };
+
+export const toggleContractStatus = async (id: string): Promise<Contract> => {
+  return api.post(`/contracts/${id}/update-status`).then((res) => res.data);
+};
+
+export const downloadContractFile = async (id: string): Promise<any> => {
+  return api.get(`/contracts/${id}/download`, {
+    responseType: "blob",
+  });
+};
