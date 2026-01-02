@@ -113,7 +113,7 @@ const TextareaField = <
                     maxLength={maxLength}
                     className={cn(
                       "border-0 focus-visible:ring-0 focus-visible:ring-offset-0",
-                      "resize-none font-poppins",
+                      "resize-none font-be-vietnam-pro",
                       maxLength && showCharacterCount && "pr-16",
                       className
                     )}

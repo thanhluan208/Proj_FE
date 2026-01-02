@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Be_Vietnam_Pro } from "next/font/google";
 
 import { Providers } from "@/providers";
 
@@ -17,11 +17,11 @@ import { ThemeProvider } from "@/providers/themeProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { twJoin } from "tailwind-merge";
 
-const poppins = Poppins({
-  subsets: ["latin"],
+const beVietnamPro = Be_Vietnam_Pro({
+  subsets: ["latin", "vietnamese"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
-  variable: "--font-poppins",
+  variable: "--font-be-vietnam-pro",
 });
 
 export const metadata: Metadata = {
@@ -46,7 +46,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={twJoin(poppins.variable)}>
+      <body className={twJoin(beVietnamPro.variable)}>
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
             attribute="class"
@@ -56,7 +56,7 @@ export default async function RootLayout({
           >
             <Providers>
               <SpeedInsights />
-              <main className="font-poppins">{children}</main>
+              <main className="font-be-vietnam-pro">{children}</main>
             </Providers>
           </ThemeProvider>
         </NextIntlClientProvider>

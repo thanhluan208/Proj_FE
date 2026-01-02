@@ -5,6 +5,7 @@ import { PropertySummary } from "./types";
 import { Building2, Home } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { Routes } from "@/lib/constant";
+import AddOrEditHouseButton from "../houses/AddOrEditHouseButton";
 
 export function PropertyOverview({
   properties,
@@ -15,9 +16,10 @@ export function PropertyOverview({
 
   return (
     <Card className="col-span-1 lg:col-span-4">
-      <CardHeader>
-        <CardTitle>{t("title")}</CardTitle>
-      </CardHeader>
+      <div className="flex px-3 w-full justify-between items-center">
+        <p className=" font-semibold">{t("title")}</p>
+        <AddOrEditHouseButton />
+      </div>
       <CardContent>
         <div className="space-y-4">
           {properties.map((property) => (
@@ -30,12 +32,15 @@ export function PropertyOverview({
                   <Building2 className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <div>
-                  <Link
-                    href={Routes.house(property.id)}
-                    className="text-sm font-medium hover:underline leading-none"
-                  >
-                    {property.name}
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={Routes.house(property.id)}
+                      className="text-sm font-medium hover:underline leading-none"
+                    >
+                      {property.name}
+                    </Link>
+                    <AddOrEditHouseButton data={property} />
+                  </div>
                   <p className="text-xs text-muted-foreground mt-1">
                     {property.address}
                   </p>

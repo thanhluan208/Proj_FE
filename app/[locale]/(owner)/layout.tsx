@@ -1,23 +1,20 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Link, usePathname } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import { Routes } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 import StoreProvider from "@/providers/StoreProvider";
 import { getUserData } from "@/server/auth";
 import {
-  Banknote,
   CalendarCheck2,
   FolderClock,
   House,
   MonitorDot,
   ReceiptText,
 } from "lucide-react";
+import Image from "next/image";
 import React from "react";
+import ButtonLogout from "./components/layout/ButtonLogout";
 import CommonRoute from "./components/layout/CommonRoute";
+import { SettingsToggle } from "./components/layout/settings-toggle";
 
 const OwnerLayout = async ({
   children,
@@ -25,8 +22,6 @@ const OwnerLayout = async ({
   children: React.ReactNode;
 }>) => {
   const response = await getUserData();
-
-  const userProfile = response?.data;
 
   const commonRoute = [
     {
@@ -60,12 +55,24 @@ const OwnerLayout = async ({
   return (
     <div
       className={cn(
-        "pt-2 p-3 pl-20",
+        "pt-2 p-3 pl-16",
         "bg-neutral-90  xl:pt-5 flex min-h-screen w-screen"
       )}
     >
-      <div className="fixed left-0 top-0 w-20 pr-2 h-screen flex items-center justify-center ">
-        <div className="w-full py-5 bg-primary relative rounded-r-[38px] flex justify-center flex-col gap-5">
+      <div className="fixed left-0 py-5 top-0 w-16 pr-2 h-screen flex flex-col items-center justify-between ">
+        <Link href={Routes.PROFILE}>
+          <div>
+            <Image
+              src="/images/mascot/avatar.png"
+              width={40}
+              height={40}
+              className="rounded-full"
+              alt="profile"
+            />
+          </div>
+        </Link>
+        <div />
+        <div className="w-full absolute top-2/4 -translate-y-2/4  py-5 bg-primary  rounded-r-[38px] flex justify-center flex-col gap-5">
           <div
             className={cn(
               "absolute -top-14 bg-primary w-full h-14 ",
@@ -89,6 +96,11 @@ const OwnerLayout = async ({
               />
             );
           })}
+        </div>
+        <div className="flex flex-col gap-2 items-center">
+          <SettingsToggle />
+
+          <ButtonLogout />
         </div>
       </div>
       <StoreProvider profile={response.data}>

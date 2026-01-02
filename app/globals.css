@@ -162,8 +162,10 @@
 }
 
 @theme inline {
-  --font-poppins: "Poppins", sans-serif;
+  /* Main font variable */
+  --font-be-vietnam-pro: "Be Vietnam Pro", sans-serif;
 
+  /* Use variable for flexibility but map it to our semantic font needs */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);

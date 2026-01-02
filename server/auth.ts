@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/lib/constant";
 import { decodeJwtPayload } from "@/lib/utils";
@@ -107,4 +108,27 @@ export const getUserData = async () => {
       tags: ["profile"],
     },
   });
+};
+
+export const baseLogoutAction = apiUtils.createServerAction<
+  {},
+  CommonResponse<null>
+>("/auth/logout", "POST");
+
+export const logoutAction = async () => {
+  try {
+    // Call the API
+    await baseLogoutAction({});
+  } catch (error) {
+    console.error("Logout API error:", error);
+    // We continue to clear cookies even if API fails
+  }
+
+  // Clear cookies
+  const cookieStore = await cookies();
+  cookieStore.delete(ACCESS_TOKEN);
+  cookieStore.delete(REFRESH_TOKEN);
+
+  // Redirect to login
+  redirect("/login");
 };
