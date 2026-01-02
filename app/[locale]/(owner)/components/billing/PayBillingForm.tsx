@@ -6,6 +6,7 @@ import { Form } from "@/components/ui/form";
 import useBillMutation from "@/hooks/bills/useBillMutation";
 import { Billing } from "@/types/billing.type";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UseMutationResult } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { isArray, isEmpty } from "lodash";
 import { useTranslations } from "next-intl";
@@ -15,12 +16,16 @@ import z from "zod";
 interface PayBillingFormProps {
   setIsDialogOpen: (open: boolean) => void;
   bill: Billing;
+  payBill: UseMutationResult<Billing, any, FormData, unknown>;
 }
 
-const PayBillingForm = ({ bill, setIsDialogOpen }: PayBillingFormProps) => {
+const PayBillingForm = ({
+  bill,
+  setIsDialogOpen,
+  payBill,
+}: PayBillingFormProps) => {
   const t = useTranslations("bill");
 
-  const { payBill } = useBillMutation();
   const isPending = payBill.isPending;
 
   const handleCancel = () => setIsDialogOpen(false);
@@ -38,7 +43,7 @@ const PayBillingForm = ({ bill, setIsDialogOpen }: PayBillingFormProps) => {
     },
   });
 
-  const onSubmit = (value: z.infer<typeof schema>) => {
+  const onSubmit = async (value: z.infer<typeof schema>) => {
     if (!bill.id) return;
 
     const formData = new FormData();
@@ -48,9 +53,10 @@ const PayBillingForm = ({ bill, setIsDialogOpen }: PayBillingFormProps) => {
       formData.append("proof", value.proof[0]);
     }
 
-    payBill.mutate(formData);
-
-    setIsDialogOpen(false);
+    const response = await payBill.mutateAsync(formData);
+    if (response) {
+      setIsDialogOpen(false);
+    }
   };
 
   return (

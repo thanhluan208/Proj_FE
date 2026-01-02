@@ -1,5 +1,6 @@
 import AddOrEditBillingForm from "@/app/[locale]/(owner)/components/billing/AddOrEditBillingForm";
 import PayBillingForm from "@/app/[locale]/(owner)/components/billing/PayBillingForm";
+import { SpinIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import useBillMutation from "@/hooks/bills/useBillMutation";
 import { Billing } from "@/types/billing.type";
 import dayjs from "dayjs";
 import { SquareCheckBig } from "lucide-react";
@@ -22,6 +24,9 @@ const BillingPayButton = ({ data }: BillingPayButtonProps) => {
   const t = useTranslations("bill");
   const [open, setOpen] = useState(false);
 
+  const { payBill } = useBillMutation();
+  const isPending = payBill.isPending;
+
   if (!data) return null;
 
   return (
@@ -31,9 +36,11 @@ const BillingPayButton = ({ data }: BillingPayButtonProps) => {
         size="sm"
         variant={data ? "ghost" : "default"}
         className="justify-start gap-2 w-full"
+        disabled={isPending}
       >
         <SquareCheckBig className="w-4 h-4 mr-2" />
         {t("actions.confirmPayment")}
+        {isPending && <SpinIcon className="w-4 h-4" />}
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -48,7 +55,13 @@ const BillingPayButton = ({ data }: BillingPayButtonProps) => {
             </DialogDescription>
           </DialogHeader>
 
-          {open && <PayBillingForm bill={data} setIsDialogOpen={setOpen} />}
+          {open && (
+            <PayBillingForm
+              bill={data}
+              setIsDialogOpen={setOpen}
+              payBill={payBill}
+            />
+          )}
         </DialogContent>
       </Dialog>
     </>

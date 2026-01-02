@@ -55,7 +55,8 @@ const BillingAction = ({ data }: BillingActionProps) => {
           className="justify-start"
           dialogContent={
             <div className="mt-3">
-              This bill has already been paid. Do you really want to delete it?
+              {data?.payment_date &&
+                "This bill has already been paid. Do you really want to delete it?"}
             </div>
           }
         />

@@ -30,11 +30,6 @@ const OwnerLayout = async ({
       icon: MonitorDot,
     },
     {
-      href: Routes.CONTRACTS,
-      label: "Contracts",
-      icon: ReceiptText,
-    },
-    {
       href: Routes.SCHEDULER,
       label: "Scheduler",
       icon: CalendarCheck2,
@@ -44,11 +39,6 @@ const OwnerLayout = async ({
       label: "Bills",
       icon: House,
       isHouseList: true,
-    },
-    {
-      href: Routes.HISTORY,
-      label: "History",
-      icon: FolderClock,
     },
   ];
 
@@ -72,7 +62,7 @@ const OwnerLayout = async ({
           </div>
         </Link>
         <div />
-        <div className="w-full absolute top-2/4 -translate-y-2/4  py-5 bg-primary  rounded-r-[38px] flex justify-center flex-col gap-5">
+        <div className="w-full absolute top-2/4 -translate-y-2/4  py-5 bg-primary  rounded-r-[34px] flex justify-center flex-col gap-5">
           <div
             className={cn(
               "absolute -top-14 bg-primary w-full h-14 ",

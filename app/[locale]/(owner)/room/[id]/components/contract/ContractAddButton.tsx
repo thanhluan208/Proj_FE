@@ -12,6 +12,8 @@ import { FilePlus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ComponentPropsWithoutRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import useContractMutation from "@/hooks/contracts/useContractMutation";
+import { SpinIcon } from "@/components/icons";
 
 interface ContractAddButtonProps extends ComponentPropsWithoutRef<"div"> {
   isGhost?: boolean;
@@ -20,6 +22,8 @@ interface ContractAddButtonProps extends ComponentPropsWithoutRef<"div"> {
 const ContractAddButton = ({ isGhost, className }: ContractAddButtonProps) => {
   const t = useTranslations("contract");
   const params = useParams();
+  const { createContract } = useContractMutation();
+  const isPending = createContract.isPending;
 
   const [open, setOpen] = useState(false);
 
@@ -30,12 +34,14 @@ const ContractAddButton = ({ isGhost, className }: ContractAddButtonProps) => {
         variant={isGhost ? "ghost" : "default"}
         size="sm"
         className={cn("justify-start gap-2 w-full", className)}
+        disabled={isPending}
       >
         <FilePlus className="w-4 h-4" />
         {t("actions.create")}
+        {isPending && <SpinIcon className="h-4 w-4" />}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-[min(90vw,1150px)]! max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-[min(60vw,750px)]! max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{t("dialog.createTitle")}</DialogTitle>
             <DialogDescription>
@@ -47,6 +53,7 @@ const ContractAddButton = ({ isGhost, className }: ContractAddButtonProps) => {
             <AddOrEditContractForm
               roomId={String(params.id)}
               setIsDialogOpen={setOpen}
+              createContract={createContract}
             />
           )}
         </DialogContent>

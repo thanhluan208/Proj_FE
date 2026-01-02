@@ -14,10 +14,11 @@ import { Form } from "@/components/ui/form";
 import useContractMutation from "@/hooks/contracts/useContractMutation";
 import { QueryKeys } from "@/lib/constant";
 import useUserStore from "@/stores/user-profile.store";
+import { Contract, CreateContractDto } from "@/types/contract.type";
 import { House } from "@/types/houses.type";
 import { Room } from "@/types/rooms.type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
+import { UseMutationResult, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { FC, memo, useEffect } from "react";
@@ -27,24 +28,23 @@ import z from "zod";
 interface AddOrEditContractFormProps {
   setIsDialogOpen: (open: boolean) => void;
   roomId: string;
+  createContract: UseMutationResult<Contract, any, CreateContractDto, unknown>;
 }
 
 const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
   roomId,
   setIsDialogOpen,
+  createContract,
 }) => {
   const t = useTranslations("contract");
   const roomTrans = useTranslations("room");
   const tCommon = useTranslations("common");
-  const { createContract } = useContractMutation();
   const queryClient = useQueryClient();
 
   const roomData = queryClient.getQueryData([
     QueryKeys.ROOM_DETAIL,
     roomId,
   ]) as Room;
-
-  console.log("roo", roomData);
 
   const houseInfo = roomData?.house;
 
