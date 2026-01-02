@@ -1,10 +1,9 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/lib/constant";
-import { decodeJwtPayload } from "@/lib/utils";
+import { ACCESS_TOKEN, REFRESH_TOKEN, Routes } from "@/lib/constant";
 import { CommonResponse } from "@/types";
 import {
   LoginPayload,
@@ -12,11 +11,11 @@ import {
   Profile,
   RefreshResponse,
   RegisterPayload,
-  UserDataLogin,
   VerifyOtpPayload,
 } from "@/types/authentication.type";
 
 import { apiUtils } from "./helper";
+import { redirect } from "@/i18n/routing";
 
 // Cookie configuration
 const COOKIE_OPTIONS = {
@@ -129,6 +128,8 @@ export const logoutAction = async () => {
   cookieStore.delete(ACCESS_TOKEN);
   cookieStore.delete(REFRESH_TOKEN);
 
+  const locale = await getLocale();
+
   // Redirect to login
-  redirect("/login");
+  redirect({ href: Routes.LOGIN, locale: locale });
 };
