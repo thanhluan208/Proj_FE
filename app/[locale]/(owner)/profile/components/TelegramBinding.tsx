@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -18,74 +18,21 @@ import {
 } from "@/services/telegram.service";
 import toast from "react-hot-toast";
 import { Profile } from "@/types/authentication.type";
+import { useTranslations } from "next-intl";
+import { LoginButton } from "@telegram-auth/react";
 
 interface TelegramBindingProps {
   userData: Profile;
 }
-
-declare global {
-  interface Window {
-    TelegramLoginWidget?: {
-      dataOnauth: (user: TelegramAuthData) => void;
-    };
-  }
-}
-
-import { useTranslations } from "next-intl";
 
 const TelegramBinding = ({ userData }: TelegramBindingProps) => {
   const t = useTranslations("profile.telegram");
   const [isLoading, setIsLoading] = useState(false);
   const [deepLink, setDeepLink] = useState<string | null>(null);
   const [expiresIn, setExpiresIn] = useState<number | null>(null);
-  const widgetContainerRef = useRef<HTMLDivElement>(null);
-  const scriptLoadedRef = useRef(false);
 
   const isTelegramConnected = !!userData.telegramId;
   const botAccessEnabled = userData.botAccessEnabled;
-
-  useEffect(() => {
-    // Only load script if not connected and script hasn't been loaded
-    if (!isTelegramConnected && !scriptLoadedRef.current) {
-      loadTelegramWidget();
-      scriptLoadedRef.current = true;
-    }
-
-    return () => {
-      // Cleanup script on unmount
-      const existingScript = document.getElementById("telegram-widget-script");
-      if (existingScript) {
-        existingScript.remove();
-      }
-    };
-  }, [isTelegramConnected]);
-
-  const loadTelegramWidget = () => {
-    // Remove existing script if any
-    const existingScript = document.getElementById("telegram-widget-script");
-    if (existingScript) {
-      existingScript.remove();
-    }
-
-    // Create script element
-    const script = document.createElement("script");
-    script.id = "telegram-widget-script";
-    script.src = "https://telegram.org/js/telegram-widget.js?22";
-    script.setAttribute("data-telegram-login", "valetum_bot");
-    script.setAttribute("data-size", "large");
-    script.setAttribute("data-radius", "8");
-    script.setAttribute("data-onauth", "onTelegramAuth(user)");
-    script.setAttribute("data-request-access", "write");
-    script.async = true;
-
-    // Define global callback
-    (window as any).onTelegramAuth = handleTelegramAuth;
-
-    // Append to container
-    if (widgetContainerRef.current) {
-      widgetContainerRef.current.appendChild(script);
-    }
-  };
 
   const handleTelegramAuth = async (user: TelegramAuthData) => {
     setIsLoading(true);
@@ -201,10 +148,16 @@ const TelegramBinding = ({ userData }: TelegramBindingProps) => {
               <p className="text-sm text-muted-foreground">
                 {t("connectInstruction")}
               </p>
-              <div
-                ref={widgetContainerRef}
-                className="flex justify-center py-2"
-              />
+              <div className="flex justify-center py-2">
+                <LoginButton
+                  botUsername="valetum_bot"
+                  onAuthCallback={handleTelegramAuth}
+                  buttonSize="large"
+                  cornerRadius={8}
+                  requestAccess="write"
+                  lang="en"
+                />
+              </div>
               {isLoading && (
                 <div className="flex justify-center">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary" />
