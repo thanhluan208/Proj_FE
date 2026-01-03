@@ -1,4 +1,5 @@
 import AddOrEditTenantForm from "@/app/[locale]/(owner)/components/tenants/AddOrEditTenantForm";
+import { SpinIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import useTenantMutation from "@/hooks/tenants/useTenantMutation";
 import { cn } from "@/lib/utils";
 import { Tenant } from "@/types/tenants.type";
 import { Edit2 } from "lucide-react";
@@ -23,6 +25,9 @@ const TenantEditButton: FC<TenantEditButtonProps> = ({ data, className }) => {
   const tCommon = useTranslations("common");
   const params = useParams();
 
+  const { editTenant } = useTenantMutation();
+  const isPending = editTenant.isPending;
+
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -31,9 +36,14 @@ const TenantEditButton: FC<TenantEditButtonProps> = ({ data, className }) => {
         onClick={() => setOpen(true)}
         variant="ghost"
         size="sm"
+        disabled={isPending}
         className={cn("justify-start gap-2 w-full", className)}
       >
-        <Edit2 className="w-4 h-4" />
+        {isPending ? (
+          <SpinIcon className="w-4 h-4" />
+        ) : (
+          <Edit2 className="w-4 h-4" />
+        )}
         {tCommon("edit")}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -52,6 +62,7 @@ const TenantEditButton: FC<TenantEditButtonProps> = ({ data, className }) => {
               setIsDialogOpen={setOpen}
               roomId={String(params.id)}
               data={data}
+              editTenant={editTenant}
             />
           )}
         </DialogContent>

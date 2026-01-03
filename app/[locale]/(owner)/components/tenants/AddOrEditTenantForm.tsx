@@ -17,7 +17,7 @@ import { QueryKeys } from "@/lib/constant";
 import { Room } from "@/types/rooms.type";
 import { CreateTenantDto, Tenant } from "@/types/tenants.type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
+import { UseMutationResult, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
@@ -27,16 +27,26 @@ interface AddTenantFormProps {
   setIsDialogOpen: (open: boolean) => void;
   roomId: string;
   data?: Tenant;
+  createTenant?: UseMutationResult<any, any, CreateTenantDto, unknown>;
+  editTenant?: UseMutationResult<
+    any,
+    any,
+    Partial<CreateTenantDto> & {
+      id: string;
+    },
+    unknown
+  >;
 }
 
 const AddOrEditTenantForm: FC<AddTenantFormProps> = ({
   setIsDialogOpen,
   roomId,
   data,
+  createTenant,
+  editTenant,
 }) => {
   const t = useTranslations("tenant");
-  const { createTenant, editTenant } = useTenantMutation();
-  const isPending = createTenant.isPending;
+  const isPending = createTenant?.isPending || editTenant?.isPending;
   const queryClient = useQueryClient();
 
   const roomData = queryClient.getQueryData([
@@ -89,10 +99,11 @@ const AddOrEditTenantForm: FC<AddTenantFormProps> = ({
     };
 
     let response: any = null;
-    if (data) {
+    if (data && editTenant) {
       const { house, room, ...rest } = payload;
       response = await editTenant.mutateAsync({ ...rest, id: data.id });
-    } else {
+    }
+    if (!data && createTenant) {
       response = await createTenant.mutateAsync(payload);
     }
 

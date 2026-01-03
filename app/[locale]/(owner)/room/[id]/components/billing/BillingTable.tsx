@@ -13,6 +13,7 @@ import React, { useMemo } from "react";
 import { calculateTotals } from "./Billing.util";
 import BillingAction from "./BillingAction";
 import { recBillFilterPrefix } from "./BillingInfo";
+import dayjs from "dayjs";
 
 interface BillingTableProps {
   billings: Billing[];
@@ -60,7 +61,11 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings, type }) => {
         cell: ({ row }) => (
           <div>
             <div className="text-sm font-medium text-foreground">
-              {format(new Date(row.original.from), "MMM yyyy")}
+              {dayjs(
+                row.original.type === BillingTypeEnum.RECURRING
+                  ? row.original.from
+                  : row.original.to
+              ).format("MMM YYYY")}
             </div>
             <div className="text-xs text-muted-foreground">
               {format(new Date(row.original.createdAt), "dd/MM/yyyy")}

@@ -1,14 +1,24 @@
 "use client";
 
+import { useEffect } from "react";
+
+import { useLocale } from "next-intl";
 import { ToastBar, Toaster } from "react-hot-toast";
 
 import { cn } from "@/lib/utils";
 import { QueryProvider } from "@/providers/queryProvider";
+import dayjs from "dayjs";
+import "dayjs/locale/en";
+import "dayjs/locale/vi";
 import { Check, X } from "lucide-react";
 
-const API_KEY = process.env.GOOGLE_MAP_KEY || "";
-
 export function Providers({ children }: { children: React.ReactNode }) {
+  const locale = useLocale();
+
+  useEffect(() => {
+    dayjs.locale(locale);
+  }, [locale]);
+
   return (
     <QueryProvider>
       {children}

@@ -20,6 +20,8 @@ import React, {
 import { useTranslations } from "next-intl";
 import { Tenant } from "@/types/tenants.type";
 import { cn } from "@/lib/utils";
+import useTenantMutation from "@/hooks/tenants/useTenantMutation";
+import { SpinIcon } from "@/components/icons";
 
 interface AddTenantButtonProps extends ComponentPropsWithoutRef<"div"> {
   roomId: string;
@@ -40,6 +42,9 @@ const AddTenantButton: FC<AddTenantButtonProps> = ({
   const [open, setOpen] = useState(false);
   const [currentTab, setCurrentTab] = useState<string>(Tabs.TENANT_ID);
   const [idResult, setIdResult] = useState<Tenant>();
+
+  const { createTenant, editTenant } = useTenantMutation();
+  const isPending = createTenant.isPending || editTenant.isPending;
 
   const tabs = [
     {
@@ -62,6 +67,8 @@ const AddTenantButton: FC<AddTenantButtonProps> = ({
           setIsDialogOpen={setOpen}
           roomId={roomId}
           data={idResult}
+          createTenant={createTenant}
+          editTenant={editTenant}
         />
       ),
     },
@@ -81,7 +88,11 @@ const AddTenantButton: FC<AddTenantButtonProps> = ({
         size="sm"
         className={cn("justify-start gap-2 w-full", className)}
       >
-        <UserPlus className="w-4 h-4" />
+        {isPending ? (
+          <SpinIcon className="w-4 h-4" />
+        ) : (
+          <UserPlus className="w-4 h-4" />
+        )}
         {t("actions.addTenant")}
       </Button>
 

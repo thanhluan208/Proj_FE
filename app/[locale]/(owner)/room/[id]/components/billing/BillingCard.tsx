@@ -142,7 +142,11 @@ const BillingCard: React.FC<BillingCardProps> = ({
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">
-                    {dayjs(billing.from).format("MMMM YYYY")}
+                    {dayjs(
+                      billing.type === BillingTypeEnum.RECURRING
+                        ? billing.from
+                        : billing.to
+                    ).format("MMMM YYYY")}
                   </h3>
                   <div
                     className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium mt-1 ${statusConfig.bgColor} ${statusConfig.iconColor}`}

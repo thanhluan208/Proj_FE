@@ -237,14 +237,13 @@
 
 /* Utility classes */
 @layer utilities {
-  .no-scrollbar,
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE & Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
   }
 }
 

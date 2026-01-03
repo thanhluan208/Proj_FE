@@ -28,7 +28,9 @@
       "deleteSuccess": "Xóa thành công",
       "deleteError": "Xóa thất bại. Vui lòng thử lại.",
       "downloadError": "Tải xuống thất bại. Vui lòng thử lại."
-    }
+    },
+    "recurring": "Định kỳ",
+    "usage_based": "Theo mức sử dụng"
   },
   "auth": {
     "login": {
@@ -745,6 +747,20 @@
       "nextStepDesc": "Nhấn vào nút bên dưới để mở bot và kích hoạt tài khoản của bạn. Liên kết này sẽ hết hạn sau {time} phút.",
       "openBot": "Mở @valetum_bot để hoàn tất cài đặt",
       "manualOpen": "Hoặc mở thủ công:"
+    }
+  },
+  "scheduler": {
+    "tabs": {
+      "expense": "Lịch biểu chi tiêu",
+      "houseExpense": "Lịch biểu chi tiêu cả nhà"
+    },
+    "tooltip": {
+      "bill": "Hoá đơn",
+      "room": "Phòng",
+      "type": "Loại"
+    },
+    "dialog": {
+      "title": "Lịch biểu cho {date}"
     }
   }
 }

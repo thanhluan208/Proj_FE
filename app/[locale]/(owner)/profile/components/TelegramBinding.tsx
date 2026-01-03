@@ -19,7 +19,6 @@ import {
 import toast from "react-hot-toast";
 import { Profile } from "@/types/authentication.type";
 import { useTranslations } from "next-intl";
-import { LoginButton } from "@telegram-auth/react";
 
 interface TelegramBindingProps {
   userData: Profile;
@@ -30,17 +29,19 @@ const TelegramBinding = ({ userData }: TelegramBindingProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [deepLink, setDeepLink] = useState<string | null>(null);
   const [expiresIn, setExpiresIn] = useState<number | null>(null);
+  const [connectionCode, setConnectionCode] = useState<string | null>(null);
 
   const isTelegramConnected = !!userData.telegramId;
   const botAccessEnabled = userData.botAccessEnabled;
 
-  const handleTelegramAuth = async (user: TelegramAuthData) => {
+  const handleGenerateCode = async () => {
     setIsLoading(true);
     try {
-      const response = await telegramAuthService.authenticateTelegram(user);
+      const response = await telegramAuthService.generateConnectionCode();
 
       setDeepLink(response.deepLink);
       setExpiresIn(response.expiresIn);
+      setConnectionCode(response.code);
 
       toast.success(t("authSuccess"));
     } catch (error: any) {
@@ -149,20 +150,15 @@ const TelegramBinding = ({ userData }: TelegramBindingProps) => {
                 {t("connectInstruction")}
               </p>
               <div className="flex justify-center py-2">
-                <LoginButton
-                  botUsername="valetum_bot"
-                  onAuthCallback={handleTelegramAuth}
-                  buttonSize="large"
-                  cornerRadius={8}
-                  requestAccess="write"
-                  lang="en"
-                />
+                <Button
+                  onClick={handleGenerateCode}
+                  disabled={isLoading}
+                  size="lg"
+                >
+                  <Send className="mr-2 h-4 w-4" />
+                  {isLoading ? t("loading") : t("connectButton")}
+                </Button>
               </div>
-              {isLoading && (
-                <div className="flex justify-center">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary" />
-                </div>
-              )}
             </div>
           </>
         ) : (
@@ -175,8 +171,15 @@ const TelegramBinding = ({ userData }: TelegramBindingProps) => {
             </Alert>
 
             <div className="space-y-3 p-4 border rounded-lg bg-muted/50">
-              <div className="space-y-1">
-                <p className="text-sm font-medium">{t("nextStep")}</p>
+              <div className="space-y-2">
+                <p className="text-sm font-medium">
+                  {t("sendCodeInstruction")}
+                </p>
+                <div className="flex items-center justify-center p-4 bg-background border rounded-md">
+                  <code className="text-lg font-mono font-bold tracking-wider">
+                    /start {connectionCode}
+                  </code>
+                </div>
                 <p className="text-sm text-muted-foreground">
                   {t("nextStepDesc", {
                     time: Math.floor((expiresIn || 300) / 60),
@@ -188,18 +191,6 @@ const TelegramBinding = ({ userData }: TelegramBindingProps) => {
                 <ExternalLink className="mr-2 h-4 w-4" />
                 {t("openBot")}
               </Button>
-
-              <p className="text-xs text-center text-muted-foreground">
-                {t("manualOpen")}{" "}
-                <a
-                  href={`https://${deepLink}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-mono underline underline-offset-4"
-                >
-                  {deepLink}
-                </a>
-              </p>
             </div>
           </div>
         )}

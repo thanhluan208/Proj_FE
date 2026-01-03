@@ -28,7 +28,9 @@
       "deleteSuccess": "Deleted successfully",
       "deleteError": "Failed to delete. Please try again.",
       "downloadError": "Failed to download. Please try again."
-    }
+    },
+    "recurring": "Recurring",
+    "usage_based": "Usage-based"
   },
   "auth": {
     "login": {
@@ -730,14 +732,31 @@
       "botActive": "Bot Active",
       "botInactive": "Bot Inactive",
       "activationRequired": "Your Telegram is connected but bot access is not activated. Please send {code} to {link} to activate.",
-      "connectInstruction": "Click the button below to connect your Telegram account:",
-      "authSuccess": "Telegram authenticated! Please open the bot to complete setup.",
-      "authSuccessDesc": "Telegram authenticated successfully! Complete the setup by opening the bot.",
-      "authError": "Failed to authenticate with Telegram",
+      "connectInstruction": "Generate a connection code to link your Telegram account:",
+      "sendCodeInstruction": "Send this command to the bot:",
+      "authSuccess": "Connection code generated successfully!",
+      "authSuccessDesc": "Code generated! Send it to the bot to complete the connection.",
+      "authError": "Failed to generate connection code",
       "nextStep": "Next Step:",
-      "nextStepDesc": "Click the button below to open the bot and activate your account. This link will expire in {time} minutes.",
-      "openBot": "Open @valetum_bot to Complete Setup",
-      "manualOpen": "Or manually open:"
+      "nextStepDesc": "Click the button below to open the bot and start the conversation. This link will expire in {time} minutes.",
+      "openBot": "Open Telegram App",
+      "manualOpen": "Or manually open:",
+      "loading": "Loading...",
+      "connectButton": "Connect Telegram"
+    }
+  },
+  "scheduler": {
+    "tabs": {
+      "expense": "Expense scheduler",
+      "houseExpense": "House expense scheduler"
+    },
+    "tooltip": {
+      "bill": "Bill",
+      "room": "Room",
+      "type": "Type"
+    },
+    "dialog": {
+      "title": "Scheduler for {date}"
     }
   }
 }
