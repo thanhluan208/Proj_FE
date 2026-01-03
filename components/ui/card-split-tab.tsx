@@ -36,11 +36,11 @@ const CardSplitTab = ({
         >
           <div
             className={cn(
-              "py-3 px-5 text-sm rounded-b-xl flex items-center relative justify-between bg-neutral-90 w-fit gap-5"
+              "py-4 px-8 text-sm rounded-b-4xl flex items-center relative justify-between bg-neutral-90 w-fit gap-5"
             )}
           >
-            <div className="w-5 bg-neutral-90 -left-5 h-full absolute after:content-[''] after:absolute after:w-full after:h-full after:bg-neutral-100 after:rounded-tr-xl " />
-            <div className="w-5 bg-neutral-90 -right-5 h-full absolute after:content-[''] after:absolute after:w-full after:h-full after:bg-neutral-100 after:rounded-tl-xl " />
+            <div className="w-5 bg-neutral-90 -left-5 h-full absolute after:content-[''] after:absolute after:w-full after:h-full after:bg-neutral-100 after:rounded-tr-4xl " />
+            <div className="w-5 bg-neutral-90 -right-5 h-full absolute after:content-[''] after:absolute after:w-full after:h-full after:bg-neutral-100 after:rounded-tl-4xl " />
             {tabs.map((elm) => {
               return (
                 <p

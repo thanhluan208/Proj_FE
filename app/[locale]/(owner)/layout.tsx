@@ -3,13 +3,7 @@ import { Routes } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 import StoreProvider from "@/providers/StoreProvider";
 import { getUserData } from "@/server/auth";
-import {
-  CalendarCheck2,
-  FolderClock,
-  House,
-  MonitorDot,
-  ReceiptText,
-} from "lucide-react";
+import { CalendarCheck2, House, MonitorDot } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import ButtonLogout from "./components/layout/ButtonLogout";
@@ -45,7 +39,7 @@ const OwnerLayout = async ({
   return (
     <div
       className={cn(
-        "pt-2 p-3 pl-16",
+        "pt-2 p-3 pl-16 no-scrollbar",
         "bg-neutral-90  xl:pt-5 flex min-h-screen w-screen"
       )}
     >

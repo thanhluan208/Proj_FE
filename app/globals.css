@@ -237,7 +237,8 @@
 
 /* Utility classes */
 @layer utilities {
-  .no-scrollbar {
+  .no-scrollbar,
+  .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
 
