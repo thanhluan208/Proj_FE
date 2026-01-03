@@ -1,6 +1,7 @@
 import { getUserData } from "@/server/auth";
 import { getTranslations } from "next-intl/server";
 import ProfileForm from "./components/ProfileForm";
+import TelegramBinding from "./components/TelegramBinding";
 
 export default async function ProfilePage() {
   const t = await getTranslations("profile");
@@ -21,8 +22,9 @@ export default async function ProfilePage() {
           <h2 className="text-3xl font-bold tracking-tight">{t("title")}</h2>
         </div>
       </div>
-      <div className="max-w-4xl">
+      <div className="max-w-4xl space-y-6">
         <ProfileForm initialData={userData.data} />
+        <TelegramBinding userData={userData.data} />
       </div>
     </div>
   );

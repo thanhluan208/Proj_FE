@@ -725,6 +725,26 @@
     "bankName": "Tên ngân hàng",
     "bankNamePlaceholder": "Nhập tên ngân hàng",
     "save": "Lưu thay đổi",
-    "cancel": "Hủy"
+    "cancel": "Hủy",
+    "telegram": {
+      "title": "Tích hợp Telegram",
+      "connectedDesc": "Tài khoản Telegram của bạn đã được kết nối",
+      "notConnectedDesc": "Kết nối tài khoản Telegram để nhận thông báo",
+      "connectedStatus": "Đã kết nối",
+      "notConnectedStatus": "Chưa kết nối",
+      "username": "Người dùng:",
+      "telegramId": "ID Telegram:",
+      "botActive": "Bot hoạt động",
+      "botInactive": "Bot chưa hoạt động",
+      "activationRequired": "Telegram đã được kết nối nhưng quyền truy cập bot chưa được kích hoạt. Vui lòng gửi {code} đến {link} để kích hoạt.",
+      "connectInstruction": "Nhấn vào nút bên dưới để kết nối tài khoản Telegram của bạn:",
+      "authSuccess": "Xác thực Telegram thành công! Vui lòng mở bot để hoàn tất cài đặt.",
+      "authSuccessDesc": "Xác thực Telegram thành công! Hoàn tất cài đặt bằng cách mở bot.",
+      "authError": "Không thể xác thực với Telegram",
+      "nextStep": "Bước tiếp theo:",
+      "nextStepDesc": "Nhấn vào nút bên dưới để mở bot và kích hoạt tài khoản của bạn. Liên kết này sẽ hết hạn sau {time} phút.",
+      "openBot": "Mở @valetum_bot để hoàn tất cài đặt",
+      "manualOpen": "Hoặc mở thủ công:"
+    }
   }
 }

@@ -48,6 +48,9 @@ export interface Profile {
   bankAccountName?: string;
   bankAccountNumber?: string;
   bankName?: string;
+  telegramId?: string;
+  telegramUsername?: string;
+  botAccessEnabled?: boolean;
   createdAt: string;
   updatedAt: string;
 }

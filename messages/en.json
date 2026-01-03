@@ -718,6 +718,26 @@
     "bankName": "Bank Name",
     "bankNamePlaceholder": "Enter bank name",
     "save": "Save Changes",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "telegram": {
+      "title": "Telegram Integration",
+      "connectedDesc": "Your Telegram account is connected",
+      "notConnectedDesc": "Connect your Telegram account to receive notifications",
+      "connectedStatus": "Connected",
+      "notConnectedStatus": "Not Connected",
+      "username": "Username:",
+      "telegramId": "Telegram ID:",
+      "botActive": "Bot Active",
+      "botInactive": "Bot Inactive",
+      "activationRequired": "Your Telegram is connected but bot access is not activated. Please send {code} to {link} to activate.",
+      "connectInstruction": "Click the button below to connect your Telegram account:",
+      "authSuccess": "Telegram authenticated! Please open the bot to complete setup.",
+      "authSuccessDesc": "Telegram authenticated successfully! Complete the setup by opening the bot.",
+      "authError": "Failed to authenticate with Telegram",
+      "nextStep": "Next Step:",
+      "nextStepDesc": "Click the button below to open the bot and activate your account. This link will expire in {time} minutes.",
+      "openBot": "Open @valetum_bot to Complete Setup",
+      "manualOpen": "Or manually open:"
+    }
   }
 }
