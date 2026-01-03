@@ -16,6 +16,7 @@ import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "@/providers/themeProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { twJoin } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 const beVietnamPro = Be_Vietnam_Pro({
   subsets: ["latin", "vietnamese"],
@@ -46,7 +47,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={twJoin(beVietnamPro.variable)}>
+      <body className={cn(twJoin(beVietnamPro.variable), "no-scrollbar")}>
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
             attribute="class"
