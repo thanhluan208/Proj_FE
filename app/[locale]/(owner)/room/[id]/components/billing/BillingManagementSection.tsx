@@ -26,6 +26,11 @@ const BillingManagementSection = ({
         <BillingInfo roomId={roomId} type={BillingTypeEnum.USAGE_BASED} />
       ),
     },
+    {
+      id: "merged",
+      label: t("tabs.merged"),
+      content: <BillingInfo roomId={roomId} type={BillingTypeEnum.MERGED} />,
+    },
   ];
 
   return <CardSplitTab tabs={tabs} containerClassname="shadow-sm" />;

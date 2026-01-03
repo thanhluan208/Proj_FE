@@ -58,18 +58,23 @@ const BillingCard: React.FC<BillingCardProps> = ({
     billing?.tenantContract?.contract?.price_per_electricity_unit;
 
   const displayTotalWaterCost =
-    (Number(pricePerWaterUnit) > 0 && type === BillingTypeEnum.USAGE_BASED) ||
-    (Number(pricePerWaterUnit) <= 0 && type === BillingTypeEnum.RECURRING);
+    (Number(pricePerWaterUnit) > 0 &&
+      (type === BillingTypeEnum.USAGE_BASED ||
+        type === BillingTypeEnum.MERGED)) ||
+    (Number(pricePerWaterUnit) <= 0 &&
+      (type === BillingTypeEnum.RECURRING || type === BillingTypeEnum.MERGED));
 
   const displayTotalElectricCost =
     (Number(pricePerElectricUnit) > 0 &&
-      type === BillingTypeEnum.USAGE_BASED) ||
-    (Number(pricePerElectricUnit) <= 0 && type === BillingTypeEnum.RECURRING);
+      (type === BillingTypeEnum.USAGE_BASED ||
+        type === BillingTypeEnum.MERGED)) ||
+    (Number(pricePerElectricUnit) <= 0 &&
+      (type === BillingTypeEnum.RECURRING || type === BillingTypeEnum.MERGED));
 
   const getStatusConfig = (status: BillingStatusEnum, billing: Billing) => {
     // Check if payment is overdue (more than 5 days past month)
     const dueDate =
-      type === BillingTypeEnum.RECURRING
+      type === BillingTypeEnum.RECURRING || type === BillingTypeEnum.MERGED
         ? dayjs(billing.from)
         : dayjs(billing.to).add(5, "day");
     const isOverdue =
@@ -142,11 +147,8 @@ const BillingCard: React.FC<BillingCardProps> = ({
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">
-                    {dayjs(
-                      billing.type === BillingTypeEnum.RECURRING
-                        ? billing.from
-                        : billing.to
-                    ).format("MMMM YYYY")}
+                    {dayjs(billing.from).format("DD/MM")} -{" "}
+                    {dayjs(billing.to).format("DD/MM")}
                   </h3>
                   <div
                     className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium mt-1 ${statusConfig.bgColor} ${statusConfig.iconColor}`}
@@ -213,7 +215,8 @@ const BillingCard: React.FC<BillingCardProps> = ({
                             )}
                           </Tooltip>
 
-                          {billing.type === BillingTypeEnum.USAGE_BASED && (
+                          {(billing.type === BillingTypeEnum.USAGE_BASED ||
+                            billing.type === BillingTypeEnum.MERGED) && (
                             <p className="text-sm font-medium text-foreground">
                               {billing.electricity_start_index} →{" "}
                               {billing.electricity_end_index} kWh
@@ -248,7 +251,8 @@ const BillingCard: React.FC<BillingCardProps> = ({
                               </TooltipContent>
                             )}
                           </Tooltip>
-                          {billing.type === BillingTypeEnum.USAGE_BASED && (
+                          {(billing.type === BillingTypeEnum.USAGE_BASED ||
+                            billing.type === BillingTypeEnum.MERGED) && (
                             <p className="text-sm font-medium text-foreground">
                               {billing.water_start_index} →{" "}
                               {billing.water_end_index} m³
@@ -266,7 +270,8 @@ const BillingCard: React.FC<BillingCardProps> = ({
                 </div>
 
                 {/* Other Costs */}
-                {billing.type === BillingTypeEnum.RECURRING && (
+                {(billing.type === BillingTypeEnum.RECURRING ||
+                  billing.type === BillingTypeEnum.MERGED) && (
                   <div className="grid grid-cols-2 gap-2">
                     <div className="p-2 bg-background/50 dark:bg-background/30 rounded-lg">
                       <div className="flex items-center gap-1.5 mb-1">
@@ -346,7 +351,7 @@ const BillingCard: React.FC<BillingCardProps> = ({
                     <Clock className="w-3.5 h-3.5" />
                     <span>
                       {t("paidOn", {
-                        date: dayjs(billing.payment_date).format("dd/MM/YYYY"),
+                        date: dayjs(billing.payment_date).format("DD/MM/YYYY"),
                       })}
                     </span>
                   </div>

@@ -95,7 +95,9 @@ const BillingInfo: React.FC<BillingInfoProps> = ({ roomId, type }) => {
       cardTitle={t(
         type === BillingTypeEnum.RECURRING
           ? "tabs.recurring"
-          : "tabs.usageBased"
+          : type === BillingTypeEnum.USAGE_BASED
+          ? "tabs.usageBased"
+          : "tabs.merged"
       )}
       className="shadow-none"
       subTitle={

@@ -53,6 +53,16 @@ class HttpServices {
         // Add timestamp for request tracking
         config.headers["X-Client-Timestamp"] = new Date().toISOString();
 
+        // Add custom language header from cookies
+        if (typeof document !== "undefined") {
+          const match = document.cookie.match(
+            new RegExp("(^| )NEXT_LOCALE=([^;]+)")
+          );
+          if (match) {
+            config.headers["x-custom-lang"] = match[2];
+          }
+        }
+
         console.log("config", config);
 
         return config;

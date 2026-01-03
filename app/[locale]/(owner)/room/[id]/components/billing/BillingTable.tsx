@@ -61,11 +61,8 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings, type }) => {
         cell: ({ row }) => (
           <div>
             <div className="text-sm font-medium text-foreground">
-              {dayjs(
-                row.original.type === BillingTypeEnum.RECURRING
-                  ? row.original.from
-                  : row.original.to
-              ).format("MMM YYYY")}
+              {dayjs(row.original.from).format("DD/MM")} -{" "}
+              {dayjs(row.original.to).format("DD/MM")}
             </div>
             <div className="text-xs text-muted-foreground">
               {format(new Date(row.original.createdAt), "dd/MM/yyyy")}
@@ -111,7 +108,9 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings, type }) => {
             row.original?.tenantContract?.contract?.price_per_electricity_unit;
           const isPricePerUnit = Number(price_per_electricity_unit) > 0;
           const displayCost =
-            type === BillingTypeEnum.RECURRING || isPricePerUnit;
+            type === BillingTypeEnum.RECURRING ||
+            type === BillingTypeEnum.MERGED ||
+            isPricePerUnit;
           return (
             <>
               {displayCost && (
@@ -119,7 +118,8 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings, type }) => {
                   {formatCurrency(totalFees.totalElectricityCost)}
                 </div>
               )}
-              {type === BillingTypeEnum.USAGE_BASED && (
+              {(type === BillingTypeEnum.USAGE_BASED ||
+                type === BillingTypeEnum.MERGED) && (
                 <div
                   className={cn(
                     "text-xs text-muted-foreground",
@@ -147,7 +147,9 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings, type }) => {
             row.original?.tenantContract?.contract?.price_per_water_unit;
           const isPricePerUnit = Number(price_per_water_unit) > 0;
           const displayCost =
-            type === BillingTypeEnum.RECURRING || isPricePerUnit;
+            type === BillingTypeEnum.RECURRING ||
+            type === BillingTypeEnum.MERGED ||
+            isPricePerUnit;
           return (
             <>
               {displayCost && (
@@ -155,7 +157,8 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings, type }) => {
                   {formatCurrency(totalFees.totalWaterCost)}
                 </div>
               )}
-              {type === BillingTypeEnum.USAGE_BASED && (
+              {(type === BillingTypeEnum.USAGE_BASED ||
+                type === BillingTypeEnum.MERGED) && (
                 <div
                   className={cn(
                     "text-xs text-muted-foreground",
@@ -172,7 +175,7 @@ const BillingTable: React.FC<BillingTableProps> = ({ billings, type }) => {
       },
     ];
 
-    if (type === BillingTypeEnum.RECURRING) {
+    if (type === BillingTypeEnum.RECURRING || type === BillingTypeEnum.MERGED) {
       const recurringCols: ColumnDef<Billing>[] = [
         {
           header: t("table.living"),

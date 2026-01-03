@@ -84,4 +84,5 @@ interface TenantContracts {
 export enum BillingTypeEnum {
   RECURRING = "RECURRING",
   USAGE_BASED = "USAGE_BASED",
+  MERGED = "MERGED",
 }

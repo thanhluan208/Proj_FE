@@ -162,6 +162,12 @@ async function buildProxyHeaders(request: NextRequest): Promise<ProxyHeaders> {
   headers["X-App-Version"] = APP_VERSION;
   headers["X-Environment"] = NODE_ENV;
 
+  // Forward custom language header if present
+  const customLang = request.headers.get("x-custom-lang");
+  if (customLang) {
+    headers["x-custom-lang"] = customLang;
+  }
+
   return headers;
 }
 

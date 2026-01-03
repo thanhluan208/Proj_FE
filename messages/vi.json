@@ -474,7 +474,8 @@
     },
     "tabs": {
       "recurring": "Định kỳ",
-      "usageBased": "Theo mức sử dụng"
+      "usageBased": "Theo mức sử dụng",
+      "merged": "Tổng hợp"
     },
     "filter": {
       "buttonText": "Lọc",
@@ -540,7 +541,8 @@
       "baseRent": "Tiền thuê cơ bản",
       "total": "Tổng cộng",
       "status": "Trạng thái",
-      "paymentDate": "Ngày thanh toán"
+      "paymentDate": "Ngày thanh toán",
+      "type": "Loại hóa đơn"
     },
     "form": {
       "from": "Từ ngày",

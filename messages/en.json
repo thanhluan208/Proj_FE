@@ -467,7 +467,8 @@
     },
     "tabs": {
       "recurring": "Recurring",
-      "usageBased": "Usage-based"
+      "usageBased": "Usage-based",
+      "merged": "Merged"
     },
     "filter": {
       "buttonText": "Filter",
@@ -533,7 +534,8 @@
       "baseRent": "Base Rent",
       "total": "Total",
       "status": "Status",
-      "paymentDate": "Payment Date"
+      "paymentDate": "Payment Date",
+      "type": "Type"
     },
     "form": {
       "from": "From date",

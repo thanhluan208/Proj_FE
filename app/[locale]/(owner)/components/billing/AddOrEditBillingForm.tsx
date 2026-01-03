@@ -1,6 +1,7 @@
 import CheckBoxField from "@/components/common/fields/CheckboxField";
 import DatePickerField from "@/components/common/fields/DatePickerField";
 import InputField from "@/components/common/fields/InputField";
+import SelectField from "@/components/common/fields/SelectField";
 import {
   Accordion,
   AccordionContent,
@@ -47,14 +48,18 @@ const AddOrEditBillingForm: FC<AddOrEditBillingFormProps> = ({
       from: z.date(),
       to: z.date(),
       notes: z.string().optional(),
-      isUsageBase: z.boolean(),
+      type: z.string().optional(),
       electricity_start_index: z.string().optional(),
       electricity_end_index: z.string().optional(),
       water_start_index: z.string().optional(),
       water_end_index: z.string().optional(),
     })
     .superRefine((data, ctx) => {
-      if (data.isUsageBase) {
+      const { type } = data;
+      if (
+        type === BillingTypeEnum.USAGE_BASED ||
+        type === BillingTypeEnum.MERGED
+      ) {
         if (!Number(data.electricity_start_index)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -104,22 +109,20 @@ const AddOrEditBillingForm: FC<AddOrEditBillingFormProps> = ({
       water_start_index: `${data?.water_start_index || 0}`,
       water_end_index: `${data?.water_end_index || 0}`,
       notes: "",
-      isUsageBase: data ? data.type === BillingTypeEnum.USAGE_BASED : true,
+      type: data?.type || BillingTypeEnum.RECURRING,
     },
   });
 
-  const isUsageBase = form.watch("isUsageBase");
+  const type = form.watch("type");
 
   const onSubmit = (value: z.infer<typeof schema>) => {
-    const { from, to, isUsageBase, ...rest } = value;
+    const { from, to, type, ...rest } = value;
 
     const payload: CreateBillingDto = {
       roomId,
       from: from.toISOString(),
       to: to.toISOString(),
-      type: isUsageBase
-        ? BillingTypeEnum.USAGE_BASED
-        : BillingTypeEnum.RECURRING,
+      type: type as BillingTypeEnum,
       // Default to "0" to satisfy TS; validation ensures valid values if isUsageBase is true
       // and if isUsageBase is false, these are deleted below.
       electricity_start_index: rest.electricity_start_index ?? "0",
@@ -129,7 +132,7 @@ const AddOrEditBillingForm: FC<AddOrEditBillingFormProps> = ({
       notes: rest.notes,
     };
 
-    if (!isUsageBase) {
+    if (type === BillingTypeEnum.RECURRING) {
       Object.keys(payload).forEach((key) => {
         if (key.includes("index")) delete payload[key as keyof typeof payload];
       });
@@ -190,14 +193,27 @@ const AddOrEditBillingForm: FC<AddOrEditBillingFormProps> = ({
           </AccordionItem>
 
           <div className="mt-4">
-            <CheckBoxField
+            <SelectField
               control={form.control}
-              name="isUsageBase"
-              label={t("tabs.usageBased")}
+              name="type"
+              label={t("table.type")}
+              options={Object.values(BillingTypeEnum).map((value) => {
+                const labelKey =
+                  value === BillingTypeEnum.RECURRING
+                    ? "tabs.recurring"
+                    : value === BillingTypeEnum.USAGE_BASED
+                    ? "tabs.usageBased"
+                    : "tabs.merged";
+                return {
+                  value: value,
+                  label: t(labelKey),
+                };
+              })}
             />
           </div>
           {/* BILL INFO */}
-          {isUsageBase && (
+          {(type === BillingTypeEnum.USAGE_BASED ||
+            type === BillingTypeEnum.MERGED) && (
             <AccordionItem value="billInfo">
               <AccordionTrigger className="text-lg hover:no-underline mt-0">
                 {t("sections.billInfo")}

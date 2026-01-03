@@ -57,7 +57,9 @@ export default async function RootLayout({
           >
             <Providers>
               <SpeedInsights />
-              <main className="font-be-vietnam-pro">{children}</main>
+              <main className="font-be-vietnam-pro no-scrollbar">
+                {children}
+              </main>
             </Providers>
           </ThemeProvider>
         </NextIntlClientProvider>

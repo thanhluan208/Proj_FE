@@ -19,6 +19,18 @@ const DEFAULT_CONFIG: Required<ApiConfig> = {
   },
 };
 
+/**
+ * Get the current locale from cookies (server-side)
+ */
+async function getServerLocale() {
+  try {
+    const cookieStore = await cookies();
+    return cookieStore.get("NEXT_LOCALE")?.value || "en";
+  } catch {
+    return "en";
+  }
+}
+
 class ApiInstance {
   private config: Required<ApiConfig>;
 
@@ -69,6 +81,7 @@ class ApiInstance {
     const headers = {
       ...this.config.headers,
       ...fetchOptions.headers,
+      "x-custom-lang": await getServerLocale(),
     };
 
     // Add auth header if not skipped
