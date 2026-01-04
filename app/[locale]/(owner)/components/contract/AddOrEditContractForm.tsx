@@ -249,6 +249,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
             <AccordionContent className="px-4 pt-2">
               <div className="grid md:grid-cols-2 gap-3 px-2">
                 <ComboBoxTenantField
+                  id="contract-form-tenants"
                   control={form.control}
                   name="tenants"
                   roomId={roomId}
@@ -271,6 +272,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
                 />
 
                 <DatePickerField
+                  id="contract-form-start"
                   startMonth={dayjs()
                     .subtract(1, "year")
                     .startOf("year")
@@ -283,6 +285,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
                 />
 
                 <DatePickerField
+                  id="contract-form-end"
                   startMonth={dayjs()
                     .subtract(1, "year")
                     .startOf("year")
@@ -379,6 +382,7 @@ const AddOrEditContractForm: FC<AddOrEditContractFormProps> = ({
             <AccordionContent className="px-4 pt-2">
               <div className="grid sm:grid-cols-2 gap-3 px-2">
                 <NumericFormatField
+                  id="contract-form-rent"
                   control={form.control}
                   name="base_rent"
                   label={roomTrans("addRoom.baseRent")}

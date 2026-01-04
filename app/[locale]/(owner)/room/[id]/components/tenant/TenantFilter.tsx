@@ -13,7 +13,7 @@ export interface TenantFilterValues extends PaginationParams {
   dateTo?: string;
 }
 
-const TenantFilter = ({}) => {
+const TenantFilter = ({ id }: { id?: string }) => {
   const t = useTranslations("tenant.filter");
   const searchParams = useSearchParams();
 
@@ -39,6 +39,7 @@ const TenantFilter = ({}) => {
   return (
     <>
       <button
+        id={id}
         onClick={() => setIsFilterOpen(true)}
         className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
           hasActiveFilters

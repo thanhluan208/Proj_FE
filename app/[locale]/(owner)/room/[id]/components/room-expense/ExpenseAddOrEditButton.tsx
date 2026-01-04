@@ -24,6 +24,7 @@ const ExpenseAddOrEditButton = ({
   expense,
   isGhost,
   className,
+  id,
 }: ExpenseAddOrEditButtonProps) => {
   const params = useParams();
   const t = useTranslations("expense");
@@ -33,6 +34,7 @@ const ExpenseAddOrEditButton = ({
   return (
     <>
       <Button
+        id={id}
         onClick={() => setOpen(true)}
         variant={isGhost || !!expense ? "ghost" : "default"}
         size="sm"

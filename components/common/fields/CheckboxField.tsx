@@ -41,6 +41,7 @@ const CheckBoxField = <
   description,
   onCheckedChangeCustomize,
   afterOnChange,
+  id,
   ...otherProps
 }: CheckBoxFieldProps<FormValues, TName>) => {
   const form = useFormContext<FormValues>();
@@ -67,7 +68,10 @@ const CheckBoxField = <
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-row items-center space-x-1 space-y-0">
+        <FormItem
+          id={id}
+          className="flex flex-row items-center space-x-1 space-y-0"
+        >
           <FormControl>
             <Checkbox
               checked={field.value}

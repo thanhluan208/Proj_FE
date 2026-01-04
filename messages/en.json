@@ -580,6 +580,144 @@
       "paymentDatePlaceholder": "Select Payment Date"
     }
   },
+  "tour": {
+    "billing": {
+      "howToUse": "How to use",
+      "steps": {
+        "tabs": {
+          "title": "Billing Types",
+          "popover": "Switch between Recurring, Usage-based, and Merged billing views."
+        },
+        "recurring": {
+          "title": "Recurring Billing",
+          "popover": "Select this if you only want to bill for fixed costs. Only the Date Range is required here."
+        },
+        "usageBased": {
+          "title": "Usage-based Billing",
+          "popover": "Select this for electricity/water bills. You MUST provide the meter readings below to calculate the total."
+        },
+        "merged": {
+          "title": "Merged Billing",
+          "popover": "The complete bill. It requires both the Date Range AND all meter readings for utilities."
+        },
+        "create": {
+          "title": "Create a Bill",
+          "popover": "Click this button to open the bill creation form and we will guide you through the details."
+        },
+        "formFrom": {
+          "title": "Start Date",
+          "popover": "Select the beginning date of the billing period. Required for all bill types."
+        },
+        "formTo": {
+          "title": "End Date",
+          "popover": "Select the ending date of the billing period. The system uses this range to calculate usage and rent."
+        },
+        "formType": {
+          "title": "Billing Type",
+          "popover": "Choose between Recurring, Usage-based, or Merged. Changing this will show or hide additional fields."
+        },
+        "formUtilities": {
+          "title": "Utility Readings",
+          "popover": "For Usage-based and Merged bills, enter the meter readings here. The system will automatically calculate the consumption and cost."
+        },
+        "filter": {
+          "title": "Filters",
+          "popover": "Search and filter bills by date range and status."
+        },
+        "viewToggle": {
+          "title": "View Mode",
+          "popover": "Switch between table view and card view."
+        }
+      }
+    },
+    "tenant": {
+      "howToUse": "How to use",
+      "steps": {
+        "viewToggle": {
+          "title": "View Mode",
+          "popover": "Toggle between Card layout (best for seeing profiles) and Table layout (best for bulk actions)."
+        },
+        "filter": {
+          "title": "Tenant Filters",
+          "popover": "Filter tenants by status (Active/Inactive) or stay duration."
+        },
+        "add": {
+          "title": "Add Tenant",
+          "popover": "Add new residents to this room. You can either scan their ID or enter info manually."
+        }
+      }
+    },
+    "contract": {
+      "howToUse": "How to use",
+      "steps": {
+        "statusFilter": {
+          "title": "Quick Status",
+          "popover": "Quickly filter between all, active, and inactive contracts."
+        },
+        "viewToggle": {
+          "title": "Display Mode",
+          "popover": "Switch between card and table views to manage your documents."
+        },
+        "add": {
+          "title": "New Contract",
+          "popover": "Start a new rental agreement with tenants by uploading or creating a contract. Click Next to see the form guidance."
+        },
+        "formTenants": {
+          "title": "Select Tenants",
+          "popover": "Select one or more residents who will be part of this contract."
+        },
+        "formStart": {
+          "title": "Start Date",
+          "popover": "When the rental agreement officially begins."
+        },
+        "formEnd": {
+          "title": "End Date",
+          "popover": "When the rental agreement expires. The system defaults to 1 year."
+        },
+        "formRent": {
+          "title": "Base Rent",
+          "popover": "Set the monthly rental price. Other fees can be configured in the sections below."
+        }
+      }
+    },
+    "expense": {
+      "howToUse": "How to use",
+      "steps": {
+        "viewToggle": {
+          "title": "Display Mode",
+          "popover": "Toggle between card and table views to see your room's spending."
+        },
+        "filter": {
+          "title": "Expense Filters",
+          "popover": "Search and filter expenses by name, amount, or date."
+        },
+        "add": {
+          "title": "Record Expense",
+          "popover": "Add new room expenses like repairs, purchases, or extra fees. Click Next to see the form."
+        },
+        "formHandedOver": {
+          "title": "Handed-over Asset",
+          "popover": "If an expense is marked as a handed-over asset, it can be tracked and included in the rental contracts."
+        },
+        "formName": {
+          "title": "Expense Name",
+          "popover": "What was this spending for? (e.g., 'New Door Lock', 'Roof Repair')."
+        },
+        "formAmount": {
+          "title": "Total Amount",
+          "popover": "Enter the total cost of this expense."
+        },
+        "formDate": {
+          "title": "Transaction Date",
+          "popover": "When was this purchase made or service rendered?"
+        },
+        "formAddMultiple": {
+          "title": "Create Many at Once",
+          "popover": "Click here to add more rows and record multiple expenses in a single submission."
+        }
+      }
+    }
+  },
   "expense": {
     "title": "Expense Management",
     "count": "{count} expense",

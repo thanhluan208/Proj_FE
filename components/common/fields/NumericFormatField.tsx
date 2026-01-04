@@ -64,6 +64,7 @@ const NumericFormatField = <
   max = "1000000000000",
   enabledNumberToText = true,
   thousandSeparator,
+  id,
   ...otherNumericFormatProps
 }: NumericFormatFieldProps<FormValues, TName>) => {
   const form = useFormContext<FormValues>();
@@ -141,7 +142,7 @@ const NumericFormatField = <
       render={({ field }) => {
         const { onChange, value, ...otherProps } = field;
         return (
-          <FormItem className="flex flex-col gap-1">
+          <FormItem id={id} className="flex flex-col gap-1">
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
               <div>

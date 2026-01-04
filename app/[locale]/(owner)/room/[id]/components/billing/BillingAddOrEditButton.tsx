@@ -24,6 +24,7 @@ const BillingAddOrEditButton = ({
   data,
   isGhost,
   className,
+  ...props
 }: BillingAddOrEditButtonProps) => {
   const params = useParams();
   const t = useTranslations("bill");
@@ -33,6 +34,7 @@ const BillingAddOrEditButton = ({
   return (
     <>
       <Button
+        {...props}
         onClick={() => setOpen(true)}
         size="sm"
         variant={data || isGhost ? "ghost" : "default"}

@@ -18,6 +18,9 @@ import ExpenseTable from "./ExpenseTable";
 import ExpenseFilter from "./ExpenseFilter";
 import ExpenseAddOrEditButton from "./ExpenseAddOrEditButton";
 import { IGNORE_FILTERS_LIST } from "@/lib/constant";
+import { useTour } from "@/hooks/useTour";
+import { Button } from "@/components/ui/button";
+import { HelpCircle } from "lucide-react";
 
 interface ExpenseManagementSectionProps {
   roomId: string;
@@ -39,6 +42,8 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
   roomId,
 }) => {
   const t = useTranslations("expense");
+  const tTour = useTranslations("tour.expense");
+  const { startExpenseTour } = useTour("expense");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -116,8 +121,21 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
       }
       actions={
         <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => startExpenseTour()}
+            className="gap-2 bg-background/50 backdrop-blur-sm border-dashed mr-2"
+          >
+            <HelpCircle className="w-4 h-4" />
+            <span className="hidden lg:inline">{tTour("howToUse")}</span>
+          </Button>
+
           {/* View Toggle */}
-          <div className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1">
+          <div
+            id="expense-view-mode"
+            className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1"
+          >
             <button
               onClick={() => setViewMode("card")}
               className={`p-2 rounded-md transition-all ${
@@ -143,9 +161,9 @@ const ExpenseManagementSection: FC<ExpenseManagementSectionProps> = ({
           </div>
 
           {/* Filter Button - Placeholder */}
-          <ExpenseFilter />
+          <ExpenseFilter id="expense-filter" />
 
-          <ExpenseAddOrEditButton className="w-fit" />
+          <ExpenseAddOrEditButton id="add-expense-button" className="w-fit" />
         </>
       }
     >

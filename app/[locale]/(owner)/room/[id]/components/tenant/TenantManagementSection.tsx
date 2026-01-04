@@ -17,6 +17,10 @@ import TenantTable from "./TenantTable";
 import { ViewMode } from "@/types";
 import { IGNORE_FILTERS_LIST } from "@/lib/constant";
 import AddTenantButton from "../room-info/AddTenantButton";
+import { useTour } from "@/hooks/useTour";
+import { Button } from "@/components/ui/button";
+import { HelpCircle } from "lucide-react";
+import { useEffect } from "react";
 
 interface TenantManagementSectionProps {
   roomId: string;
@@ -37,6 +41,8 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
   roomId,
 }) => {
   const t = useTranslations("tenant.management");
+  const tTour = useTranslations("tour.tenant");
+  const { startTenantTour } = useTour("tenant");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -111,8 +117,21 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
       }
       actions={
         <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => startTenantTour()}
+            className="gap-2 bg-background/50 backdrop-blur-sm border-dashed mr-2"
+          >
+            <HelpCircle className="w-4 h-4" />
+            <span className="hidden lg:inline">{tTour("howToUse")}</span>
+          </Button>
+
           {/* View Toggle */}
-          <div className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1">
+          <div
+            id="tenant-view-mode"
+            className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1"
+          >
             <button
               onClick={() => setViewMode("card")}
               className={`p-2 rounded-md transition-all ${
@@ -138,8 +157,12 @@ const TenantManagementSection: React.FC<TenantManagementSectionProps> = ({
           </div>
 
           {/* Filter Button */}
-          <TenantFilter />
-          <AddTenantButton roomId={roomId} className="w-fit" />
+          <TenantFilter id="tenant-filter" />
+          <AddTenantButton
+            id="add-tenant-button"
+            roomId={roomId}
+            className="w-fit"
+          />
         </>
       }
     >

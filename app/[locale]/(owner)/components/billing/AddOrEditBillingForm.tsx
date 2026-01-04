@@ -166,6 +166,7 @@ const AddOrEditBillingForm: FC<AddOrEditBillingFormProps> = ({
             <AccordionContent className="px-4 pt-2">
               <div className="grid md:grid-cols-2 gap-3 px-2">
                 <DatePickerField
+                  id="billing-form-from"
                   startMonth={dayjs()
                     .subtract(1, "year")
                     .startOf("year")
@@ -178,6 +179,7 @@ const AddOrEditBillingForm: FC<AddOrEditBillingFormProps> = ({
                 />
 
                 <DatePickerField
+                  id="billing-form-to"
                   startMonth={dayjs()
                     .subtract(1, "year")
                     .startOf("year")
@@ -192,7 +194,7 @@ const AddOrEditBillingForm: FC<AddOrEditBillingFormProps> = ({
             </AccordionContent>
           </AccordionItem>
 
-          <div className="mt-4">
+          <div className="mt-4" id="billing-form-type">
             <SelectField
               control={form.control}
               name="type"
@@ -214,7 +216,7 @@ const AddOrEditBillingForm: FC<AddOrEditBillingFormProps> = ({
           {/* BILL INFO */}
           {(type === BillingTypeEnum.USAGE_BASED ||
             type === BillingTypeEnum.MERGED) && (
-            <AccordionItem value="billInfo">
+            <AccordionItem value="billInfo" id="billing-form-utilities">
               <AccordionTrigger className="text-lg hover:no-underline mt-0">
                 {t("sections.billInfo")}
               </AccordionTrigger>

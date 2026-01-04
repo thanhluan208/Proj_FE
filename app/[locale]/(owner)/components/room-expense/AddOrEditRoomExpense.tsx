@@ -175,12 +175,14 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
 
               <div className="grid grid-cols-1 gap-4">
                 <CheckBoxField
+                  id={index === 0 ? "expense-form-handed-over" : undefined}
                   control={form.control}
                   name={`expenses.${index}.isAssetHandedOver`}
                   label={t("handedOver")}
                 />
 
                 <InputField
+                  id={index === 0 ? "expense-form-name" : undefined}
                   control={form.control}
                   name={`expenses.${index}.name`}
                   label={t("form.name")}
@@ -190,6 +192,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
 
                 <div className="grid grid-cols-2 gap-3">
                   <NumericFormatField
+                    id={index === 0 ? "expense-form-amount" : undefined}
                     rightIcon={<span className="text-muted-foreground">₫</span>}
                     control={form.control}
                     name={`expenses.${index}.amount`}
@@ -198,6 +201,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
                   />
 
                   <DatePickerField
+                    id={index === 0 ? "expense-form-date" : undefined}
                     control={form.control}
                     name={`expenses.${index}.date`}
                     label={t("form.date")}
@@ -231,6 +235,7 @@ const AddOrEditExpenseForm: FC<AddOrEditExpenseFormProps> = ({
 
         {!data && (
           <Button
+            id="expense-form-add-multiple"
             type="button"
             variant="outline"
             onClick={handleAddExpense}

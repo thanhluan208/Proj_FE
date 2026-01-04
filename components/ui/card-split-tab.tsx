@@ -20,6 +20,7 @@ const CardSplitTab = ({
   className,
   containerClassname,
   cardTitle,
+  id,
 }: CardSplitTabProps) => {
   const [activeTab, setActiveTab] = useState(tabs ? tabs[0].id : undefined);
 
@@ -29,6 +30,7 @@ const CardSplitTab = ({
 
       return (
         <div
+          id={id}
           className={cn(
             "w-full bg-neutral-100 flex relative justify-center items-center",
             className
@@ -45,6 +47,7 @@ const CardSplitTab = ({
               return (
                 <p
                   key={elm.id}
+                  id={`tab-${elm.id}`}
                   className={cn(
                     "cursor-pointer transition-colors",
                     activeTab === elm.id && "text-primary font-semibold"

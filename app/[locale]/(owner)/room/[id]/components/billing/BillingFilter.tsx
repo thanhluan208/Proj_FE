@@ -25,7 +25,7 @@ import { billingFilterKeys, recBillFilterPrefix } from "./BillingInfo";
 import { isEmpty } from "lodash";
 import { IGNORE_FILTERS_LIST } from "@/lib/constant";
 
-const BillingFilter = () => {
+const BillingFilter = ({ id }: { id?: string }) => {
   const searchParams = useSearchParams();
   const t = useTranslations("bill");
 
@@ -58,7 +58,7 @@ const BillingFilter = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant={hasActiveFilters ? "default" : "outline"}>
+        <Button id={id} variant={hasActiveFilters ? "default" : "outline"}>
           <Filter className="w-4 h-4" />
           <span className="hidden sm:inline">{t("filter.buttonText")}</span>
           {hasActiveFilters && (

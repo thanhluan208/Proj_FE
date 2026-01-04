@@ -19,7 +19,11 @@ interface ContractAddButtonProps extends ComponentPropsWithoutRef<"div"> {
   isGhost?: boolean;
 }
 
-const ContractAddButton = ({ isGhost, className }: ContractAddButtonProps) => {
+const ContractAddButton = ({
+  isGhost,
+  className,
+  id,
+}: ContractAddButtonProps) => {
   const t = useTranslations("contract");
   const params = useParams();
   const { createContract } = useContractMutation();
@@ -30,6 +34,7 @@ const ContractAddButton = ({ isGhost, className }: ContractAddButtonProps) => {
   return (
     <>
       <Button
+        id={id}
         onClick={() => setOpen(true)}
         variant={isGhost ? "ghost" : "default"}
         size="sm"

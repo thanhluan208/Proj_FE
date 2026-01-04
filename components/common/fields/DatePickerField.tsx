@@ -53,8 +53,10 @@ const DatePickerField = <
   name,
   startMonth,
   endMonth,
+  id,
 }: DatePickerFieldProps<TFieldValue, TName>) => {
-  const id = useId();
+  const internalId = useId();
+  const fieldId = id || internalId;
 
   const form = useFormContext<TFieldValue>();
 
@@ -87,7 +89,7 @@ const DatePickerField = <
         const isError = !!fieldState.error;
 
         return (
-          <FormItem id={id} className="flex flex-col gap-1">
+          <FormItem id={fieldId} className="flex flex-col gap-1">
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
               <DatePicker

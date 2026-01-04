@@ -31,7 +31,7 @@ import {
 import { BOOLEAN_OPTION, IGNORE_FILTERS_LIST } from "@/lib/constant";
 import CheckBoxField from "@/components/common/fields/CheckboxField";
 
-const ExpenseFilter = () => {
+const ExpenseFilter = ({ id }: { id?: string }) => {
   const searchParams = useSearchParams();
   const t = useTranslations("expense");
 
@@ -61,7 +61,7 @@ const ExpenseFilter = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant={hasActiveFilters ? "default" : "outline"}>
+        <Button id={id} variant={hasActiveFilters ? "default" : "outline"}>
           <Filter className="w-4 h-4" />
           <span className="hidden sm:inline">{t("filter.buttonText")}</span>
           {hasActiveFilters && (

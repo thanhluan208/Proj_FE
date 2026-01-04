@@ -16,6 +16,9 @@ import ContractCard from "./ContractCard";
 import ContractAddButton from "./ContractAddButton";
 import ContractTable from "./ContractTable";
 import { IGNORE_FILTERS_LIST } from "@/lib/constant";
+import { useTour } from "@/hooks/useTour";
+import { Button } from "@/components/ui/button";
+import { HelpCircle } from "lucide-react";
 
 interface ContractManagementSectionProps {
   roomId: string;
@@ -32,6 +35,8 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
   roomId,
 }) => {
   const t = useTranslations("contract");
+  const tTour = useTranslations("tour.contract");
+  const { startContractTour } = useTour("contract");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -117,8 +122,21 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
       }
       actions={
         <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => startContractTour()}
+            className="gap-2 bg-background/50 backdrop-blur-sm border-dashed mr-2"
+          >
+            <HelpCircle className="w-4 h-4" />
+            <span className="hidden lg:inline">{tTour("howToUse")}</span>
+          </Button>
+
           {/* Quick Status Filter */}
-          <div className="hidden md:flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1 mr-2">
+          <div
+            id="contract-status-filter"
+            className="hidden md:flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1 mr-2"
+          >
             <button
               onClick={() => handleQuickFilter("all")}
               className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
@@ -152,7 +170,10 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
           </div>
 
           {/* View Toggle */}
-          <div className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1">
+          <div
+            id="contract-view-mode"
+            className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1"
+          >
             <button
               onClick={() => setViewMode("card")}
               className={`p-2 rounded-md transition-all ${
@@ -180,7 +201,7 @@ const ContractManagementSection: FC<ContractManagementSectionProps> = ({
           {/* Filter Button */}
           {/* <TenantFilter /> */}
 
-          <ContractAddButton className="w-fit" />
+          <ContractAddButton id="add-contract-button" className="w-fit" />
         </>
       }
     >

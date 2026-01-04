@@ -58,11 +58,13 @@ const ComboBoxField = <
   onDeselectCustomize,
   disabled,
   isMultiple,
+  id,
   name,
   renderContent,
   renderBottomMessage,
 }: ComboBoxFieldProps<TFieldValue, TName>) => {
-  const id = useId();
+  const internalId = useId();
+  const fieldId = id || internalId;
   const form = useFormContext<TFieldValue>();
 
   const handleSelect = useCallback(
@@ -145,7 +147,7 @@ const ComboBoxField = <
         const isError = !!fieldState.error;
 
         return (
-          <FormItem id={id} className="flex flex-col gap-1">
+          <FormItem id={fieldId} className="flex flex-col gap-1">
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
               {renderContent({

@@ -50,6 +50,7 @@
     "cmdk": "latest",
     "date-fns": "4.1.0",
     "dayjs": "^1.11.19",
+    "driver.js": "^1.4.0",
     "embla-carousel-react": "8.5.1",
     "framer-motion": "^12.23.25",
     "input-otp": "1.4.1",

@@ -110,7 +110,10 @@ const BillingInfo: React.FC<BillingInfoProps> = ({ roomId, type }) => {
       actions={
         <>
           {/* View Toggle */}
-          <div className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1">
+          <div
+            id="billing-view-mode"
+            className="flex items-center bg-accent/50 dark:bg-accent/30 rounded-lg p-1"
+          >
             <button
               onClick={() => setViewMode("card")}
               className={`p-2 rounded-md transition-all ${
@@ -135,8 +138,8 @@ const BillingInfo: React.FC<BillingInfoProps> = ({ roomId, type }) => {
             </button>
           </div>
 
-          <BillingFilter />
-          <BillingAddOrEditButton className="w-fit" />
+          <BillingFilter id="billing-filter" />
+          <BillingAddOrEditButton id="create-bill-button" className="w-fit" />
         </>
       }
     >

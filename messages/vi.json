@@ -587,6 +587,144 @@
       "paymentDatePlaceholder": "Chọn ngày thanh toán"
     }
   },
+  "tour": {
+    "billing": {
+      "howToUse": "Hướng dẫn sử dụng",
+      "steps": {
+        "tabs": {
+          "title": "Loại hóa đơn",
+          "popover": "Chuyển đổi giữa các chế độ xem hóa đơn Định kỳ, Theo mức sử dụng và Tổng hợp."
+        },
+        "recurring": {
+          "title": "Hóa đơn định kỳ",
+          "popover": "Lựa chọn này nếu bạn chỉ muốn tính các chi phí cố định. Ở đây chỉ cần cung cấp Khoảng thời gian."
+        },
+        "usageBased": {
+          "title": "Hóa đơn theo mức sử dụng",
+          "popover": "Chọn khi tính tiền điện/nước. Bạn BẮT BUỘC phải nhập các chỉ số đồng hồ bên dưới để hệ thống tính toán."
+        },
+        "merged": {
+          "title": "Hóa đơn tổng hợp",
+          "popover": "Hóa đơn đầy đủ nhất. Nó yêu cầu cả Khoảng thời gian VÀ tất cả các chỉ số điện nước."
+        },
+        "create": {
+          "title": "Tạo hóa đơn",
+          "popover": "Nhấp vào nút này để mở biểu mẫu tạo hóa đơn và chúng tôi sẽ hướng dẫn bạn chi tiết."
+        },
+        "formFrom": {
+          "title": "Ngày bắt đầu",
+          "popover": "Chọn ngày bắt đầu kỳ thanh toán. Bắt buộc cho tất cả các loại hóa đơn."
+        },
+        "formTo": {
+          "title": "Ngày kết thúc",
+          "popover": "Chọn ngày kết thúc kỳ thanh toán. Hệ thống sử dụng khoảng thời gian này để tính toán mức tiêu thụ và tiền thuê."
+        },
+        "formType": {
+          "title": "Loại hóa đơn",
+          "popover": "Chọn giữa Định kỳ, Theo mức sử dụng hoặc Tổng hợp. Thay đổi loại này sẽ hiển thị hoặc ẩn các trường bổ sung."
+        },
+        "formUtilities": {
+          "title": "Chỉ số điện nước",
+          "popover": "Đối với hóa đơn Theo mức sử dụng và Tổng hợp, hãy nhập chỉ số đồng hồ tại đây. Hệ thống sẽ tự động tính toán mức tiêu thụ và thành tiền."
+        },
+        "filter": {
+          "title": "Bộ lọc",
+          "popover": "Tìm kiếm và lọc hóa đơn theo khoảng thời gian và trạng thái."
+        },
+        "viewToggle": {
+          "title": "Chế độ hiển thị",
+          "popover": "Chuyển đổi giữa chế độ xem bảng và chế độ xem thẻ."
+        }
+      }
+    },
+    "tenant": {
+      "howToUse": "Hướng dẫn",
+      "steps": {
+        "viewToggle": {
+          "title": "Chế độ xem",
+          "popover": "Chuyển đổi giữa bố cục Thẻ (tốt nhất để xem hồ sơ) và bố cục Bảng (tốt nhất cho các thao tác hàng loạt)."
+        },
+        "filter": {
+          "title": "Bộ lọc khách thuê",
+          "popover": "Lọc khách thuê theo trạng thái (Đang ở/Đã rời đi) hoặc thời gian tạm trú."
+        },
+        "add": {
+          "title": "Thêm khách thuê",
+          "popover": "Thêm cư dân mới vào phòng này. Bạn có thể quét CCCD hoặc nhập thông tin thủ công."
+        }
+      }
+    },
+    "contract": {
+      "howToUse": "Hướng dẫn",
+      "steps": {
+        "statusFilter": {
+          "title": "Trạng thái nhanh",
+          "popover": "Lọc nhanh giữa tất cả, đang hoạt động và không hoạt động."
+        },
+        "viewToggle": {
+          "title": "Chế độ hiển thị",
+          "popover": "Chuyển đổi giữa chế độ xem thẻ và bảng để quản lý tài liệu của bạn."
+        },
+        "add": {
+          "title": "Hợp đồng mới",
+          "popover": "Bắt đầu thỏa thuận thuê mới với khách thuê bằng cách tải lên hoặc tạo hợp đồng. Nhấn Tiếp theo để xem hướng dẫn điền form."
+        },
+        "formTenants": {
+          "title": "Chọn khách thuê",
+          "popover": "Chọn một hoặc nhiều cư dân sẽ tham gia vào hợp đồng này."
+        },
+        "formStart": {
+          "title": "Ngày bắt đầu",
+          "popover": "Ngày hợp đồng thuê chính thức có hiệu lực."
+        },
+        "formEnd": {
+          "title": "Ngày kết thúc",
+          "popover": "Ngày hợp đồng thuê hết hạn. Hệ thống mặc định sẵn là 1 năm."
+        },
+        "formRent": {
+          "title": "Tiền thuê cơ bản",
+          "popover": "Đặt giá thuê hàng tháng. Các loại phí khác có thể được cấu hình ở các mục bên dưới."
+        }
+      }
+    },
+    "expense": {
+      "howToUse": "Hướng dẫn",
+      "steps": {
+        "viewToggle": {
+          "title": "Chế độ hiển thị",
+          "popover": "Chuyển đổi giữa chế độ xem thẻ và bảng để xem chi tiêu của phòng."
+        },
+        "filter": {
+          "title": "Bộ lọc chi phí",
+          "popover": "Tìm kiếm và lọc chi phí theo tên, số tiền hoặc ngày tháng."
+        },
+        "add": {
+          "title": "Ghi nhận chi phí",
+          "popover": "Thêm các khoản chi phí mới như sửa chữa, mua sắm hoặc phí phát sinh. Nhấn Tiếp theo để xem form."
+        },
+        "formHandedOver": {
+          "title": "Tài sản bàn giao",
+          "popover": "Nếu một khoản chi phí được đánh dấu là tài sản bàn giao, nó có thể được theo dõi và đưa vào trong các hợp đồng thuê."
+        },
+        "formName": {
+          "title": "Tên chi phí",
+          "popover": "Khoản chi này dùng cho việc gì? (v.d: 'Thay ổ khóa mới', 'Sửa mái nhà')."
+        },
+        "formAmount": {
+          "title": "Tổng số tiền",
+          "popover": "Nhập tổng số tiền của khoản chi này."
+        },
+        "formDate": {
+          "title": "Ngày giao dịch",
+          "popover": "Khoản chi này được thực hiện vào ngày nào?"
+        },
+        "formAddMultiple": {
+          "title": "Tạo nhiều mục cùng lúc",
+          "popover": "Nhấn vào đây để thêm hàng mới và ghi nhận nhiều chi phí chỉ trong một lần gửi."
+        }
+      }
+    }
+  },
   "expense": {
     "title": "Quản Lý Chi Phí",
     "count": "{count} chi phí",

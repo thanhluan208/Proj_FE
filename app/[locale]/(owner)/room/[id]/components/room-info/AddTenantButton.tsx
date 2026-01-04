@@ -37,6 +37,7 @@ const AddTenantButton: FC<AddTenantButtonProps> = ({
   roomId,
   isGhost,
   className,
+  id,
 }) => {
   const t = useTranslations("tenant");
   const [open, setOpen] = useState(false);
@@ -83,6 +84,7 @@ const AddTenantButton: FC<AddTenantButtonProps> = ({
   return (
     <Fragment>
       <Button
+        id={id}
         variant={isGhost ? "ghost" : "default"}
         onClick={() => setOpen(true)}
         size="sm"
